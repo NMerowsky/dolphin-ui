@@ -316,12 +316,11 @@ else if($p == 'getRunSamples')
 {
 	//Grab Variables
 	if (isset($_GET['runID'])){$runID = $_GET['runID'];}
-	if (isset($_GET['groupID'])){$groupID = $_GET['groupID'];}
 
 	$data=$query->queryTable("
 	SELECT sample_id
 	FROM biocore.ngs_runlist
-	WHERE biocore.ngs_runlist.run_group_id = $groupID AND biocore.ngs_runlist.run_id = $runID
+	WHERE biocore.ngs_runlist.run_id = $runID
 	");
 }
 else if ($p == 'grabReload')

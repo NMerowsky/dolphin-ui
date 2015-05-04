@@ -20,6 +20,5 @@ if (isset($_SESSION['user']))
 }
 
 #define('BASE_PATH','http://biocore.umassmed.edu/dolphin');
-define('BASE_PATH','http://dolphin.umassmed.edu:8080/dolphin');
-
-
+#define('BASE_PATH','http://dolphin.umassmed.edu:8080/dolphin');
+define('BASE_PATH','http://127.0.0.1/dolphin');

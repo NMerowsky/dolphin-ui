@@ -44,13 +44,12 @@ else if ($p == 'insertRunlist')
     //Grab the inputs
     if (isset($_POST['sampID'])){$sampID = $_POST['sampID'];}
     if (isset($_POST['runID'])){$runID = $_POST['runID'];}
-    if (isset($_POST['runGroupID'])){$runGroupID = $_POST['runGroupID'];}
     
     $searchQuery = "INSERT INTO ngs_runlist
-        (run_id, run_group_id, sample_id, owner_id, group_id, perms, date_created, date_modified, last_modified_user)
+        (run_id, sample_id, owner_id, group_id, perms, date_created, date_modified, last_modified_user)
         VALUES ";
     foreach ($sampID as $s){
-                $searchQuery .= "($runID, $runGroupID, $s, 1, 1, 15, NOW(), NOW(), 1)";
+                $searchQuery .= "($runID, $s, 1, 1, 15, NOW(), NOW(), 1)";
                 if($s != end($sampID)){
                     $searchQuery .= ",";
                 }

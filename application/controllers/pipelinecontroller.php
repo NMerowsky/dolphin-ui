@@ -19,9 +19,8 @@ class PipelineController extends VanillaController {
         $this->set('field', 'Status');
     }
     
-    function rerun($run_group, $run_id, $selection){
+    function rerun($run_id, $selection){
         $this->set('selection', $selection);
-        $this->set('run_group', $run_group);
         $this->set('run_id', $run_id);
         $this->set('field', 'Status');
     }

@@ -203,10 +203,10 @@ $(function() {
 
 	var samplesType = "";
 	if (segment == 'selected') {
-	samplesType = "getSelectedSamples";
+		samplesType = "getSelectedSamples";
 	}
 	else{
-	samplesType = "getSamples";
+		samplesType = "getSamples";
 	}
 	$.ajax({ type: "GET",
 					 url: "/dolphin/public/ajax/ngsquerydb.php",

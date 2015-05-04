@@ -9,7 +9,6 @@
    var successCheck = false;
    var runlistCheck = "";
    var runID = "";
-   var checkedRunGroupID = "";
    
    //check to make sure values are not empty
    if (outputdir == "") {
@@ -44,28 +43,26 @@
                if (runGroupID == 'new') {
                   runlistCheck = 'insertRunlist';
                   runID = r;
-                  checkedRunGroupID = r; 
                }else{
                   runlistCheck = 'insertRunlist';
                   runID = (parseInt(runGroupID) + r);
-                  checkedRunGroupID = runGroupID;
                }
            }
        });
    if (successCheck) {
-      return [ runlistCheck, runID, checkedRunGroupID ];
+      return [ runlistCheck, runID ];
    }else{
       return undefined;
    }
  }
 
-function postInsertRunlist(runlistCheck, sample_ids, runID, runGroupID){
+function postInsertRunlist(runlistCheck, sample_ids, runID){
    var successCheck = false;
       if (runlistCheck == 'insertRunlist') {
          $.ajax({
              type: 	'POST',
              url: 	'/dolphin/public/ajax/ngsalterdb.php',
-             data:  	{ p: runlistCheck, sampID: sample_ids, runID: runID, runGroupID: runGroupID },
+             data:  	{ p: runlistCheck, sampID: sample_ids, runID: runID},
              async:	false,
              success: function(r)
              {

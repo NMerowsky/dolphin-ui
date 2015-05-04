@@ -4,6 +4,7 @@
  *Ascription:
  */
 
+var wkey = '';
 var lib_checklist = [];
 var nameAndDirArray = [];
 var currentResultSelection = '--- Select a Result ---';
@@ -124,14 +125,14 @@ function createPlot(){
  * function requires the addition of the outdir
  */
 
-function checkFrontAndEndDir(outdir){
-	if (outdir[0] != '/') {
-		outdir = '/' + outdir;
+function checkFrontAndEndDir(wkey){
+	if (wkey[0] != '/') {
+		wkey = '/' + wkey;
 	}
-	if (outdir[outdir.length - 1] != '/') {
-		outdir = outdir + '/';
+	if (wkey[wkey.length - 1] != '/') {
+		wkey = wkey + '/';
 	}
-	return outdir;
+	return wkey;
 }
 
 function cleanReports(reads, totalReads){
@@ -171,8 +172,11 @@ function showSelectTable(){
 		
 		if (document.getElementById('jsontable_selected_results') == null) {
 			var buttonDiv = createElement('div', ['id', 'class'], ['clear_button_div', 'input-group margin']);
+			var buttonDivInner = createElement('div', ['id', 'class'], ['clear_button_inner_div', 'input-group margin pull-left']);
 			var clearButton = createElement('input', ['id', 'type', 'value', 'class', 'onclick'], ['clear_button', 'button', 'Clear Selection', 'btn btn-primary', 'clearSelection()']);
-			buttonDiv.appendChild(clearButton);
+			buttonDivInner.appendChild(clearButton);
+			buttonDiv.appendChild(buttonDivInner);
+			buttonDiv.appendChild(createDownloadReportButtons());
 			masterDiv.appendChild(buttonDiv);
 			
 			var table = generateSelectionTable();
@@ -243,14 +247,36 @@ function getCountsTableData(currentResultSelection){
 	return objList;
 }
 
-function downloadReports(button, dataType, downloadType){
+function createDownloadReportButtons(){
+	var downloadDiv = createElement('div', ['id', 'class'], ['downloads_div', 'btn-group margin pull-right']);
+	var buttonType = ['JSON','JSON2', 'XML', 'HTML'];
+	for (var x = 0; x < buttonType.length; x++){
+		var button = createElement('input', ['id', 'class', 'type', 'value', 'onclick'], [buttonType[x], 'btn btn-primary', 'button', buttonType[x], 'downloadReports("'+buttonType[x]+'")']);
+		downloadDiv.appendChild(button);
+	}
 
-	var stringData = getDownloadText(dataType, downloadType);
-	var data = "text/json;charset=utf-8," + encodeURIComponent(stringData);
-	// what to return in order to show download window?
+	return downloadDiv;
+	/*
+	 *File download:
+		var stringData = getDownloadText(dataType, downloadType);
+		var data = "text/json;charset=utf-8," + encodeURIComponent(stringData);
+		// what to return in order to show download window?
+		button.setAttribute("href", "data:"+data);
+		button.setAttribute("download", dataType + "." + downloadType);
+	*/
+}
 
-	button.setAttribute("href", "data:"+data);
-	button.setAttribute("download", dataType + "." + downloadType);
+function downloadReports(type){
+	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
+	var countsType = document.getElementById('select_report').value;
+	var URL = checkFrontAndEndDir(wkey) + 'counts/' + countsType + '.counts.tsv&fields=id,' + lib_checklist + '&format=' + type;
+	
+	if (type == 'JSON') {
+		//Download actual file in the future?
+		window.open(basePath + URL);
+	}else{
+		window.open(basePath + URL);
+	}
 }
 
 $(function() {
@@ -260,6 +286,9 @@ $(function() {
 	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
 
 	var hrefSplit = window.location.href.split("/");
+	
+	wkey = 'mousetest'; //hrefSplit[hrefSplit.length - 2];
+	
 	var runId = hrefSplit[hrefSplit.length - 2];
 	var samples = hrefSplit[hrefSplit.length - 1].substring(0, hrefSplit[hrefSplit.length - 1].length - 1).split(",");
 	nameAndDirArray = getSummaryInfo(runId, samples);

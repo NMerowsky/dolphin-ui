@@ -55,25 +55,6 @@ function parseMoreTSV(report, jsonNameArray, nameAndDirArray){
 	return parsePushed;
 }
 
-//implement wkey after testing
-
-function getDownloadText(dataType, downloadType) {
-	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
-	var URL = checkFrontAndEndDir('mousetest') + '/counts/' + dataType + '.counts.tsv&fields=id,' + lib_checklist.toString() + '&format=' + downloadType;
-
-	var stringData = '';
-
-	$.ajax({ type: "GET",
-			 url: basePath + URL,
-			 async: false,
-			 success : function(s)
-			 {
-				stringData = s;
-						 }
-	});
-	return stringData;
-}
-
 function createSummary(nameAndDirArray) {
 	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + nameAndDirArray[1][0] + 'fastqc/UNITED';
 	var linkRef = [ '/per_base_quality.html', '/per_base_sequence_content.html', '/per_sequence_quality.html'];
@@ -90,32 +71,33 @@ function createSummary(nameAndDirArray) {
 }
 
 function createDetails(nameAndDirArray) {
-	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + nameAndDirArray[1][x];
-
+	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + '/mousetest/fastqc/'; //+ checkFrontAndEndDir(wkey);
+	var URL = '';
+	
 	var masterDiv = document.getElementById('details_exp_body');
-
+	var hrefSplit = window.location.href.split("/");
+	var runId = hrefSplit[hrefSplit.length - 2];
+	var pairCheck = findIfMatePaired(runId);
+	
 	for(var x = 0; x < nameAndDirArray[0].length; x++){
-	var splt1 = nameAndDirArray[0][x].split(',');
-	for(var y = 0; y < splt1.length; y++){
-		var link = createElement('a', ['href'], [basePath + splt1[y]]);
-		link.appendChild(document.createTextNode(splt1[y]));
-		masterDiv.appendChild(link);
-		masterDiv.appendChild(createElement('div', [],[]));
+		if (pairCheck) {
+			var link1 = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '.1/' + nameAndDirArray[0][x] + '.1_fastqc/fastqc_report.html']);
+			link1.appendChild(document.createTextNode(nameAndDirArray[0][x] + ".1"));
+			var link2 = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '.2/' + nameAndDirArray[0][x] + '.2_fastqc/fastqc_report.html']);
+			link2.appendChild(document.createTextNode(nameAndDirArray[0][x] + ".2"));
+			masterDiv.appendChild(link1);
+			masterDiv.appendChild(createElement('div', [],[]));
+			masterDiv.appendChild(link2);
+			masterDiv.appendChild(createElement('div', [],[]));
+		}else{
+			var link = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '/' + nameAndDirArray[0][x] + '.fastqc/fastqc_report.html']);
+			link.appendChild(document.createTextNode(nameAndDirArray[0][x]));
+			masterDiv.appendChild(link);
+			masterDiv.appendChild(createElement('div', [],[]));
+		}
+		
+		
 	}
-	}
-}
-
-//to me used/moved at a later date
-function createPlot(){
-	var url="http://galaxyweb.umassmed.edu/csv-to-api/?source=http://galaxyweb.umassmed.edu/pub/ngstrack_pub/mousetest/rsem/genes_expression_expected_count.tsv";
-	var masterDiv = document.getElementById('plots_exp_body');
-	var headDiv = document.getElementById('plots_exp');
-
-	var overlay = createElement('div', ['id', 'class'],['overlay', 'overlay']);
-	overlay.appendChild(createElement('i', ['class'], ['fa fa-refresh fa-spin']));
-	headDiv.appendChild(overlay);
-
-	d3.json(url, draw);
 }
 
 /* checkFrontAndEndDir function
@@ -256,14 +238,6 @@ function createDownloadReportButtons(){
 	}
 
 	return downloadDiv;
-	/*
-	 *File download:
-		var stringData = getDownloadText(dataType, downloadType);
-		var data = "text/json;charset=utf-8," + encodeURIComponent(stringData);
-		// what to return in order to show download window?
-		button.setAttribute("href", "data:"+data);
-		button.setAttribute("download", dataType + "." + downloadType);
-	*/
 }
 
 function downloadReports(type){
@@ -292,8 +266,7 @@ $(function() {
 	var runId = hrefSplit[hrefSplit.length - 2];
 	var samples = hrefSplit[hrefSplit.length - 1].substring(0, hrefSplit[hrefSplit.length - 1].length - 1).split(",");
 	nameAndDirArray = getSummaryInfo(runId, samples);
-
-	nameAndDirArray = [['','',''],['mousetest','','']];
+	nameAndDirArray = [['control_rep1','control_rep2','control_rep3','exper_rep1','exper_rep2','exper_rep3'],['mousetest','','','','','']];
 
 	for(var x = 0; x < nameAndDirArray[1].length; x++){
 		nameAndDirArray[1][x] = checkFrontAndEndDir(nameAndDirArray[1][x]);

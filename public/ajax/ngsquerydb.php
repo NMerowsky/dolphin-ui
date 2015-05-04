@@ -8,7 +8,8 @@ require_once("../../includes/dbfuncs.php");
 
 $query = new dbfuncs();
 
-$pDictionary = ['getSelectedSamples', 'submitPipeline', 'getStatus', 'getRunSamples', 'grabReload', 'getReportNames', 'lanesToSamples', 'getAllSampleIds', 'getLaneIdFromSample', 'getSingleSample', 'getSeriesIdFromLane', 'getAllLaneIds'];
+$pDictionary = ['getSelectedSamples', 'submitPipeline', 'getStatus', 'getRunSamples', 'grabReload', 'getReportNames', 'lanesToSamples',
+                'checkMatePaired', 'getAllSampleIds', 'getLaneIdFromSample', 'getSingleSample', 'getSeriesIdFromLane', 'getAllLaneIds'];
 
 $q = "";
 $r = "";
@@ -352,7 +353,7 @@ else if ($p == 'getReportNames')
 		FROM ngs_fastq_files, ngs_runparams, ngs_runlist
 		WHERE ngs_runlist.sample_id = ngs_fastq_files.sample_id
 		AND ngs_runparams.id = ngs_fastq_files.lane_id
-				AND ngs_fastq_files.lane_id = $runid
+			AND ngs_fastq_files.lane_id = $runid
 			AND ( $sampleQuery );
 	");
 }
@@ -408,6 +409,15 @@ else if($p == 'getSeriesIdFromLane')
 		FROM ngs_lanes
 		where id = $lane
 	");
+}
+else if ($p == 'checkMatePaired')
+{
+    if (isset($_GET['runid'])){$runid = $_GET['runid'];}
+	$data=$query->queryTable("
+		SELECT json_parameters
+		FROM ngs_runparams
+		where id = $runid
+	"); 
 }
 
 header('Cache-Control: no-cache, must-revalidate');

@@ -1,3 +1,15 @@
+function createPlot(){
+	var url="http://galaxyweb.umassmed.edu/csv-to-api/?source=http://galaxyweb.umassmed.edu/pub/ngstrack_pub/mousetest/rsem/genes_expression_expected_count.tsv";
+	var masterDiv = document.getElementById('plots_exp_body');
+	var headDiv = document.getElementById('plots_exp');
+
+	var overlay = createElement('div', ['id', 'class'],['overlay', 'overlay']);
+	overlay.appendChild(createElement('i', ['class'], ['fa fa-refresh fa-spin']));
+	headDiv.appendChild(overlay);
+
+	d3.json(url, draw);
+}
+
 function draw(data){
 "use strict";
 

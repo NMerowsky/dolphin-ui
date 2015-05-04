@@ -182,3 +182,21 @@ function getSingleSample(sampleID){
 	});
 	return sample_info;
 }
+
+function findIfMatePaired(runID){
+    var checkMP = false;
+    $.ajax({ type: "GET",
+		url: "/dolphin/public/ajax/ngsquerydb.php",
+		data: { p: "checkMatePaired", runid: runID },
+		async: false,
+		success : function(s)
+		{
+            var jsonGrab = s.map(JSON.stringify);
+            newJsonArray = jsonGrab[0].split('\\"');
+			if (newJsonArray[7] == 'paired') {
+                checkMP = true;
+            }
+		}
+	});
+    return checkMP;
+}

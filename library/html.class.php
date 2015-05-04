@@ -43,48 +43,48 @@ class HTML {
 		return $data;
 	}
 
-   function getContentHeader($name, $parent_name, $parent_link)
-   {
+	function getContentHeader($name, $parent_name, $parent_link)
+	{
 	$html='	<!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        '.$name.'
-                        <small>'.$parent_name.'</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="'.BASE_PATH.'"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="'.BASE_PATH.'/'.$parent_link.'">'.$parent_name.'</a></li>
-                        <li class="active">'.$name.'</li>
-                    </ol>
-                </section>';
+				<section class="content-header">
+					<h1>
+						'.$name.'
+						<small>'.$parent_name.'</small>
+					</h1>
+					<ol class="breadcrumb">
+						<li><a href="'.BASE_PATH.'"><i class="fa fa-dashboard"></i> Home</a></li>
+						<li><a href="'.BASE_PATH.'/'.$parent_link.'">'.$parent_name.'</a></li>
+						<li class="active">'.$name.'</li>
+					</ol>
+				</section>';
 	return $html;
-   }
-   
-   function getDataTableFooterContent($fields, $table)
-   {
-     $html='</aside><!-- /.right-side -->
-        </div><!-- ./wrapper -->
+	}
+	
+	function getDataTableFooterContent($fields, $table)
+	{
+	 $html='</aside><!-- /.right-side -->
+		</div><!-- ./wrapper -->
 
 
-        <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script> 
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script> 
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-        <script src="'.BASE_PATH.'/js/dataTables/jquery.dataTables.min.js"></script>
-        <script src="'.BASE_PATH.'/js/dataTables/dataTables.bootstrap.js"></script>
-        <script src="'.BASE_PATH.'/js/dataTables/dataTables.tableTools.min.js"></script>
-        
-        <!-- AdminLTE App -->
-        <script src="'.BASE_PATH.'/js/AdminLTE/app.js" type="text/javascript"></script>
+		<script src="'.BASE_PATH.'/js/dataTables/jquery.dataTables.min.js"></script>
+		<script src="'.BASE_PATH.'/js/dataTables/dataTables.bootstrap.js"></script>
+		<script src="'.BASE_PATH.'/js/dataTables/dataTables.tableTools.min.js"></script>
+		
+		<!-- AdminLTE App -->
+		<script src="'.BASE_PATH.'/js/AdminLTE/app.js" type="text/javascript"></script>
 
-        <script type="text/javascript" language="javascript" src="'.BASE_PATH.'/js/dataTables/dataTables.editor.js"></script>
-        <script type="text/javascript" language="javascript" src="'.BASE_PATH.'/js/dataTables/resources/syntax/shCore.js"></script>
-        <script type="text/javascript" language="javascript" class="init">
+		<script type="text/javascript" language="javascript" src="'.BASE_PATH.'/js/dataTables/dataTables.editor.js"></script>
+		<script type="text/javascript" language="javascript" src="'.BASE_PATH.'/js/dataTables/resources/syntax/shCore.js"></script>
+		<script type="text/javascript" language="javascript" class="init">
 
 	var editor; // use a global for the submit and return data rendering in the examples
 	
 	function toggleTable() {
-	    var lTable = document.getElementById("descTable");
-	    lTable.style.display = (lTable.style.display == "table") ? "none" : "table";
+		var lTable = document.getElementById("descTable");
+		lTable.style.display = (lTable.style.display == "table") ? "none" : "table";
 	}
 	
 	$(document).ready(function() {
@@ -123,7 +123,7 @@ class HTML {
 				sRowSelect: "os",
 				aButtons: [
 					{ sExtends: "editor_create", editor: editor },
-					{ sExtends: "editor_edit",   editor: editor },
+					{ sExtends: "editor_edit",	editor: editor },
 					{ sExtends: "editor_remove", editor: editor }
 				]
 			},
@@ -132,10 +132,10 @@ class HTML {
 			$html.='initComplete: function ( settings, json ) {
 			';
 				foreach ($fields as $field):
-				    if ($field['joinedtablename']!="") {
+					if ($field['joinedtablename']!="") {
 					$html.='editor.field( "'.$table[0]['tablename'].'.'.$field['fieldname'].'" ).update( json.'.$field['joinedtablename'].' );
 					';
-				    }
+					}
 				endforeach;
 			
 			$html.='}';
@@ -145,178 +145,178 @@ class HTML {
 	$html.='} );
 	
 		</script>
-	   </body>
+		</body>
 	</html>
 	';
 	return $html;
-   }
-   
-   function getSideMenuItem($obj )
-   {
+	}
+	
+	function getSideMenuItem($obj )
+	{
 	$html="";
 	foreach ($obj as $item):
-	    $html.='<li><a href="'.BASE_PATH.'/'.$item->{'link'}.'"><i class="fa fa-angle-double-right"></i>'.$item->{'name'}.'</a></li>';
+		$html.='<li><a href="'.BASE_PATH.'/'.$item->{'link'}.'"><i class="fa fa-angle-double-right"></i>'.$item->{'name'}.'</a></li>';
 	endforeach;
 	return $html;
-   }
-   
-   function getDataTableContent($fields, $tablename)
-   {
+	}
+	
+	function getDataTableContent($fields, $tablename)
+	{
 	$html='	<div class="container">
-                <!-- Main content -->
-                <section class="content">
-                    <div class="row">
-                        <div class="info">
-                                <a id="descLink" onclick="toggleTable();" href="#">Click </a> to see the description of each field in the table.<br>
-                                <table id="descTable" class="display" style="display:none" cellspacing="0" width="100%">
-                                <thead>
-                                   <tr>
-                                     <th></th>
-                                     <th>Summary</th>
-                                </thead>
-                                <tbody>';
+				<!-- Main content -->
+				<section class="content">
+					<div class="row">
+						<div class="info">
+								<a id="descLink" onclick="toggleTable();" href="#">Click </a> to see the description of each field in the table.<br>
+								<table id="descTable" class="display" style="display:none" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+									 <th></th>
+									 <th>Summary</th>
+								</thead>
+								<tbody>';
 	foreach ($fields as $field):
 		$html.="<tr><th>".$field['title']."</th><td>".$field['summary']."</td></tr>";
 	endforeach;
 	$html.='			</table>
 				</p>
-                        </div>
+						</div>
 
-                        <table id="'.$tablename.'" class="display" cellspacing="0" width="100%">
-                                <thead>
-                                        <tr>';
+						<table id="'.$tablename.'" class="display" cellspacing="0" width="100%">
+								<thead>
+										<tr>';
 	foreach ($fields as $field):
 
-                $html.="<th>".$field['title']."</th>";
+				$html.="<th>".$field['title']."</th>";
 	endforeach;
-         $html.='                               </tr>
-                                </thead>
-                        </table>
+		 $html.='								</tr>
+								</thead>
+						</table>
 			
-                    </div><!-- /.row -->
-                </section><!-- /.content -->
+					</div><!-- /.row -->
+				</section><!-- /.content -->
 		</div>';
 	return $html;
-   }
-   
+	}
+	
  function getRespBoxTable_ng($title, $table, $fields)
-   {
-      $html='		       <div class="box">
-                <div class="box-header">
-                   <h3 class="box-title">'.$title.'</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body table-responsive">
-                  <table id="jsontable_'.$table.'" class="table table-hover table-striped table-condensed table-scrollable">
-		  <thead>
-                    <tr>
+	{
+	$html='				<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">'.$title.'</h3>
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive">
+				<table id="jsontable_'.$table.'" class="table table-hover table-striped table-condensed table-scrollable">
+		<thead>
+					<tr>
 			'.$fields.'
-                    </tr>
-                   </thead>
-                  </table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-			    
-			   
-      ';
-      return $html;
-   }
+					</tr>
+					</thead>
+				</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
+				
+				
+	';
+	return $html;
+	}
 
-   
-   function getBoxTable_ng($title, $table, $fields)
-   {
-      $html='		       <style>
+	
+	function getBoxTable_ng($title, $table, $fields)
+	{
+	$html='				<style>
 				 
 				 .table {margin:0 auto; border-collapse:separate;}
 				 .table thead {}
 				 
 				 .table tbody {height:300px;overflow-y:scroll;}
-  
+
 				</style>
 			
-                              <div class="box">
-                                <div class="box-header">
-                                   <h3 class="box-title">'.$title.' Table</h3>
-                                   <div class="pull-right box-tools">
-                                      <button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Col
+							<div class="box">
+								<div class="box-header">
+									<h3 class="box-title">'.$title.' Table</h3>
+									<div class="pull-right box-tools">
+									<button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Col
 lapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
-                                      <button class="btn btn-primary btn-sm daterange_'.$table.' pull-right" data-toggle="tooltip" title="Date 
+									<button class="btn btn-primary btn-sm daterange_'.$table.' pull-right" data-toggle="tooltip" title="Date 
 range"><i class="fa fa-calendar"></i></button>
-                                   </div><!-- /. tools -->
-                               </div><!-- /.box-header -->
-                               <div class="box-body table-responsive">
-                                <table id="jsontable_'.$table.'" class="table table-bordered table-striped table-condensed table-scrollable" cellspacing="0" width="100%">
-                                   <thead>
-                                      <tr>
-                                          '.$fields.'
-                                      </tr>
-                                  </thead>
+									</div><!-- /. tools -->
+								</div><!-- /.box-header -->
+								<div class="box-body table-responsive">
+								<table id="jsontable_'.$table.'" class="table table-bordered table-striped table-condensed table-scrollable" cellspacing="0" width="100%">
+									<thead>
+									<tr>
+										'.$fields.'
+									</tr>
+								</thead>
 
-                                 </table>
-                            </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-			    
-			   
-      ';
-      return $html;
-   }
+								 </table>
+							</div><!-- /.box-body -->
+							</div><!-- /.box -->
+				
+				
+	';
+	return $html;
+	}
 
 
-   function getBoxTable_stat($userlab, $galaxydolphin, $fields)
-   {
-      $html='
-                              <div class="box">
-                                <div class="box-header">
-                                   <h3 class="box-title">'.$galaxydolphin.' '.$userlab.' Table</h3>
-                                   <div class="pull-right box-tools">
-                                      <button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Col
+	function getBoxTable_stat($userlab, $galaxydolphin, $fields)
+	{
+	$html='
+							<div class="box">
+								<div class="box-header">
+									<h3 class="box-title">'.$galaxydolphin.' '.$userlab.' Table</h3>
+									<div class="pull-right box-tools">
+									<button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Col
 lapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
-                                      <button class="btn btn-primary btn-sm daterange_'.$userlab.' pull-right" data-toggle="tooltip" title="Dat
+									<button class="btn btn-primary btn-sm daterange_'.$userlab.' pull-right" data-toggle="tooltip" title="Dat
 e range"><i class="fa fa-calendar"></i></button>
-                                   </div><!-- /. tools -->
-                               </div><!-- /.box-header -->
-                               <div class="box-body table-responsive">
-                                <table id="jsontable_'.$userlab.'" class="table table-bordered table-striped" cellspacing="0" width="100%">
-                                   <thead>
-                                      <tr>
-                                          '.$fields.'
-                                      </tr>
-                                  </thead>
-                                  <tfoot>
-                                     <tr>
-                                          '.$fields.'
-                                     </tr>
-                                 </tfoot>
-                                 </table>
-                            </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-      ';
-      return $html;
-   }
-   function getAccordion($name, $object, $search)
-   {
-	 $html='      <div class="panel box box-primary">
-                      <div class="box-header with-border">
-                        <h4 class="box-title">
-                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$name.'">
-                            '.$name.'
-                          </a>
-                        </h4>
-                      </div>
-                      <div id="collapse'.$name.'" class="panel-collapse collapse in">
-                        <div class="box-body">
-			    <ul>
-			    ';
-			    if($name == "Assay"){ $adjName = "library_type"; }
-			    else{ $adjName = $name; }
-			    if($search == ""){
+									</div><!-- /. tools -->
+								</div><!-- /.box-header -->
+								<div class="box-body table-responsive">
+								<table id="jsontable_'.$userlab.'" class="table table-bordered table-striped" cellspacing="0" width="100%">
+									<thead>
+									<tr>
+										'.$fields.'
+									</tr>
+								</thead>
+								<tfoot>
+									 <tr>
+										'.$fields.'
+									 </tr>
+								 </tfoot>
+								 </table>
+							</div><!-- /.box-body -->
+							</div><!-- /.box -->
+	';
+	return $html;
+	}
+	function getAccordion($name, $object, $search)
+	{
+	 $html='	<div class="panel box box-primary">
+					<div class="box-header with-border">
+						<h4 class="box-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$name.'">
+							'.$name.'
+						</a>
+						</h4>
+					</div>
+					<div id="collapse'.$name.'" class="panel-collapse collapse in">
+						<div class="box-body">
+				<ul>
+				';
+				if($name == "Assay"){ $adjName = "library_type"; }
+				else{ $adjName = $name; }
+				if($search == ""){
 				foreach ($object as $obj):
-				    $html.='<li><a href="/dolphin/search/browse/'
+					$html.='<li><a href="/dolphin/search/browse/'
 					.$name."/".$obj['name']."/".strtolower($adjName)."=".$obj['name']."".
 					'">'.$obj['name'].' ('.$obj['count'].')</a></li>';
 				endforeach;
-			    }
-			    else
-			    {
+				}
+				else
+				{
 				$selectChk = explode('$', $search);
 				
 				foreach ($object as $obj):
@@ -346,17 +346,17 @@ e range"><i class="fa fa-calendar"></i></button>
 							'">'.$obj['name'].' ('.$obj['count'].')</a></li>';
 					}
 				endforeach;
-			    }
+				}
 	$html.='
-			    </ul>
+				</ul>
 			</div>
-                      </div>
-		      </div>
-	  ';
-	  return $html;
-   }
-   function getExperimentSeriesPanel($objects)
-   {
+					</div>
+			</div>
+	';
+	return $html;
+	}
+	function getExperimentSeriesPanel($objects)
+	{
 	foreach ($objects as $obj):
 	$html='<div class="panel panel-default">
 		<div class="panel-heading">
@@ -364,7 +364,7 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div>
 		<div class="panel-body">
 		<h4>
-		    '.$obj['experiment_name'].'
+			'.$obj['experiment_name'].'
 		</h4>
 		</div>
 		<div class="box-body">
@@ -378,9 +378,9 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div>';
 	endforeach;
 	return $html;
-   }
-   function getBrowserPanel($objects, $fields, $header ,$name)
-   {
+	}
+	function getBrowserPanel($objects, $fields, $header ,$name)
+	{
 	foreach ($objects as $obj):
 	$html='<div class="panel panel-default">
 		<div class="panel-heading">
@@ -393,17 +393,17 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div>
 		<div class="panel-body">
 		<h4>
-		    '.$obj[$name].'
+			'.$obj[$name].'
 		</h4>
 		</div>
 		<div class="box-body">
 		<dl class="dl-horizontal">
 		';
 		foreach ($fields as $field):
-		  if ($field['fieldname']!=$name && $obj[$field['fieldname']]!=""){
-      	             $html.='   <dt>'.$field['title'].'</dt>';
-		     $html.='  <dd>'.$obj[$field['fieldname']].'</dd>';
-		  }
+		if ($field['fieldname']!=$name && $obj[$field['fieldname']]!=""){
+					 $html.='	<dt>'.$field['title'].'</dt>';
+			 $html.='<dd>'.$obj[$field['fieldname']].'</dd>';
+		}
 		endforeach;
 	
 	$html.=	'</dl>
@@ -411,9 +411,9 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div>';
 	endforeach;
 	return $html;
-   }
-   
-   function getDolphinBasket(){
+	}
+	
+	function getDolphinBasket(){
 	$html = '';
 	$html.= '<div class="box">
 			<div class="box-header">
@@ -433,53 +433,53 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div>
 		<input type="button" id="selected_report_btn" class="btn btn-primary" value="View Selected Reports" disabled="true" onclick=""></input>';
 	return $html;
-   }
-   
-   function getQCPanel()
-   {
+	}
+	
+	function getQCPanel()
+	{
 	$html='
 	<div class="panel panel-default">
 		<div class="panel-heading">
-		  <h4>Analysis Results <small>Comprehensive Analysis</small></h4>
+		<h4>Analysis Results <small>Comprehensive Analysis</small></h4>
 		</div>
 		<div class="panel-body">
 	 <iframe src="http://localhost/dolphin/bs.html" seamless frameborder=0 onload="this.width=855;this.height=600;"></iframe>
 	</div>
 	</div>
-    ';
-    return $html;
-   }
-   
-   function getMultipleSelectBox($options, $id, $field, $idfield)
-   {
+	';
+	return $html;
+	}
+	
+	function getMultipleSelectBox($options, $id, $field, $idfield)
+	{
 	$html='<select class="form-control" id="'.$id.'" name="'.$id.'">';
 	foreach ($options as $option):
-                $html.="<option value='".$option[$idfield]."'>".$option[$field]."</option>";
+				$html.="<option value='".$option[$idfield]."'>".$option[$field]."</option>";
 	endforeach;
 	$html.='</select>';
 	return $html;
-   }
-   function getRadioBox($options, $id, $field)
-   {
+	}
+	function getRadioBox($options, $id, $field)
+	{
 	$html='';
 	foreach ($options as $option):
-	        $html.='<div class="radio"><label>';
-                $html.='<input type="radio" name="'.$id.'" id="'.$option['name'].'" value="'.$option['value'].'" '.$option['selected'].'>&nbsp;'.$option['name'];
+			$html.='<div class="radio"><label>';
+				$html.='<input type="radio" name="'.$id.'" id="'.$option['name'].'" value="'.$option['value'].'" '.$option['selected'].'>&nbsp;'.$option['name'];
 		$html.='</label></div>';
 	endforeach;
 	return $html;
-   }
-   function getSubmitBrowserButton()
-   {
+	}
+	function getSubmitBrowserButton()
+	{
 	$html = '';
-	$html.= '<div id="btn-group"><label>';
+	$html.= '<div id="btn-group">';
 	$html.= '<input type="button" class="btn btn-primary" name="pipeline_button" value="Send to Pipeline" onClick="submitSelected();"/>
 		<input type="button" class="btn btn-primary" name="fastlane_button" value="Send to Fastlane" onClick="sendToFastlane()"/>
 		<input type="button" class="btn btn-primary" name="send_to_status_button" value="Pipeline Status" onClick="sendToStatus()"/>';
-	$html.= '</label></div>';
+	$html.= '</div>';
 	return $html;
-   }
-   function getSelectionBox($title, $selection){
+	}
+	function getSelectionBox($title, $selection){
 	$html = '';
 	if($selection[0] == "TEXTBOX"){
 		$html.= 	'<div class="form-group">
@@ -515,46 +515,46 @@ e range"><i class="fa fa-calendar"></i></button>
 				</div>';
 	}
 	return $html;
-   }
-   function getStaticSelectionBox($title, $id, $selection, $width){
+	}
+	function getStaticSelectionBox($title, $id, $selection, $width){
 	$html = "";
 	$html = '<div class="col-md-'.$width.'">
 			<div class="box box-default">
 				<div class="box-header with-border">
-				  <h3 class="box-title">'.$title.'</h3>
+				<h3 class="box-title">'.$title.'</h3>
 				</div><!-- /.box-header -->
 				<div class="box-body">
 					<div class="input-group margin col-md-11">
-					      <form role="form">
-						      <div class="form-group">';
+						<form role="form">
+							<div class="form-group">';
 	if ($selection == "TEXT"){
-	$html.= 					      '<input type="text" class="form-control" id="'.$id.'">';
+	$html.= 						'<input type="text" class="form-control" id="'.$id.'">';
 	}
 	else
 	{
-	$html.=						      '<select class="form-control" id="'.$id.'">
-								      '.$selection.'
-							      </select>';
+	$html.=							'<select class="form-control" id="'.$id.'">
+									'.$selection.'
+								</select>';
 	}	
-	$html.= 					      '</div>
-					      </form>
-				      </div>
+	$html.= 						'</div>
+						</form>
+					</div>
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
-   }
-   function startExpandingSelectionBox($width){
+	}
+	function startExpandingSelectionBox($width){
 	$html = '';
 	$html.= '<div class="col-md-'.$width.'">';
 	return $html;
-   }
-   function endExpandingSelectionBox(){
+	}
+	function endExpandingSelectionBox(){
 	$html = '';
 	$html.= '</div><!-- /.col -->';
 	return $html;
-   }
-   function getExpandingSelectionBox($title, $id, $numFields, $width, $fieldTitles, $selection){
+	}
+	function getExpandingSelectionBox($title, $id, $numFields, $width, $fieldTitles, $selection){
 	$html = "";
 	$html = '<div class="col-md-'.$width.'">
 			<div id="'.$id.'_exp" class="box box-default collapsed-box">
@@ -590,8 +590,8 @@ e range"><i class="fa fa-calendar"></i></button>
 			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
-   }
-   function getExpandingCommonRNABox($title, $id, $numFields, $width, $fieldTitles, $selection){
+	}
+	function getExpandingCommonRNABox($title, $id, $numFields, $width, $fieldTitles, $selection){
 	$html = "";
 	$html = '<div class="col-md-'.$width.'">
 			<div id="'.$id.'_exp" class="box box-default collapsed-box">
@@ -627,11 +627,11 @@ e range"><i class="fa fa-calendar"></i></button>
 						</form>
 					</div>
 				</div><!-- /.box-body -->
-		      </div><!-- /.box -->
+			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
-   }
-   function getExpandingAnalysisBox($title, $id, $box_open){
+	}
+	function getExpandingAnalysisBox($title, $id, $box_open){
 	$html = "";
 	if($box_open){
 		$exp = 'box box-default';
@@ -660,11 +660,11 @@ e range"><i class="fa fa-calendar"></i></button>
 				}
 				
 	$html.= 		'</div><!-- /.box-body -->
-		      </div><!-- /.box -->
+			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
-   }
-   function getInitialMappingTable(){
+	}
+	function getInitialMappingTable(){
 	$html = '';
 	$html.= '<table id="jsontable_initial_mapping" class="table table-hover compact">
 			<thead>
@@ -683,8 +683,8 @@ e range"><i class="fa fa-calendar"></i></button>
 		</table>';
 		
 	return $html;
-   }
-   function getPipelinesButton(){
+	}
+	function getPipelinesButton(){
 	$html = '';
 	$num = 0;
 	$html.=	'<div id= "pipeline_exp_body" class="box-body" style="display: none;">
@@ -696,8 +696,8 @@ e range"><i class="fa fa-calendar"></i></button>
 				</form>
 			</div>';
 	return $html;
-   }
-   function getCustomButton(){
+	}
+	function getCustomButton(){
 	$html = '';
 	$html.= '<div id= "custom_exp_body" class="box-body" style="display: none;">
 			<div class="input-group margin col-md-11">
@@ -708,12 +708,12 @@ e range"><i class="fa fa-calendar"></i></button>
 				</form>
 			</div>';
 	return $html;
-   }
-   function sendJScript($segment, $field, $value, $search){
+	}
+	function sendJScript($segment, $field, $value, $search){
 	$html="";
 	$jsData['theSegment'] = $segment;
-        $jsData['theField'] = $field;
-        $jsData['theValue'] = $value;
+		$jsData['theField'] = $field;
+		$jsData['theValue'] = $value;
 	$jsData['theSearch'] = $search;
 	$jsData = json_encode($jsData);
 	if (!empty($jsData)) {
@@ -722,5 +722,5 @@ e range"><i class="fa fa-calendar"></i></button>
 		$html.="</script>\n";
 	}
 	return $html;
-   }
+	}
 }

@@ -126,10 +126,10 @@ function createPlot(){
 
 function checkFrontAndEndDir(outdir){
 	if (outdir[0] != '/') {
-	outdir = '/' + outdir;
+		outdir = '/' + outdir;
 	}
 	if (outdir[outdir.length - 1] != '/') {
-	outdir = outdir + '/';
+		outdir = outdir + '/';
 	}
 	return outdir;
 }
@@ -142,9 +142,9 @@ function cleanReports(reads, totalReads){
 
 function storeLib(name){
 	if (lib_checklist.indexOf(name) > -1) {
-	lib_checklist.splice(lib_checklist.indexOf(name), 1);
+		lib_checklist.splice(lib_checklist.indexOf(name), 1);
 	}else{
-	lib_checklist.push(name);
+		lib_checklist.push(name);
 	}
 }
 
@@ -163,39 +163,50 @@ function createDropdown(nameList){
 
 function showSelectTable(){
 	if (lib_checklist.length < 1) {
-	alert("Libraries must be selected to view these reports")
-	document.getElementById('select_report').value = currentResultSelection;
+		alert("Libraries must be selected to view these reports")
+		document.getElementById('select_report').value = currentResultSelection;
 	}else{
-	currentResultSelection = document.getElementById('select_report').value;
-	var masterDiv = document.getElementById('initial_mapping_exp_body');
+		currentResultSelection = document.getElementById('select_report').value;
+		var masterDiv = document.getElementById('initial_mapping_exp_body');
+		
+		if (document.getElementById('jsontable_selected_results') == null) {
+			var buttonDiv = createElement('div', ['id', 'class'], ['clear_button_div', 'input-group margin']);
+			var clearButton = createElement('input', ['id', 'type', 'value', 'class', 'onclick'], ['clear_button', 'button', 'Clear Selection', 'btn btn-primary', 'clearSelection()']);
+			buttonDiv.appendChild(clearButton);
+			masterDiv.appendChild(buttonDiv);
+			
+			var table = generateSelectionTable();
+			masterDiv.appendChild(table);
+		}else{
+			var table = document.getElementById('jsontable_selected_results');
+			var newTable = generateSelectionTable();
+			$('#jsontable_selected_results_wrapper').replaceWith(newTable);
+		}
+	
+		var newTableData = $('#jsontable_selected_results').dataTable();
+		newTableData.fnClearTable();
+		var objList = getCountsTableData(currentResultSelection).map(JSON.stringify);
+		for(var x = 0; x < objList.length; x++){
+			var parsed = JSON.parse(objList[x]);
+			var jsonArray = [];
+			for( var i in parsed){
+				if (parsed[i] != null) {
+					jsonArray.push(parsed[i]);
+				}
+			}
+			if (jsonArray.length > 0) {
+				newTableData.fnAddData(jsonArray);
+			}
+		}
+		//newTableData.fnSort( [ [0,'asc'] ] );
+		newTableData.fnAdjustColumnSizing(true);
+	}
+}
 
-	if (document.getElementById('jsontable_selected_results') == null) {
-		var table = generateSelectionTable();
-		masterDiv.appendChild(table);
-	}else{
-		var table = document.getElementById('jsontable_selected_results');
-		var newTable = generateSelectionTable();
-		$('#jsontable_selected_results_wrapper').replaceWith(newTable);
-	}
-
-	var newTableData = $('#jsontable_selected_results').dataTable();
-	newTableData.fnClearTable();
-	var objList = getCountsTableData(currentResultSelection).map(JSON.stringify);
-	for(var x = 0; x < objList.length; x++){
-		var parsed = JSON.parse(objList[x]);
-		var jsonArray = [];
-		for( var i in parsed){
-		if (parsed[i] != null) {
-			jsonArray.push(parsed[i]);
-		}
-		}
-		if (jsonArray.length > 0) {
-		newTableData.fnAddData(jsonArray);
-		}
-	}
-	//newTableData.fnSort( [ [0,'asc'] ] );
-	newTableData.fnAdjustColumnSizing(true);
-	}
+function clearSelection(){
+	document.getElementById('jsontable_selected_results_wrapper').remove();
+	document.getElementById('clear_button_div').remove();
+	document.getElementById('select_report').value = '--- Select a Result ---';
 }
 
 function generateSelectionTable(){

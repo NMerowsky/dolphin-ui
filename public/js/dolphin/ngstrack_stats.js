@@ -68,7 +68,6 @@ $(function() {
 				}
 				runparams.fnAddData([
 				s[i].id,
-				s[i].run_group_id,
 				s[i].run_name,
 				s[i].outdir,
 				s[i].run_description,
@@ -116,7 +115,6 @@ $(function() {
 				}
 				runparams.fnAddData([
 				s[i].id,
-				s[i].run_group_id,
 				s[i].run_name,
 				s[i].outdir,
 				s[i].run_description,

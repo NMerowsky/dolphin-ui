@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-md-12">
                         <?php echo $html->sendJScript('status', "", "", ""); ?>
-			<?php echo $html->getRespBoxTable_ng("Current Run Status", "runparams", "<th>ID</th><th>Run Group</th><th>Name</th><th>Output Directory</th><th>Description</th><th>Status</th><th>Options</th>"); ?>
+			<?php echo $html->getRespBoxTable_ng("Current Run Status", "runparams", "<th>ID</th><th>Name</th><th>Output Directory</th><th>Description</th><th>Status</th><th>Options</th>"); ?>
                     </div><!-- /.row -->
                 </section><!-- /.content -->
                 

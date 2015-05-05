@@ -4,6 +4,7 @@
  *Ascription:
  */
 
+var wkey = '';
 var lib_checklist = [];
 var nameAndDirArray = [];
 var currentResultSelection = '--- Select a Result ---';
@@ -54,25 +55,6 @@ function parseMoreTSV(report, jsonNameArray, nameAndDirArray){
 	return parsePushed;
 }
 
-//implement wkey after testing
-
-function getDownloadText(dataType, downloadType) {
-	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
-	var URL = checkFrontAndEndDir('mousetest') + '/counts/' + dataType + '.counts.tsv&fields=id,' + lib_checklist.toString() + '&format=' + downloadType;
-
-	var stringData = '';
-
-	$.ajax({ type: "GET",
-			 url: basePath + URL,
-			 async: false,
-			 success : function(s)
-			 {
-				stringData = s;
-						 }
-	});
-	return stringData;
-}
-
 function createSummary(nameAndDirArray) {
 	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + nameAndDirArray[1][0] + 'fastqc/UNITED';
 	var linkRef = [ '/per_base_quality.html', '/per_base_sequence_content.html', '/per_sequence_quality.html'];
@@ -89,32 +71,33 @@ function createSummary(nameAndDirArray) {
 }
 
 function createDetails(nameAndDirArray) {
-	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + nameAndDirArray[1][x];
-
+	var basePath = 'http://galaxyweb.umassmed.edu/pub/ngstrack_pub' + '/mousetest/fastqc/'; //+ checkFrontAndEndDir(wkey);
+	var URL = '';
+	
 	var masterDiv = document.getElementById('details_exp_body');
-
+	var hrefSplit = window.location.href.split("/");
+	var runId = hrefSplit[hrefSplit.length - 2];
+	var pairCheck = findIfMatePaired(runId);
+	
 	for(var x = 0; x < nameAndDirArray[0].length; x++){
-	var splt1 = nameAndDirArray[0][x].split(',');
-	for(var y = 0; y < splt1.length; y++){
-		var link = createElement('a', ['href'], [basePath + splt1[y]]);
-		link.appendChild(document.createTextNode(splt1[y]));
-		masterDiv.appendChild(link);
-		masterDiv.appendChild(createElement('div', [],[]));
+		if (pairCheck) {
+			var link1 = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '.1/' + nameAndDirArray[0][x] + '.1_fastqc/fastqc_report.html']);
+			link1.appendChild(document.createTextNode(nameAndDirArray[0][x] + ".1"));
+			var link2 = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '.2/' + nameAndDirArray[0][x] + '.2_fastqc/fastqc_report.html']);
+			link2.appendChild(document.createTextNode(nameAndDirArray[0][x] + ".2"));
+			masterDiv.appendChild(link1);
+			masterDiv.appendChild(createElement('div', [],[]));
+			masterDiv.appendChild(link2);
+			masterDiv.appendChild(createElement('div', [],[]));
+		}else{
+			var link = createElement('a', ['href'], [basePath + nameAndDirArray[0][x] + '/' + nameAndDirArray[0][x] + '.fastqc/fastqc_report.html']);
+			link.appendChild(document.createTextNode(nameAndDirArray[0][x]));
+			masterDiv.appendChild(link);
+			masterDiv.appendChild(createElement('div', [],[]));
+		}
+		
+		
 	}
-	}
-}
-
-//to me used/moved at a later date
-function createPlot(){
-	var url="http://galaxyweb.umassmed.edu/csv-to-api/?source=http://galaxyweb.umassmed.edu/pub/ngstrack_pub/mousetest/rsem/genes_expression_expected_count.tsv";
-	var masterDiv = document.getElementById('plots_exp_body');
-	var headDiv = document.getElementById('plots_exp');
-
-	var overlay = createElement('div', ['id', 'class'],['overlay', 'overlay']);
-	overlay.appendChild(createElement('i', ['class'], ['fa fa-refresh fa-spin']));
-	headDiv.appendChild(overlay);
-
-	d3.json(url, draw);
 }
 
 /* checkFrontAndEndDir function
@@ -124,14 +107,14 @@ function createPlot(){
  * function requires the addition of the outdir
  */
 
-function checkFrontAndEndDir(outdir){
-	if (outdir[0] != '/') {
-	outdir = '/' + outdir;
+function checkFrontAndEndDir(wkey){
+	if (wkey[0] != '/') {
+		wkey = '/' + wkey;
 	}
-	if (outdir[outdir.length - 1] != '/') {
-	outdir = outdir + '/';
+	if (wkey[wkey.length - 1] != '/') {
+		wkey = wkey + '/';
 	}
-	return outdir;
+	return wkey;
 }
 
 function cleanReports(reads, totalReads){
@@ -142,9 +125,9 @@ function cleanReports(reads, totalReads){
 
 function storeLib(name){
 	if (lib_checklist.indexOf(name) > -1) {
-	lib_checklist.splice(lib_checklist.indexOf(name), 1);
+		lib_checklist.splice(lib_checklist.indexOf(name), 1);
 	}else{
-	lib_checklist.push(name);
+		lib_checklist.push(name);
 	}
 }
 
@@ -163,39 +146,53 @@ function createDropdown(nameList){
 
 function showSelectTable(){
 	if (lib_checklist.length < 1) {
-	alert("Libraries must be selected to view these reports")
-	document.getElementById('select_report').value = currentResultSelection;
+		alert("Libraries must be selected to view these reports")
+		document.getElementById('select_report').value = currentResultSelection;
 	}else{
-	currentResultSelection = document.getElementById('select_report').value;
-	var masterDiv = document.getElementById('initial_mapping_exp_body');
+		currentResultSelection = document.getElementById('select_report').value;
+		var masterDiv = document.getElementById('initial_mapping_exp_body');
+		
+		if (document.getElementById('jsontable_selected_results') == null) {
+			var buttonDiv = createElement('div', ['id', 'class'], ['clear_button_div', 'input-group margin']);
+			var buttonDivInner = createElement('div', ['id', 'class'], ['clear_button_inner_div', 'input-group margin pull-left']);
+			var clearButton = createElement('input', ['id', 'type', 'value', 'class', 'onclick'], ['clear_button', 'button', 'Clear Selection', 'btn btn-primary', 'clearSelection()']);
+			buttonDivInner.appendChild(clearButton);
+			buttonDiv.appendChild(buttonDivInner);
+			buttonDiv.appendChild(createDownloadReportButtons());
+			masterDiv.appendChild(buttonDiv);
+			
+			var table = generateSelectionTable();
+			masterDiv.appendChild(table);
+		}else{
+			var table = document.getElementById('jsontable_selected_results');
+			var newTable = generateSelectionTable();
+			$('#jsontable_selected_results_wrapper').replaceWith(newTable);
+		}
+	
+		var newTableData = $('#jsontable_selected_results').dataTable();
+		newTableData.fnClearTable();
+		var objList = getCountsTableData(currentResultSelection).map(JSON.stringify);
+		for(var x = 0; x < objList.length; x++){
+			var parsed = JSON.parse(objList[x]);
+			var jsonArray = [];
+			for( var i in parsed){
+				if (parsed[i] != null) {
+					jsonArray.push(parsed[i]);
+				}
+			}
+			if (jsonArray.length > 0) {
+				newTableData.fnAddData(jsonArray);
+			}
+		}
+		//newTableData.fnSort( [ [0,'asc'] ] );
+		newTableData.fnAdjustColumnSizing(true);
+	}
+}
 
-	if (document.getElementById('jsontable_selected_results') == null) {
-		var table = generateSelectionTable();
-		masterDiv.appendChild(table);
-	}else{
-		var table = document.getElementById('jsontable_selected_results');
-		var newTable = generateSelectionTable();
-		$('#jsontable_selected_results_wrapper').replaceWith(newTable);
-	}
-
-	var newTableData = $('#jsontable_selected_results').dataTable();
-	newTableData.fnClearTable();
-	var objList = getCountsTableData(currentResultSelection).map(JSON.stringify);
-	for(var x = 0; x < objList.length; x++){
-		var parsed = JSON.parse(objList[x]);
-		var jsonArray = [];
-		for( var i in parsed){
-		if (parsed[i] != null) {
-			jsonArray.push(parsed[i]);
-		}
-		}
-		if (jsonArray.length > 0) {
-		newTableData.fnAddData(jsonArray);
-		}
-	}
-	//newTableData.fnSort( [ [0,'asc'] ] );
-	newTableData.fnAdjustColumnSizing(true);
-	}
+function clearSelection(){
+	document.getElementById('jsontable_selected_results_wrapper').remove();
+	document.getElementById('clear_button_div').remove();
+	document.getElementById('select_report').value = '--- Select a Result ---';
 }
 
 function generateSelectionTable(){
@@ -232,14 +229,28 @@ function getCountsTableData(currentResultSelection){
 	return objList;
 }
 
-function downloadReports(button, dataType, downloadType){
+function createDownloadReportButtons(){
+	var downloadDiv = createElement('div', ['id', 'class'], ['downloads_div', 'btn-group margin pull-right']);
+	var buttonType = ['JSON','JSON2', 'XML', 'HTML'];
+	for (var x = 0; x < buttonType.length; x++){
+		var button = createElement('input', ['id', 'class', 'type', 'value', 'onclick'], [buttonType[x], 'btn btn-primary', 'button', buttonType[x], 'downloadReports("'+buttonType[x]+'")']);
+		downloadDiv.appendChild(button);
+	}
 
-	var stringData = getDownloadText(dataType, downloadType);
-	var data = "text/json;charset=utf-8," + encodeURIComponent(stringData);
-	// what to return in order to show download window?
+	return downloadDiv;
+}
 
-	button.setAttribute("href", "data:"+data);
-	button.setAttribute("download", dataType + "." + downloadType);
+function downloadReports(type){
+	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
+	var countsType = document.getElementById('select_report').value;
+	var URL = checkFrontAndEndDir(wkey) + 'counts/' + countsType + '.counts.tsv&fields=id,' + lib_checklist + '&format=' + type;
+	
+	if (type == 'JSON') {
+		//Download actual file in the future?
+		window.open(basePath + URL);
+	}else{
+		window.open(basePath + URL);
+	}
 }
 
 $(function() {
@@ -249,11 +260,13 @@ $(function() {
 	var basePath = 'http://galaxyweb.umassmed.edu/csv-to-api/?source=/project/umw_biocore/pub/ngstrack_pub';
 
 	var hrefSplit = window.location.href.split("/");
+	
+	wkey = 'mousetest'; //hrefSplit[hrefSplit.length - 2];
+	
 	var runId = hrefSplit[hrefSplit.length - 2];
 	var samples = hrefSplit[hrefSplit.length - 1].substring(0, hrefSplit[hrefSplit.length - 1].length - 1).split(",");
 	nameAndDirArray = getSummaryInfo(runId, samples);
-
-	nameAndDirArray = [['','',''],['mousetest','','']];
+	nameAndDirArray = [['control_rep1','control_rep2','control_rep3','exper_rep1','exper_rep2','exper_rep3'],['mousetest','','','','','']];
 
 	for(var x = 0; x < nameAndDirArray[1].length; x++){
 		nameAndDirArray[1][x] = checkFrontAndEndDir(nameAndDirArray[1][x]);

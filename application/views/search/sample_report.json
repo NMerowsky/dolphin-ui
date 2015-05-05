@@ -1,5 +1,5 @@
-{
-"qualitydetailed" : [
+{ 
+"qualitydetailed" : [ 
 { "fastqc-file" : "control_rep1.1" } ,
 { "fastqc-file" : "control_rep1.2" } ,
 { "fastqc-file" : "control_rep2.1" } ,
@@ -11,15 +11,15 @@
 { "fastqc-file" : "exper_rep2.1" } ,
 { "fastqc-file" : "exper_rep2.2" } ,
 { "fastqc-file" : "exper_rep3.1" } ,
-{ "fastqc-file" : "exper_rep3.2" }
- ],
-"qualitysummary" : [
+{ "fastqc-file" : "exper_rep3.2" } 
+ ], 
+"qualitysummary" : [ 
 { "fastqc-summary" : "per_base_quality" } ,
 { "fastqc-summary" : "per_base_sequence_content" } ,
-{ "fastqc-summary" : "per_sequence_quality" }
- ]
+{ "fastqc-summary" : "per_sequence_quality" } 
+ ] 
 ,
-"mapping" : [
+"mapping" : [ 
 { "Libname" : "control_rep1"
 , "Total Reads" : "24788"
 , "Barcode Separation" : "0 (%0.0)"
@@ -79,6 +79,6 @@
 , "tRNA" : "0 (%0.0)"
 , "snRNA" : "0 (%0.0)"
 , "rmsk" : "4 (%0.0)"
-, "Unused Reads" : "9097 (%94.8)" }
- ]
+, "Unused Reads" : "9097 (%94.8)" } 
+ ] 
 }

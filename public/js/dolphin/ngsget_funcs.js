@@ -8,7 +8,7 @@ function rerunSelected(runID, groupID){
 	var sample_ids = [];
 	$.ajax({ type: "GET",
 		 url: "/dolphin/public/ajax/ngsquerydb.php",
-		 data: { p: "getRunSamples", runID: runID, groupID: groupID },
+		 data: { p: "getRunSamples", runID: runID },
 		 async: false,
 		 success : function(s)
 		 {
@@ -17,14 +17,14 @@ function rerunSelected(runID, groupID){
 			}
 		 }
 	});
-	window.location.href = "/dolphin/pipeline/rerun/" + groupID + "/" + runID + "/" + sample_ids + "$";
+	window.location.href = "/dolphin/pipeline/rerun/" + runID + "/" + sample_ids + "$";
 }
 
 function reportSelected(runID, groupID){
 	var ids = [];
 	$.ajax({ type: "GET",
 		 url: "/dolphin/public/ajax/ngsquerydb.php",
-		 data: { p: "getRunSamples", runID: runID, groupID: groupID },
+		 data: { p: "getRunSamples", runID: runID },
 		 async: false,
 		 success : function(s)
 		 {
@@ -181,4 +181,22 @@ function getSingleSample(sampleID){
 		}
 	});
 	return sample_info;
+}
+
+function findIfMatePaired(runID){
+    var checkMP = false;
+    $.ajax({ type: "GET",
+		url: "/dolphin/public/ajax/ngsquerydb.php",
+		data: { p: "checkMatePaired", runid: runID },
+		async: false,
+		success : function(s)
+		{
+            var jsonGrab = s.map(JSON.stringify);
+            newJsonArray = jsonGrab[0].split('\\"');
+			if (newJsonArray[7] == 'paired') {
+                checkMP = true;
+            }
+		}
+	});
+    return checkMP;
 }

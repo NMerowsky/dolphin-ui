@@ -30,7 +30,7 @@ function rerunLoad() {
 
 	//make sure this is a rerun
 	if (rerunLoc != -1) {
-	infoArray = grabReload(hrefSplit[rerunLoc + 2]);
+	infoArray = grabReload(hrefSplit[rerunLoc + 1]);
 	jsonObj = infoArray[0];
 	//repopulate page
 	for (var x = 0; x < (jsonTypeList.length); x++) {
@@ -344,7 +344,7 @@ function submitPipeline(type) {
 	//insert new values into ngs_runparams
 	var runparamsInsert = postInsertRunparams(json, outputdir, run_name, description);
 	//insert new values into ngs_runlist
-	var submitted = postInsertRunlist(runparamsInsert[0], ids, runparamsInsert[1], runparamsInsert[2]);
+	var submitted = postInsertRunlist(runparamsInsert[0], ids, runparamsInsert[1]);
 	if (submitted) {
 	window.location.href = "/dolphin/pipeline/status";
 	}

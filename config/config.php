@@ -15,8 +15,8 @@ define('DB_HOST', 'localhost');
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 if (isset($_SESSION['user']))
 {
-define('USERNAME', $_SESSION['user']);
-define('UID', $_SESSION['uid']);
+  define('USERNAME', $_SESSION['user']);
+  define('UID', $_SESSION['uid']);
 }
 
 #define('BASE_PATH','http://biocore.umassmed.edu/dolphin');

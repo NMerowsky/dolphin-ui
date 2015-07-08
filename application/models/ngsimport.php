@@ -1219,6 +1219,9 @@ class samples extends main{
 				//	Empty
 				$this->model->query("INSERT INTO `ngs_$database_name` (`$database_name`) VALUES ('".$sample->$php_name."')");
 				$id = json_decode($this->model->query("SELECT `id` FROM `ngs_$database_name` WHERE $database_name = '".$sample->$php_name."'"));
+				var_dump($id);
+				var_dump($database_name);
+				var_dump($sample->$php_name);
 				$this->model->query("UPDATE `biocore`.`ngs_samples` SET `$database_id_name` = ".$id[0]->id." WHERE `id` = $sample_id");
 			}else{
 				//	Exists
@@ -1230,6 +1233,13 @@ class samples extends main{
 	function createSampleName($sample, $sample_id){
 		$samplename = '';
 		$underscore_mark = true;
+		
+		//	Nobarcode
+		if(strpos(strtolower($sample->name), 'nobarcode') !== false){
+			$samplename.= $sample->name;
+			$underscore_mark = false;
+		}
+		
 		//	Donor
 		if(isset($sample->donor)){
 			if($sample->donor != NULL && $sample->donor != '' && $sample->donor != null && $sample->donor != 'null'){
@@ -1313,12 +1323,6 @@ class samples extends main{
 					$underscore_mark = false;
 				}
 			}
-		}
-		if(strtolower($sample->name) == 'nobarcode'){
-			if(!$underscore_mark){
-					$samplename.="_";
-				}
-			$samplename.= "nobarcode";
 		}
 		
 		$this->model->query("UPDATE `biocore`.`ngs_samples` SET `samplename` = '$samplename' WHERE `id` = $sample_id");

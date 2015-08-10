@@ -583,7 +583,9 @@ $(function() {
 						{
 							var type = 'lanes';
 							var queryType = "getLanes";
-							generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							if (window.location.href.split("/")[4] == 'search') {
+								generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							}
 						}
 				});
 	
@@ -610,7 +612,9 @@ $(function() {
 						 {
 							var type = 'lanes';
 							var queryType = "getLanes";
-							generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							if (window.location.href.split("/")[4] == 'search') {
+								generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							}
 						 }
 				});
 	
@@ -634,7 +638,9 @@ $(function() {
 						{
 							var type = 'experiments';
 							var queryType = "getExperimentSeries";
-							generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							if (window.location.href.split("/")[4] == 'search') {
+								generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							}
 						}
 			   });
 	
@@ -659,15 +665,11 @@ $(function() {
 						async: false,
 						success : function(s)
 						{
-						   experiment_seriesTable.fnClearTable();
-						   for(var i = 0; i < s.length; i++) {
-						   experiment_seriesTable.fnAddData([
-			   s[i].id,
-			   "<a href="+BASE_PATH+"\"/search/details/experiment_series/"+s[i].id+'/'+theSearch+"\">"+s[i].experiment_name+"</a>",
-						   s[i].summary,
-						   s[i].design,
-						   ]);
-						   } // End For
+							var type = 'experiments';
+							var queryType = "getExperimentSeries";
+							if (window.location.href.split("/")[4] == 'search') {
+								generateStreamTable(type, s, queryType, qvar, rvar, segment, theSearch, uid, gids);
+							}
 						}
 				});
 	

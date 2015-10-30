@@ -3,6 +3,7 @@
 include 'config/config.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
+include 'library/vanillacontroller.class.php';
 
 $_SESSION['uid'] = 1;
 $_SESSION['gids'] = 1;

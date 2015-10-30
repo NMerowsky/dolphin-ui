@@ -1,6 +1,7 @@
 <?php
 
 include 'config/config.php';
+include 'config/inflection.class.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 

@@ -19,35 +19,35 @@ class Ngsimport extends VanillaModel {
 	public $barcode;
 	public $namesList;
 	public $laneList;
-	public $initialSubmission = [];
+	public $initialSubmission = array();
 	
 	//	Variable Classes
 	//	METADATA
 	public $experiment_name;
 	public $summary;
 	public $design;
-	public $conts = [];
+	public $conts = array();
 	
 	//	LANES
-	public $lane_arr = [];
-	public $lane_ids = [];
+	public $lane_arr = array();
+	public $lane_ids = array();
 	
 	//	PROTOCOLS
-	public $prot_arr = [];
+	public $prot_arr = array();
 	
 	//	SAMPLES
-	public $sample_arr = [];
-	public $char_arr=[];
+	public $sample_arr = array();
+	public $char_arr = array();
 	
 	//	DIRECTORIES
-	public $dir_arr = [];
-	public $dir_tags =[];
-	public $dir_fastq = [];
-	public $dir_ids = [];
+	public $dir_arr = array();
+	public $dir_tags = array();
+	public $dir_fastq = array();
+	public $dir_ids = array();
 	
 	//	FILES
-	public $file_arr = [];
-	public $file_names = [];
+	public $file_arr = array();
+	public $file_names = array();
 	
 	//	Sheet Check bools
 	public $final_check;
@@ -369,7 +369,7 @@ class Ngsimport extends VanillaModel {
 		}
 		
 		//	Contributors
-		if($this->conts == []){
+		if($this->conts == array()){
 			$text.= $this->warningText("No contributors specified, please make sure to add them later if desired");
 		}
 		
@@ -1083,7 +1083,7 @@ class Ngsimport extends VanillaModel {
 		//	Checks for new file names of same samples/lanes
 		if($this->laneArrayCheck == 'lane'){
 			//For every directory added, find the id from the fastq directory and the backup directory
-			$dir_ids_check = [];
+			$dir_ids_check = array();
 			foreach($this->dir_arr as $da){
 				$dir_id_ret = json_decode($this->query("SELECT id FROM ngs_dirs WHERE fastq_dir = '" . $da->fastq_dir . "' and backup_dir = '" . $da->backup_dir . "'"));
 				array_push($dir_ids_check, $dir_id_ret[0]->id);
@@ -1101,7 +1101,7 @@ class Ngsimport extends VanillaModel {
 			}
 		}else{
 			//For every directory added, find the id from the fastq directory and the backup directory
-			$dir_ids_check = [];
+			$dir_ids_check = array();
 			foreach($this->dir_arr as $da){
 				$dir_id_ret = json_decode($this->query("SELECT id FROM ngs_dirs WHERE fastq_dir = '" . $da->fastq_dir . "' and backup_dir = '" . $this->backup_dir . "'"));
 				array_push($dir_ids_check, $dir_id_ret[0]->id);
@@ -1295,9 +1295,9 @@ class series extends main{
 
 /* Contributors class */
 class contributors extends main{
-	private $conts=[];
+	private $conts=array();
 
-	function __construct($model, $conts = [])
+	function __construct($model, $conts = array())
 	{
 		$this->conts = $conts;
 		$this->model = $model;
@@ -1340,9 +1340,9 @@ class contributors extends main{
 /* Lanes class */
 class lane{}
 class lanes extends main{
-	private $lane_arr=[];
+	private $lane_arr=array();
 
-	function __construct($model, $lane_arr = [])
+	function __construct($model, $lane_arr = array())
 	{
 		$this->lane_arr = $lane_arr;
 		$this->model=$model;
@@ -1445,9 +1445,9 @@ class lanes extends main{
 /* Protocol class */
 class prot{}
 class protocols extends main{
-	private $prot_arr=[];
+	private $prot_arr=array();
 
-	function __construct($model, $prot_arr = [])
+	function __construct($model, $prot_arr = array())
 	{
 		$this->prot_arr = $prot_arr;
 		$this->model=$model;
@@ -1542,9 +1542,9 @@ class protocols extends main{
 /* samples class */
 class sample{}
 class samples extends main{
-	private $sample_arr=[];
+	private $sample_arr=array();
 
-	function __construct($model, $sample_arr = [])
+	function __construct($model, $sample_arr = array())
 	{
 		$this->sample_arr=$sample_arr;
 		$this->model=$model;
@@ -1946,9 +1946,9 @@ class samples extends main{
 /* characteristics class */
 class tag{}
 class characteristics extends main{
-	private $char_arr=[];
+	private $char_arr=array();
 
-	function __construct($model, $char_arr = [])
+	function __construct($model, $char_arr = array())
 	{
 		$this->char_arr=$char_arr;
 		$this->model=$model;
@@ -2002,8 +2002,8 @@ class characteristics extends main{
 /* files class */
 class file{}
 class files extends main{
-	private $files_arr=[];
-	private $sample_arr=[];
+	private $files_arr = array();
+	private $sample_arr = array();
 	public $sample_id;
 	private $lane_id;
 	private $tablename;
@@ -2011,7 +2011,7 @@ class files extends main{
 	private $value;
 	private $dir_id;
 
-	function __construct($model, $files_arr = [], $sample_arr=[])
+	function __construct($model, $files_arr = array(), $sample_arr=array())
 	{
 		$this->files_arr=$files_arr;
 		$this->sample_arr=$sample_arr;
@@ -2116,7 +2116,7 @@ class dir{}
 class dirs extends main{
 	private $amazon_bucket;
 
-	function __construct($model, $dir_arr = [], $backup_dir, $amazon_bucket)
+	function __construct($model, $dir_arr = array(), $backup_dir, $amazon_bucket)
 	{
 		$this->model=$model;
 		$this->dir_arr=$dir_arr;

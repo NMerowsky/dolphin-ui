@@ -3,8 +3,9 @@
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testOnePlusOne() {
-	        include 'application/models/ngsimport.php';
-
+	    include 'application/models/ngsimport.php';
+		include 'config/config.php';
+		
 		$this->assertEquals(1+1,2);
   	}
 }

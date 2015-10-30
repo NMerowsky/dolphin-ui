@@ -18,11 +18,13 @@ php:
   # aliased to a recent hhvm version
   - hhvm
 
-# optionally specify a list of environments, for example to test different RDBMS
 env:
-  - DB=mysql
+  - mysql
+
+services:
+  - mysql
 
 before_script:
-  - echo $DB
+  - mysql -e 'create database myapp_test;'
 
 script: phpunit unitTesting/Test.php

@@ -1,6 +1,7 @@
 <?php
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
+echo 'test';
 include 'application/models/ngsimport.php';
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase

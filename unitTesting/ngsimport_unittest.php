@@ -5,7 +5,7 @@ include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
 include 'application/models/ngsimport.php';
-$ngsimport = new Ngsimport();
+$ngsimport = new ngsimport();
 
 #include 'includes/dbfuncs.php';
 #$query = new dbfuncs();

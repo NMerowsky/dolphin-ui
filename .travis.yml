@@ -29,7 +29,6 @@ before_script:
   - mysql < db/biocoredb.sql
   - mysql < db/2015_07_22_consolidated_1.sql
   - mysql < db/2015_08_31_wkeylist.sql
-  - mysql < db/2015_09_21_tutorial.sql
   - mysql < db/2015_10_16_ngs_createtables.sql
   - mysql < db/2015_10_27_tablegen_sidebar.sql
   - mysql -e 'SELECT * FROM ngs_samples'

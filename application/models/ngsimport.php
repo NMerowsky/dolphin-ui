@@ -10,8 +10,8 @@ class Ngsimport extends VanillaModel {
 	public $fastq_dir;
 	public $backup_dir;
 	public $amazon_bucket;
-	public $samples=[];
-	public $sample_ids = [];
+	public $samples = array();
+	public $sample_ids = array();
 	
 	public $organismCheck;
 	public $pairedEndCheck;

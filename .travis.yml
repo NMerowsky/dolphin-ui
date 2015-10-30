@@ -31,6 +31,6 @@ before_script:
   - mysql < db/2015_08_31_wkeylist.sql
   - mysql < db/2015_10_16_ngs_createtables.sql
   - mysql < db/2015_10_27_tablegen_sidebar.sql
-  - mysql -e 'SELECT * FROM ngs_samples'
+  - mysql -e 'use biocore; SELECT * FROM ngs_samples;'
 
 script: phpunit unitTesting/Test.php

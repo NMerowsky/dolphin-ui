@@ -32,4 +32,4 @@ before_script:
   - mysql < db/2015_10_16_ngs_createtables.sql
   - mysql < db/2015_10_27_tablegen_sidebar.sql
 
-script: phpunit unitTesting/Test.php
+script: phpunit unitTesting/ngsimport_unittest.php

@@ -1,18 +1,18 @@
 <?php
 
-include 'config/config.php';
-include 'library/sqlquery.class.php';
-include 'library/vanillamodel.class.php';
-include 'library/vanillacontroller.class.php';
+require_once 'config/config.php';
+require_once 'library/sqlquery.class.php';
+require_once 'library/vanillamodel.class.php';
+require_once 'library/vanillacontroller.class.php';
 
 $_SESSION['uid'] = 1;
 $_SESSION['gids'] = 1;
 $_SESSION['user'] = 'kucukura';
 
-include 'application/controllers/ngsimportcontroller.php';
+require_once 'application/controllers/ngsimportcontroller.php';
 $ngsimportcontroller = new ngsimportcontroller();
 
-include 'application/models/ngsimport.php';
+require_once 'application/models/ngsimport.php';
 $ngsimport = new ngsimport();
 
 #include 'includes/dbfuncs.php';

@@ -25,7 +25,8 @@ services:
   - mysql
 
 before_script:
-  - mysql < db/biocoredb.sql.gz
+  - gzip -d db/biocoredb.sql.gz
+  - mysql < db/biocoredb.sql
   - mysql -e 'show databases;'
 
 script: phpunit unitTesting/Test.php

@@ -4,6 +4,13 @@ include 'config/config.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
+$_SESSION['uid'] = 1;
+$_SESSION['gids'] = 1;
+$_SESSION['user'] = 'kucukura';
+
+include 'application/controllers/ngsimportcontroller.php';
+$ngsimportcontroller = new ngsimportcontroller();
+
 include 'application/models/ngsimport.php';
 $ngsimport = new ngsimport();
 

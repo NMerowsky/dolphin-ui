@@ -1,7 +1,5 @@
 <?php
-class ngsimport extends VanillaModel {
-	var $name = 'ngsimport';
-	
+class Ngsimport extends VanillaModel {	
 	public $series_id;
 	public $sid;
 	public $gid;

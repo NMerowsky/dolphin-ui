@@ -31,6 +31,6 @@ before_script:
   - mysql < db/2015_08_31_wkeylist.sql
   - mysql < db/2015_10_16_ngs_createtables.sql
   - mysql < db/2015_10_27_tablegen_sidebar.sql
-  - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY PASSWORD 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';"
+  - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';"
 
 script: phpunit unitTesting/ngsimport_unittest.php

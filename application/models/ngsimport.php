@@ -213,7 +213,7 @@ class Ngsimport extends VanillaModel {
 		}
 		
 		//	Process Data
-		$parseArray = [$this->final_check, $text];
+		$parseArray = array($this->final_check, $text);
 		return $parseArray;
 	}
 	

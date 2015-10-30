@@ -13,7 +13,8 @@ $ngsimport = new Ngsimport();
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testNum2Aplha() {
-		$this->assertEquals($ngsimport->num2alpha(3),'C');
+		echo 'testNum2Alpha';
+		$this->assertEquals($ngsimport->num2alpha(3),'D');
   	}
 }
 

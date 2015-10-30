@@ -3,6 +3,7 @@
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testOnePlusOne() {
+		include 'library/sqlquery.class.php';
 		include 'library/vanillamodel.class.php';
 	    include 'application/models/ngsimport.php';
 		

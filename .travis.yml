@@ -26,5 +26,6 @@ services:
 
 before_script:
   - mysql -e 'create database myapp_test;'
+  - myswl -e 'show databases;'
 
 script: phpunit unitTesting/Test.php

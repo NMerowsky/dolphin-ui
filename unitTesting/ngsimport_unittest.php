@@ -14,13 +14,14 @@ $_SESSION['user'] = 'kucukura';
 #$ngsimportcontroller = new ngsimportcontroller();
 
 include 'application/models/ngsimport.php';
-$ngsimport = new ngsimport();
 
 #include 'includes/dbfuncs.php';
 #$query = new dbfuncs();
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
+	$ngsimport = new ngsimport();
+	
 	public function testNum2Aplha() {
 		echo 'testNum2Alpha';
 		$this->assertEquals($ngsimport->num2alpha(3),'D');

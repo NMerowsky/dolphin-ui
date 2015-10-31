@@ -12,16 +12,14 @@ $_SESSION['user'] = 'kucukura';
 
 #include 'application/controllers/ngsimportcontroller.php';
 #$ngsimportcontroller = new ngsimportcontroller();
-
 include 'application/models/ngsimport.php';
-$ngsimport = new ngsimport();
-
 #include 'includes/dbfuncs.php';
 #$query = new dbfuncs();
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {	
 	public function testNum2Aplha() {
+		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->num2alpha(3),'C');
   	}
 }

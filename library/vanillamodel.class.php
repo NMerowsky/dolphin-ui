@@ -4,11 +4,10 @@ class VanillaModel extends SQLQuery {
 
 	function __construct() {
 		
-		global $inflect;
+		$inflect = new Inflection();
 
 		$this->connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 		$this->_model = get_class($this);
-		var_dump($inflect);
 		$this->_table = strtolower($inflect->pluralize($this->_model));
 	}
 

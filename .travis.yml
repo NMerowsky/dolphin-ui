@@ -34,10 +34,6 @@ before_script:
   - sudo service apache2 restart
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
-  - bin/vendors install
-  - app/console doctrine:database:create
-  - app/console doctrine:schema:update --force
-  - app/console doctrine:fixtures:load
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql < db/biocoredb.sql

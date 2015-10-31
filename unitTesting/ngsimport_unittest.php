@@ -16,8 +16,19 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {	
 	public function testNum2Aplha() {
 		$ngsimport = new Ngsimport();
-		$this->assertEquals($ngsimport->num2alpha(2),'C');
+		$this->assertEquals($ngsimport->num2alpha(0),'A');
+		$this->assertEquals($ngsimport->num2alpha(25),'Z');
+		$this->assertEquals($ngsimport->num2alpha(26),'AA');
+		$this->assertEquals($ngsimport->num2alpha(51),'ZZ');
   	}
+	
+	public function testColumnNUmber() {
+		$ngsimport = new Ngsimport();
+		$this->assertEquals($ngsimport->columnNumber('A'),0);
+		$this->assertEquals($ngsimport->columnNumber('Z'),25);
+		$this->assertEquals($ngsimport->columnNumber('AA'),26);
+		$this->assertEquals($ngsimport->columnNumber('ZZ'),51);
+	}
 }
 
 ?>

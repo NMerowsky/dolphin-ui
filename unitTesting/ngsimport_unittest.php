@@ -23,7 +23,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	public function testNum2Aplha() {
 		$ngsimport = new ngsimport();
 		echo 'testNum2Alpha';
-		$this->assertEquals($ngsimport->num2alpha(3),'D');
+		$this->assertEquals($ngsimport->num2alpha(3),'C');
   	}
 }
 

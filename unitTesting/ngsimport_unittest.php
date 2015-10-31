@@ -29,6 +29,16 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($ngsimport->columnNumber('AA'),27);
 		$this->assertEquals($ngsimport->columnNumber('AZ'),52);
 	}
+	
+	public function testGetGroup() {
+		$ngsimport = new Ngsimport();
+		$this->assertEquals($ngsimport->getGroup('kucukura'),1);
+	}
+	
+	public function testCreateSampleName() {
+		$ngsimport = new Ngsimport();
+		$this->assertContains($ngsimport->getGroup('kucukura'),'1');
+	}
 }
 
 ?>

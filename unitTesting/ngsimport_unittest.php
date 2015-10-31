@@ -24,10 +24,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testColumnNUmber() {
 		$ngsimport = new Ngsimport();
-		$this->assertEquals($ngsimport->columnNumber('A'),0);
-		$this->assertEquals($ngsimport->columnNumber('Z'),25);
-		$this->assertEquals($ngsimport->columnNumber('AA'),26);
-		$this->assertEquals($ngsimport->columnNumber('AZ'),51);
+		$this->assertEquals($ngsimport->columnNumber('A'),1);
+		$this->assertEquals($ngsimport->columnNumber('Z'),26);
+		$this->assertEquals($ngsimport->columnNumber('AA'),27);
+		$this->assertEquals($ngsimport->columnNumber('AZ'),52);
 	}
 }
 

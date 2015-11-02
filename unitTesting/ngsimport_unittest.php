@@ -150,9 +150,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*/
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
-		var_dump($this->worksheetPathSet);
+		var_dump($worksheetPathSet);
 		if($worksheetPathSet == 'false'){
-			include 'includes/excel/Classes/PHPExcel/IOFactory.php';
+			set_include_path('../includes/excel/Classes/');
+			include 'PHPExcel/IOFactory.php';
 			$worksheetPathSet = 'true';
 		}
 		

@@ -135,14 +135,24 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	/*
+	 *	function:		testCheckAlphaNumWithCharAdd
+	 *	description:	test the checkAlphaNumWithCharAdd function.
+	 *					The function should output true if the given string is alpha-numeric with additional specified keys
+	 */
+	public function testCheckAlphaNumWithCharAdd(){
+		$ngsimport = new Ngsimport();
+		$this->assertEquals($ngsimport->checkAlphaNumWithCharAdd('-', 'A-1'), true);
+	}
+	
+	/*
 	*	function:		worksheetTestGenerator
 	*	description:	Grabs worksheet information for test cases
 	*/
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
+		var_dump($this->worksheetPathSet);
 		if($this->worksheetPathSet == 'false'){
-			set_include_path('includes/excel/Classes/');
-			include 'PHPExcel/IOFactory.php';
+			include 'includes/excel/Classes/PHPExcel/IOFactory.php';
 			$this->worksheetPathSet = 'true';
 		}
 		

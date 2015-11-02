@@ -107,7 +107,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		foreach ($worksheetData as $worksheet) {
 			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-			$parseArray=$ngs->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
+			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
 			$passed_final_check = $parseArray[0];
 			echo $parseArray[1];
 		}

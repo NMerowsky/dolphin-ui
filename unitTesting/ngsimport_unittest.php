@@ -14,7 +14,7 @@ include 'application/models/ngsimport.php';
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
-	private $worksheetPathSet = 'false';
+	public $worksheetPathSet = 'false';
 	
 	/*
 	 *	function:		testNum2Alpha
@@ -89,10 +89,6 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *	description:	tests the parseExcel function for accuracy
 	 */
 	public function testParseExcel(){
-		//	Include necessary excel classes
-		set_include_path('includes/excel/Classes/');
-		include 'PHPExcel/IOFactory.php';
-		
 		//	Function requires gid, uid, worksheet, sheet data, and passed_final_check
 		$gid = 1;
 		$uid = 1;
@@ -130,7 +126,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function worksheetTestGenerator(){
-		//	Include necessary excel classes
+		//	Include necessary excel classes if not already loaded
 		if($this->worksheetPathSet == 'false'){
 			set_include_path('includes/excel/Classes/');
 			include 'PHPExcel/IOFactory.php';

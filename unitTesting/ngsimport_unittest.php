@@ -63,6 +63,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		
 		//	Sample needed for function
 		$samp = new sample();
+		$samp->name = 'test_sample';
 		$samp->donor = 'D01';
 		$samp->source_symbol = 'MDDC';
 		$samp->condition_symbol = 'LPS';

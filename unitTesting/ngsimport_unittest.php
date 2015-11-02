@@ -68,8 +68,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$samp->time = 60;
 		
 		//	Check for example template files for testing.
-		$this->assertFileExists('../public/downloads/example_template_multi_dirs.xls');
-		$this->assertFileExists('../public/downloads/example_template.xls');
+		$this->assertFileExists('public/downloads/example_template_multi_dirs.xls');
+		$this->assertFileExists('public/downloads/example_template.xls');
 		
 		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_LPS_1h');
 	}

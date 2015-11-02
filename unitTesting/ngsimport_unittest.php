@@ -105,10 +105,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
 			$passed_final_check = $parseArray[0];
-			echo $parseArray[0];
 			$this->assertEquals($parseArray[0], '1');
 		}
-		
 		return $passed_final_check;
 	}
 	
@@ -121,10 +119,25 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$passed_final_check = func_get_args();
 		$worksheetData = $this->worksheetTestGenerator();
 		echo implode(', ',$passed_final_check);
-		var_dump($worksheetData);
+		var_dump($passed_final_check);
 		
 	}
 	
+	/*
+	 *	function:		testTextTypes
+	 *	description:	tests the text outputs for correct color scheme
+	 */
+	public function testTextTypes(){
+		$ngsimport = new Ngsimport();
+		$this->assertContains($ngsimport->errorText('kucukura'),'red');
+		$this->assertContains($ngsimport->warningText('kucukura'),'B45F04');
+		$this->assertContains($ngsimport->successText('kucukura'),'green');
+	}
+	
+	/*
+	*	function:		worksheetTestGenerator
+	*	description:	Grabs worksheet information for test cases
+	*/
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
 		if($this->worksheetPathSet == 'false'){

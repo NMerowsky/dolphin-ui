@@ -81,7 +81,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_Lps_1h');
 		$this->assertEquals($ngsimport->createSampleName($nobar),'nobarcode');
-		$this->assertEquals($ngsimport->createSampleName($rand),'random_sample_name');
+		$this->assertEquals($ngsimport->createSampleName($rand),'');
 	}
 	
 	/*
@@ -110,6 +110,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
 			$passed_final_check = $parseArray[0];
 			echo $parseArray[1];
+			$this->assertContains($parseArray,true);
 		}
 		
 	}

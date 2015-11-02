@@ -112,6 +112,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$out_string .= $ngsimport->finalizeExcel($worksheet, $sheetData);
 		}
+		
+		var_dump($ngsimport);
 	}
 	
 	/*
@@ -133,14 +135,6 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	public function testCheckAlphaNumWithAddChars(){
 		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->checkAlphaNumWithAddChars('-', 'A-1'), true);
-	}
-	
-	/*
-	 *	function:		testGetMeta
-	 *	description:	tests the obtaining of metadata
-	 */
-	public function testGetMeta(){
-		
 	}
 	
 	############################################## OTHER FUNCTIONS #################################################

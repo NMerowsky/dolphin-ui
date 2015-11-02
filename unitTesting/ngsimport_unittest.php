@@ -118,17 +118,16 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	function:		testFinalizeExcel
 	*	description:	tests the parseExcel function for accuracy
 	*	@depends testParseExcel
-	*	@dataProvider worksheetProvider
 	*/
 	public function testFinalizeExcel(){
 		$passed_final_check = func_get_args();
-		$worksheetData = worksheetProvider();
+		$worksheetData = worksheetTestGenerator();
 		echo implode(', ',$passed_final_check);
 		var_dump($worksheetData);
 		
 	}
 	
-	public function worksheetProvider(){
+	public function worksheetTestGenerator(){
 		//	Include necessary excel classes
 		set_include_path('includes/excel/Classes/');
 		include 'PHPExcel/IOFactory.php';

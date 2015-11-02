@@ -500,8 +500,9 @@ class Ngsimport extends VanillaModel {
 		#$text.="LANE:".$new_lanes->getSQL();
 		foreach(explode(",",$this->laneList) as $ll){
 			$ll_id = json_decode($this->query("SELECT id FROM ngs_lanes WHERE name = '$ll' and series_id in 
-											(SELECT id FROM ngs_experiment_series WHERE experiment_name = '".$this->experiment_name."')"))[0]->id;
-			array_push($this->lane_ids, $ll_id);
+											(SELECT id FROM ngs_experiment_series WHERE experiment_name = '".$this->experiment_name."')"));
+			var_dump($ll_id);
+			array_push($this->lane_ids, $ll_id[0]->id);
 		}
 		return $text;
 	}

@@ -84,34 +84,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	/*
-	 *	function:		testParseExcel
-	 *	description:	tests the parseExcel function for accuracy
-	 */
-	public function testParseExcel(){
-		//	Function requires gid, uid, worksheet, sheet data, and passed_final_check
-		$gid = 1;
-		$uid = 1;
-		$inputFileType = 'Excel5';
-		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';
-		$worksheetData = $this->worksheetTestGenerator();
-		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
-		$objPHPExcel = $objReader->load($inputFileName);
-		$passed_final_check = true;
-		
-		$ngsimport = new Ngsimport();
-		foreach ($worksheetData as $worksheet) {
-			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
-			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
-			$passed_final_check = $parseArray[0];
-			$this->assertEquals($parseArray[0], '1');
-		}
-	}
-	
-	/*
-	*	function:		testFinalizeExcel
-	*	description:	tests the parseExcel function for accuracy
-	*	@depends testParseExcel
+	*	function:		testParseExcelFinalizeExcel
+	*	description:	tests the parseExcel function and the finalizeExcel function for accuracy
 	*/
 	public function testFinalizeExcel(){
 		$gid = 1;
@@ -137,7 +111,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$out_string .= $ngsimport->finalizeExcel($worksheet, $sheetData);
 		}
-		var_dump($out_string);
+		
 	}
 	
 	/*

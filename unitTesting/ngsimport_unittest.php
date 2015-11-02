@@ -15,7 +15,8 @@ include 'application/models/ngsimport.php';
 $worksheetPathSet = 'false';
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
-{	
+{
+	############################################## TESTS #################################################
 	/*
 	 *	function:		testNum2Alpha
 	 *	description:	tests the num2alpha function for accuracy
@@ -135,14 +136,16 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	/*
-	 *	function:		testCheckAlphaNumWithCharAdd
-	 *	description:	test the checkAlphaNumWithCharAdd function.
+	 *	function:		testCheckAlphaNumWithAddChars
+	 *	description:	test the checkAlphaNumWithAddChars function.
 	 *					The function should output true if the given string is alpha-numeric with additional specified keys
 	 */
-	public function testCheckAlphaNumWithCharAdd(){
+	public function testCheckAlphaNumWithAddChars(){
 		$ngsimport = new Ngsimport();
-		$this->assertEquals($ngsimport->checkAlphaNumWithCharAdd('-', 'A-1'), true);
+		$this->assertEquals($ngsimport->checkAlphaNumWithAddChars('-', 'A-1'), true);
 	}
+	
+	############################################## OTHER FUNCTIONS #################################################
 	
 	/*
 	*	function:		worksheetTestGenerator

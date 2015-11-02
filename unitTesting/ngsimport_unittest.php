@@ -72,12 +72,46 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$nobar = new sample();
 		$nobar->name = 'nobarcode';
 		
+		$rand = new sample();
+		$rand->name = 'random_sample_name';
+		
 		//	Check for example template files for testing.
 		$this->assertFileExists('public/downloads/example_template_multi_dirs.xls');
 		$this->assertFileExists('public/downloads/example_template.xls');
 		
 		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_Lps_1h');
 		$this->assertEquals($ngsimport->createSampleName($nobar),'nobarcode');
+		$this->assertEquals($ngsimport->createSampleName($rand),'random_sample_name');
+	}
+	
+	/*
+	 *	function:		testParseExcel
+	 *	description:	tests the parseExcel function for accuracy
+	 */
+	public function testParseExcel(){
+		//	Include necessary excel classes
+		set_include_path('includes/excel/Classes/');
+		include 'PHPExcel/IOFactory.php';
+		
+		//	Function requires gid, uid, worksheet, sheet data, and passed_final_check
+		$gid = 1;
+		$uid = 1;
+		$inputFileType = 'Excel5';
+		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';
+		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+		$worksheetData = $objReader->listWorksheetInfo($inputFileName);
+		$objPHPExcel = $objReader->load($inputFileName);
+		$passed_final_check = true;
+		
+		$ngsimport = new Ngsimport();
+		foreach ($worksheetData as $worksheet) {
+			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
+			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+			$parseArray=$ngs->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
+			$passed_final_check = $parseArray[0];
+			echo $parseArray[1];
+		}
+		
 	}
 }
 

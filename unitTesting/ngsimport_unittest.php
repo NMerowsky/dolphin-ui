@@ -61,17 +61,22 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	public function testCreateSampleName() {
 		$ngsimport = new Ngsimport();
 		
+		//	Sample needed for function
 		$samp = new sample();
 		$samp->donor = 'D01';
 		$samp->source_symbol = 'MDDC';
 		$samp->condition_symbol = 'LPS';
 		$samp->time = 60;
 		
+		$nobar = new sample();
+		$nobar->name = 'nobarcode';
+		
 		//	Check for example template files for testing.
 		$this->assertFileExists('public/downloads/example_template_multi_dirs.xls');
 		$this->assertFileExists('public/downloads/example_template.xls');
 		
-		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_LPS_1h');
+		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_Lps_1h');
+		$this->assertEquals($ngsimport->createSampleName($nobar),'nobarcode');
 	}
 }
 

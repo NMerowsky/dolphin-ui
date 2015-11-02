@@ -46,4 +46,4 @@ before_script:
 script: phpunit unitTesting/ngsimport_unittest.php
 
 after_script:
-  - mysql -e "SELECT id FROM ngs_samples WHERE name = 'example_sample_1'" -uroot
+  - mysql -e "use biocore; SELECT id FROM ngs_samples WHERE name = 'example_sample_1';" -uroot

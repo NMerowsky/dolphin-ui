@@ -85,9 +85,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	
 	/*
 	*	function:		testParseExcelFinalizeExcel
-	*	description:	tests the parseExcel function and the finalizeExcel function for accuracy
+	*	description:	tests the parseExcel function and the finalizeExcel function for submission
 	*/
-	public function testFinalizeExcel(){
+	public function testParseExcelFinalizeExcel(){
+		$out_string = '';
 		$gid = 1;
 		$uid = 1;
 		$inputFileType = 'Excel5';
@@ -111,7 +112,6 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$out_string .= $ngsimport->finalizeExcel($worksheet, $sheetData);
 		}
-		
 	}
 	
 	/*

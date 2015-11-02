@@ -6,13 +6,13 @@ include 'library/inflection.class.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
-/*
-	$_SESSION['uid'] = 1;
-	$_SESSION['gids'] = 1;
-	$_SESSION['user'] = 'kucukura';
-*/
+$_SESSION['uid'] = 1;
+$_SESSION['gids'] = 1;
+$_SESSION['user'] = 'kucukura';
 
 include 'application/models/ngsimport.php';
+set_include_path('includes/excel/Classes/');
+include 'PHPExcel/IOFactory.php';
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
@@ -90,8 +90,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseExcel(){
 		//	Include necessary excel classes
-		set_include_path('includes/excel/Classes/');
-		include 'PHPExcel/IOFactory.php';
+		//set_include_path('includes/excel/Classes/');
+		//include 'PHPExcel/IOFactory.php';
 		
 		//	Function requires gid, uid, worksheet, sheet data, and passed_final_check
 		$gid = 1;
@@ -123,7 +123,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*/
 	public function testFinalizeExcel(){
 		$passed_final_check = func_get_args();
-		echo $passed_final_check;
+		echo implode(', ',$passed_final_check);
+		
+		
 	}
 }
 

@@ -106,7 +106,6 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$passed_final_check = $parseArray[0];
 			$this->assertEquals($parseArray[0], '1');
 		}
-		return $passed_final_check;
 	}
 	
 	/*
@@ -114,9 +113,24 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	description:	tests the parseExcel function for accuracy
 	*	@depends testParseExcel
 	*/
-	public function testFinalizeExcel(string $passed_final_check){
+	public function testFinalizeExcel(){
+		$gid = 1;
+		$uid = 1;
+		$inputFileType = 'Excel5';
+		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';
 		$worksheetData = $this->worksheetTestGenerator();
-		var_dump($passed_final_check);
+		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+		$objPHPExcel = $objReader->load($inputFileName);
+		$passed_final_check = true;
+		
+		$ngsimport = new Ngsimport();
+		foreach ($worksheetData as $worksheet) {
+			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
+			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
+			$passed_final_check = $parseArray[0];
+			$this->assertEquals($parseArray[0], '1');
+		}
 	}
 	
 	/*

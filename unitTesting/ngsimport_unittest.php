@@ -130,9 +130,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTextTypes(){
 		$ngsimport = new Ngsimport();
-		$this->assertContains($ngsimport->errorText('kucukura'),'red');
-		$this->assertContains($ngsimport->warningText('kucukura'),'B45F04');
-		$this->assertContains($ngsimport->successText('kucukura'),'green');
+		$this->assertContains('red', $ngsimport->errorText('kucukura'));
+		$this->assertContains('B45F04', $ngsimport->warningText('kucukura'));
+		$this->assertContains('green', $ngsimport->successText('kucukura'));
 	}
 	
 	/*
@@ -145,6 +145,14 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($ngsimport->checkAlphaNumWithAddChars('-', 'A-1'), true);
 	}
 	
+	/*
+	 *	function:		testGetMeta
+	 *	description:	tests the obtaining of metadata
+	 */
+	public function testGetMeta(){
+		
+	}
+	
 	############################################## OTHER FUNCTIONS #################################################
 	
 	/*
@@ -153,12 +161,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*/
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
-		var_dump($worksheetPathSet);
-		if($worksheetPathSet == 'false'){
-			set_include_path('../includes/excel/Classes/');
-			include 'PHPExcel/IOFactory.php';
-			$worksheetPathSet = 'true';
-		}
+		set_include_path('../includes/excel/Classes/');
+		require_once 'PHPExcel/IOFactory.php';
+		$worksheetPathSet = 'true';
 		
 		$inputFileType = 'Excel5';
 		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';

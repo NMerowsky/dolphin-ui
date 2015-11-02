@@ -12,8 +12,6 @@ $_SESSION['user'] = 'kucukura';
 
 include 'application/models/ngsimport.php';
 
-$worksheetPathSet = 'false';
-
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
 	############################################## TESTS #################################################
@@ -161,7 +159,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*/
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
-		set_include_path('../includes/excel/Classes/');
+		set_include_path('includes/excel/Classes/');
 		require_once 'PHPExcel/IOFactory.php';
 		$worksheetPathSet = 'true';
 		

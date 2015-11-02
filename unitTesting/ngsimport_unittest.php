@@ -109,9 +109,16 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);
 			$passed_final_check = $parseArray[0];
-			echo $parseArray[1];
-			$this->assertContains($parseArray,true);
+			echo $parseArray[0];
+			$this->assertContains($parseArray, 'true');
 		}
+	}
+	
+	/*
+	*	function:		testFinalizeExcel
+	*	description:	tests the parseExcel function for accuracy
+	*/
+	public function testFinalizeExcel(){
 		
 	}
 }

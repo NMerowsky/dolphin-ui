@@ -120,8 +120,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	@depends testParseExcel
 	*	@dataProvider worksheetProvider
 	*/
-	public function testFinalizeExcel($worksheetData){
+	public function testFinalizeExcel(){
 		$passed_final_check = func_get_args();
+		$worksheetData = worksheetProvider();
 		echo implode(', ',$passed_final_check);
 		var_dump($worksheetData);
 		

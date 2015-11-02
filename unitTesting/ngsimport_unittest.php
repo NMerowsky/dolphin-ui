@@ -12,10 +12,10 @@ $_SESSION['user'] = 'kucukura';
 
 include 'application/models/ngsimport.php';
 
+$worksheetPathSet = 'false';
+
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
-{
-	public $worksheetPathSet = 'false';
-	
+{	
 	/*
 	 *	function:		testNum2Alpha
 	 *	description:	tests the num2alpha function for accuracy
@@ -151,9 +151,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes if not already loaded
 		var_dump($this->worksheetPathSet);
-		if($this->worksheetPathSet == 'false'){
+		if($worksheetPathSet == 'false'){
 			include 'includes/excel/Classes/PHPExcel/IOFactory.php';
-			$this->worksheetPathSet = 'true';
+			$worksheetPathSet = 'true';
 		}
 		
 		$inputFileType = 'Excel5';

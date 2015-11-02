@@ -14,6 +14,8 @@ include 'application/models/ngsimport.php';
 
 class ngsimport_unittest extends PHPUnit_Framework_TestCase
 {
+	private $worksheetPathSet = 'false';
+	
 	/*
 	 *	function:		testNum2Alpha
 	 *	description:	tests the num2alpha function for accuracy
@@ -97,7 +99,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$inputFileType = 'Excel5';
 		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
-		$worksheetData = $objReader->listWorksheetInfo($inputFileName);
+		$worksheetData = worksheetTestGenerator();
 		$objPHPExcel = $objReader->load($inputFileName);
 		$passed_final_check = true;
 		
@@ -129,8 +131,11 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	
 	public function worksheetTestGenerator(){
 		//	Include necessary excel classes
-		set_include_path('includes/excel/Classes/');
-		include 'PHPExcel/IOFactory.php';
+		if($this->worksheetPathSet == 'false'){
+			set_include_path('includes/excel/Classes/');
+			include 'PHPExcel/IOFactory.php';
+			$this->worksheetPathSet = 'true';
+		}
 		
 		$inputFileType = 'Excel5';
 		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';

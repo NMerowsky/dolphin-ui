@@ -95,6 +95,80 @@ else if ($p == 'submitAccessionAndUuid')
 							"WHERE id = " . $item);	
 	}
 }
+else if ($p == 'gatherFileData')
+{
+	///	Gather filedata to post or patch into ENCODE	///
+	
+	//	Obtain samplename, sample id, and the directory id
+	if (isset($_GET['sample'])){$sample = $_GET['sample'];};
+	if (isset($_GET['sample_id'])){$sample_id = $_GET['sample_id'];};
+	if (isset($_GET['dir_id'])){$dir_id = $_GET['dir_id'];};
+	//	Select the out directory of the flagged run
+	$fastq_info = $query->queryAVal("
+	SELECT outdir
+	FROM ngs_runparams
+	WHERE id in (SELECT run_id FROM ngs_runlist WHERE sample_id = ".$sample_id.")
+	AND run_flag = 1;
+	");
+	//	If the initial run, remove initial run from the path
+	$fastq_info=str_replace("/initial_run","",$fastq_info);
+	//	select the backup directory from the specified directory id
+	$dir_info = $query->queryAVal("
+	SELECT backup_dir
+	FROM ngs_dirs
+	WHERE id = $dir_id
+	");
+	//	FASTQ FIND
+	//	Use find to search for given fastq files based on the flagged run's out directory
+	$cmd1 = 'find '.$fastq_info.' -regex ".*\.\(fastq\|fastq.gz\|)\)" | grep "'.$sample.'" | grep -v "tmp" | grep -v "sorted" | grep -v "seqmapping" | grep -v "rsem" | grep -v "picard" | grep -v "initial_run" | grep -v "input"';
+	$OPEN1 = popen( $cmd1, "r" );
+    $FREAD1 = fread($OPEN1, 2096);
+	$CLOSE1 = pclose($OPEN1);
+	//	BAM FIND
+	//	Use find to search for given bam files based on the directory id given
+	$cmd2 = 'find '.$dir_info.' -regex ".*\.\(bam\|)\)" | grep "'.$sample.'" | grep -v "tmp" | grep -v "sorted" | grep -v "seqmapping" | grep -v "rsem" | grep -v "picard" | grep -v "initial_run"';
+	$OPEN2 = popen( $cmd2, "r" );
+    $FREAD2 = fread($OPEN2, 2096);
+	$CLOSE2 = pclose($OPEN2);
+	//	Combine files into one array, disregard empty strings
+	$file_to_submit = array();
+	foreach(explode("\n", $FREAD1) as $read){
+		if($read != ""){
+			array_push($file_to_submit, $read);
+		}
+	}
+	foreach(explode("\n", $FREAD2) as $read){
+		if($read != ""){
+			array_push($file_to_submit, $read);
+		}
+	}
+	//	Search for files that have already been submitted
+	$submit_check=json_decode($query->queryTable("
+	SELECT id, filename
+	FROM ngs_filedata
+	WHERE filename in ( '".implode("','",$file_to_submit)."' )
+	"));
+	//	Store file names that have already been submitted into an array for checking
+	$no_submit_array = array();
+	foreach($submit_check as $sc){
+		if(in_array($sc->filename, $file_to_submit)){
+			array_push($no_submit_array, $sc->filename);
+		}
+	}
+	//	If filename is not in the database already, submit it into the database
+	foreach($file_to_submit as $file ){
+		if(!in_array($file, $no_submit_array)){
+			$insert=$query->runSQL("
+			INSERT INTO ngs_filedata
+			( `sample_id`, `filename` )
+			VALUES
+			( ".$sample_id.", '".$file."' )
+			");
+		}
+	}
+	//	Return all files to be either posted or patched
+	$data=json_encode($file_to_submit);
+}
 
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

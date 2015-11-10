@@ -1148,19 +1148,42 @@ function getEncodeUUID(json_name, uuid){
 }
 
 function encodeFilePost(type){
-	
-	$.ajax({ type: "GET",
-		url: BASE_PATH + "/public/ajax/encode_files.php",
-		data: { sample_id: biosample_ids[0], type: type, experiment: experiment_accs[0], replicate: replicate_uuids[0] },
-		async: false,
-		success : function(s)
-		{
-			var file_post_string = "[" + s + "]";
-			console.log(file_post_string);
-			var file_response = JSON.parse(file_post_string);
-			console.log(file_response);
+	for(var x = 0; x < biosample_ids.length; x ++){
+		console.log(biosample_ids[x]);
+		var samplename;
+		var dir_id;
+		for(var y = 0; y < sample_info.length; y++){
+			if (sample_info[y].id == biosample_ids[x]) {
+				samplename = sample_info[y].samplename;
+				dir_id = sample_info[y].did;
+			}
 		}
-	});
+		//	Search for/add/update ngs_filedata database
+		var submit_files;
+		$.ajax({ type: "GET",
+			url: BASE_PATH + "/public/ajax/encode_data.php",
+			data: { p: "gatherFileData", sample: samplename, sample_id: biosample_ids[x], dir_id: dir_id },
+			async: false,
+			success : function(s)
+			{
+				submit_files = s;
+			}
+		});
+		//	Post/patch files
+		for(var z = 0; z < submit_files.length; z++){
+			$.ajax({ type: "GET",
+				url: BASE_PATH + "/public/ajax/encode_files.php",
+				data: { sample_id: biosample_ids[x], type: type, experiment: experiment_accs[x], replicate: replicate_uuids[x], file: submit_files[z] },
+				async: false,
+				success : function(s)
+				{
+					var file_post_string = "[" + s + "]";
+					var file_response = JSON.parse(file_post_string);
+					console.log(file_response);
+				}
+			});
+		}
+	}
 }
 
 function encodeSubmission(name, json, subType, type, table){
@@ -1238,6 +1261,10 @@ function encodeSubmission(name, json, subType, type, table){
 			if (type == "treatment") {
 				if (response[x]['@graph'][0].uuid != undefined) {
 					submitAccessionAndUuid(item[x], table, type, "treatment", response[x]['@graph'][0].uuid);
+				}
+			}else if(type == "replicate"){
+				if (response[x]['@graph'][0].uuid != undefined) {
+					submitAccessionAndUuid(item[x], table, type, "replicate", response[x]['@graph'][0].uuid);
 				}
 			}else{
 				if (response[x]['@graph'][0].accession != undefined && response[x]['@graph'][0].uuid != undefined) {

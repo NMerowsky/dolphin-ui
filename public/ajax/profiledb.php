@@ -98,7 +98,7 @@ else if ($p == 'newGroupProcess')
 		INSERT INTO groups
 		( `name`, `owner_id`, `group_id`, `perms`, `date_created`, `date_modified`, `last_modified_user` )
 		VALUES
-		( '".$newGroup."', 1, 1, 15, NOW(), NOW(), ".$_SESSION['uid']." )
+		( '".$newGroup."', ".$_SESSION['uid'].", 1, 15, NOW(), NOW(), ".$_SESSION['uid']." )
 		");
 		$groupsQuery=$query->queryAVal("
 		SELECT id
@@ -117,15 +117,15 @@ else if ($p == 'newGroupProcess')
 else if ($p == 'joinGroupList')
 {
 	$data=$query->queryTable("
-	SELECT name
+	SELECT id, name
 	FROM groups
 	WHERE id NOT IN (
 		SELECT g_id
 		FROM user_group
 		WHERE u_id = " . $_SESSION['uid'] . "
 	)
-	AND name NOT IN (
-		SELECT group_name
+	AND id NOT IN (
+		SELECT group_id
 		FROM user_group_requests
 		WHERE user_request = ".$_SESSION['uid']."
 	)
@@ -133,17 +133,17 @@ else if ($p == 'joinGroupList')
 }
 else if ($p == 'sendJoinGroupRequest')
 {
-	if (isset($_GET['group'])){$group = $_GET['group'];}
+	if (isset($_GET['group_id'])){$group_id = $_GET['group_id'];}
 	$group_owner=$query->queryAVal("
 	SELECT owner_id
 	FROM groups
-	WHERE name = '$group'
+	WHERE id = '$group_id'
 	");
 	$data=json_decode($query->runSQL("
 	INSERT INTO user_group_requests
-	( `user_request`, `user_check`, `group_name`, `group_owner` )
+	( `user_request`, `user_check`, `group_id`, `group_owner` )
 	VALUES
-	( ".$_SESSION['uid'].", 0, '$group', $group_owner )
+	( ".$_SESSION['uid'].", 0, $group_id, $group_owner )
 	"));
 }
 else if ($p == 'viewGroupMembers')
@@ -157,6 +157,49 @@ else if ($p == 'viewGroupMembers')
 		FROM user_group
 		WHERE g_id = $group
 	)
+	");
+}
+else if ($p == 'deleteGroup')
+{
+	if (isset($_GET['group_id'])){$group_id = $_GET['group_id'];}
+	$data=$query->runSQL("
+	DELETE FROM groups
+	WHERE id = $group_id
+	");
+	$data=$query->runSQL("
+	DELETE FROM user_group
+	WHERE group_id = $group_id
+	");
+}
+else if ($p == 'getGroupMemberAdd')
+{
+	if (isset($_GET['group_id'])){$group_id = $_GET['group_id'];}
+	$data=$query->queryTable("
+	SELECT id, username
+	FROM users
+	WHERE id in (
+		SELECT user_request
+		FROM user_group_requests
+		WHERE group_id = $group_id
+		AND group_owner = ".$_SESSION['uid']."
+	)
+	");
+}
+else if ($p == 'addGroupMember')
+{
+	if (isset($_GET['group_id'])){$group_id = $_GET['group_id'];}
+	if (isset($_GET['user_id'])){$user_id = $_GET['user_id'];}
+	
+	$data=$query->runSQL("
+	INSERT INTO user_group
+	(`u_id`, `g_id`, `owner_id`, `group_id`, `perms`, `date_created`, `date_modified`, `last_modified_user`)
+	VALUES
+	($user_id, $group_id, 1, 1, 15, NOW(), NOW(), ".$_SESSION['uid'].")
+	");
+	$data=$query->runSQL("
+	DELETE FROM user_group_requests
+	WHERE group_id = $group_id
+	AND user_request = $user_id
 	");
 }
 

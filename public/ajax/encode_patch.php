@@ -18,13 +18,12 @@ Requests::register_autoloader();
 # Force return from the server in JSON format
 $headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
 
-# Authentication is always required to POST ENCODE objects
+# Authentication is always required to PATCH ENCODE objects
 $authid = "SU45FB2Q"; // <-Replace this with your access_key
 $authpw = "rae76sr5bntlz5c6"; // <-Replace this with your secret_access_key
 $auth = array('auth' => array($authid, $authpw));
 
 $json = json_decode($json_passed);
-#var_dump($json);
 
 #Cycle through array and post objects
 $count = 0;

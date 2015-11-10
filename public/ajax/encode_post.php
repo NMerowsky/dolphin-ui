@@ -22,7 +22,6 @@ $auth = array('auth' => array($authid, $authpw));
 
 # The URL is now the collection itself
 $url = $server_start. $json_name . $server_end; // <-Replace this with appropriate server
-
 $json = json_decode($json_passed);
 
 #Cycle through array and post objects
@@ -30,7 +29,6 @@ foreach ($json as $json_object) {
 	#POST the JSON and get back response
 	$response = Requests::post($url, $headers, json_encode($json_object), $auth);
 	# If the POST succeeds, the response is the new object in JSON format
-	#var_dump($response->body);
 	if($json_object == end($json)){
 		echo $response->body;
 	}else{

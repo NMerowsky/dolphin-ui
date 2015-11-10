@@ -136,9 +136,9 @@ function obtainGroups(){
 				'<li><a href="#" onclick="viewGroupMembers(\''+s[i].id+'\')">View Group Members</a></li>';
 				if (uid == s[i].owner_id) {
 					s[i].options += '<li class="divider"></li>' +
-					'<li><a href="#" onclick="addNewUsers()">Add New Users</a></li>' +
+					'<li><a href="#" onclick="addNewUsers(\''+s[i].id+'\')">Add New Users</a></li>' +
 					'<li class="divider"></li>' +
-					'<li><a href="#" onclick="deleteGroup()">Delete Group</a></li></ul>' +
+					'<li><a href="#" onclick="deleteGroup(\''+s[i].id+'\')">Delete Group</a></li></ul>' +
 					'</div>';
 				}else{
 					s[i].options += '</div>';
@@ -175,12 +175,82 @@ function viewGroupMembers(group){
 	});
 }
 
-function addNewUsers(){
-	
+function addNewUsers(id){
+	$('#groupModal').modal({
+		show: true
+	});
+	document.getElementById('myModalLabel').innerHTML = 'Users that want group access';
+	document.getElementById('groupLabel').innerHTML ='Select a user to add to this group';
+	document.getElementById('groupModalDiv').innerHTML = '<select id="addGroup" class="form-control" size="25" multiple>';
+	document.getElementById('confirmGroupButton').setAttribute('onClick', 'confirmAddUser('+id+')');
+	document.getElementById('confirmGroupButton').setAttribute('data-dismiss', '');
+	document.getElementById('confirmGroupButton').innerHTML = 'Add to group';
+	document.getElementById('confirmGroupButton').setAttribute('style', 'display:show');
+	$.ajax({ type: "GET",
+		url: BASE_PATH+"/public/ajax/profiledb.php",
+		data: { p: 'getGroupMemberAdd', group_id: id },
+		async: false,
+		success : function(s)
+		{
+			for (var x = 0; x < s.length; x++) {
+				document.getElementById('addGroup').innerHTML += '<option value="'+s[x].id+'">'+s[x].username+'</option>';
+			}
+		}
+	});
 }
 
-function deleteGroup(){
+function confirmAddUser(id) {
+	if (document.querySelector("select").selectedOptions.length > 0) {
+		var result = 0;
+		//	Add request to pending DB table
+		$.ajax({ type: "GET",
+			url: BASE_PATH+"/public/ajax/profiledb.php",
+			data: { p: 'addGroupMember', group_id: id, user_id: document.querySelector("select").selectedOptions[0].value },
+			async: false,
+			success : function(s)
+			{
+				result = s;
+			}
+		});
+		document.getElementById('groupModalDiv').innerHTML = '';
+		document.getElementById('confirmGroupButton').setAttribute('onClick', '');
+		document.getElementById('confirmGroupButton').setAttribute('style', 'display:none');
+		document.getElementById('cancelGroupButton').innerHTML = 'OK';
+		if (result == 0) {
+			document.getElementById('groupLabel').innerHTML ='Request did not process, please try again.';
+		}else{
+			document.getElementById('groupLabel').innerHTML ='User has been added to your group!';
+		}
+	}
+}
+
+function deleteGroup(id){
+	$('#groupModal').modal({
+		show: true
+	});
+	document.getElementById('myModalLabel').innerHTML = 'Delete group';
+	document.getElementById('groupLabel').innerHTML ='Are you sure you want to delete group id: '+id;
 	
+	document.getElementById('confirmGroupButton').innerHTML = 'Delete';
+	document.getElementById('confirmGroupButton').setAttribute('onClick', 'confirmDeleteGroup('+id+')');
+	document.getElementById('confirmGroupButton').setAttribute('style', 'display:show');
+}
+
+function confirmDeleteGroup(id) {
+	$.ajax({ type: "GET",
+		url: BASE_PATH+"/public/ajax/profiledb.php",
+		data: { p: 'deleteGroup', group_id: id },
+		async: false,
+		success : function(s)
+		{
+		}
+	});
+	
+	document.getElementById('st_search_groups').remove();
+	document.getElementById('st_label_groups').remove();
+	document.getElementById('st_num_search_groups').remove();
+	document.getElementById('st_pagination_groups').remove();
+	obtainGroups();
 }
 
 function obtainProfileInfo(){
@@ -258,7 +328,7 @@ function requestJoinGroup(){
 		{
 			console.log(s);
 			for (var x = 0; x < s.length; x++) {
-				document.getElementById('joinGroup').innerHTML += '<option>'+s[x].name+'</option>';
+				document.getElementById('joinGroup').innerHTML += '<option value="'+s[x].id+'">'+s[x].name+'</option>';
 			}
 		}
 	});
@@ -270,7 +340,7 @@ function submitJoinRequest(){
 		//	Add request to pending DB table
 		$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/profiledb.php",
-			data: { p: 'sendJoinGroupRequest', group: document.querySelector("select").selectedOptions[0].innerHTML },
+			data: { p: 'sendJoinGroupRequest', group_id: document.querySelector("select").selectedOptions[0].value },
 			async: false,
 			success : function(s)
 			{

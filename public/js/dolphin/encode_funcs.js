@@ -1064,8 +1064,8 @@ function getTreatmentJson(){
 		}
 		
 		if (sample_info[x].treatment_uuid != null && treatment_ids.indexOf(sample_info[x].sid) == -1) {
-			treat_json_patch += '{"aliases":["' + experiment_info[0].lab + ':' + sample_info[x].source + '"],';
-			treat_json_patch += '"treatment_term_name":"Lipopolysaccharide",';
+			//treat_json_patch += '{"aliases":["' + experiment_info[0].lab + ':' + sample_info[x].source + '"],';
+			treat_json_patch += '{"treatment_term_name":"Lipopolysaccharide",';
 			treat_json_patch += '"treatment_term_id":"CHEBI:16412",';
 			treat_json_patch += '"treatment_type":"infection",';
 			treat_json_patch += '"concentration":100,';

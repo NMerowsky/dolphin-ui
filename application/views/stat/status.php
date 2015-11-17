@@ -50,6 +50,32 @@
 				  </div>
 				</div>
 			</div><!-- End logging modal -->
+			<div class="modal fade" id="groupsModal" tabindex="-1" role="dialog" aria-labelledby="myModalGroups" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					  <h4 class="modal-title" id="myModalGroups"></h4>
+					</div>
+					<form name="logForm" role="form" method="post">
+						<div class="modal-body" style="overflow:scroll">
+							<fieldset>
+								<div class="form-group">
+									<label id="groupsLabel"></label>
+									<br>
+									<div id="groupsDiv">
+									</div>
+								</div>
+							</fieldset>   
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="confirmGroupsButton" class="btn btn-primary" data-dismiss="">Confirm</button>
+							<button type="button" id="cancelGroupsButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						</div>
+					</form>
+				  </div>
+				</div>
+			</div><!-- End groups modal -->
 			<div class="modal fade" id="permsModal" tabindex="-1" role="dialog" aria-labelledby="myModalPerms" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
@@ -62,20 +88,39 @@
 							<fieldset>
 								<div class="form-group">
 									<label id="permsLabel"></label>
-									<br>
-									<div id="permsDiv">
-									</div>
+									<div class="form-group">
+											<label for="Group">Who can see?</label>
+											<div class="radio">
+												<label class="">
+													<input type="radio" name="security_id" id="only me" value="3" style="position: absolute;">
+													&nbsp;only me
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="security_id" id="only my group" value="15" style="position: absolute;">
+													&nbsp;only my group
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="security_id" id="everyone" value="32" style="position: absolute;">
+													&nbsp;everyone
+												</label>
+											</div>
+											<p class="help-block">Please select the security credentials for this import</p>
+										</div>
 								</div>
 							</fieldset>   
 						</div>
 						<div class="modal-footer">
-							<button type="button" id="confirmPermsButton" class="btn btn-primary" data-dismiss="">Confirm</button>
+							<button type="button" id="confirmPermsButton" class="btn btn-primary" data-dismiss="modal">Confirm</button>
 							<button type="button" id="cancelPermsButton" class="btn btn-default" data-dismiss="modal">Cancel</button>
 						</div>
 					</form>
 				  </div>
 				</div>
-			</div><!-- End perms modal -->	
+			</div><!-- End perms modal -->
 				<section class="content-header">
 					<h1>
 						NGS Run Status

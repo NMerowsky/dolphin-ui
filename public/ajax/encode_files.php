@@ -117,14 +117,17 @@ foreach($file_query as $fq){
 		}else if($fq->file_type = 'bam'){
 			//	BAM
 			$data["file_format"] = 'bam';
+			$data['assembly'] = "hg19";
 			$data["aliases"] = array($my_lab.'":"step7_'.end(explode("/",$fn)));
 		}else if($fq->file_type = 'bigwig'){
 			//	BIGWIG
 			$data["file_format"] = 'bigWig';
+			$data['assembly'] = "hg19";
 			$data["aliases"] = array($my_lab.'":"step8_'.end(explode("/",$fn)));
 		}else if($fq->file_type = 'tsv'){
 			//	TSV
 			$data["file_format"] = 'tsv';
+			$data['assembly'] = "hg19";
 			$data["aliases"] = array($my_lab.':step9_'.end(explode("/",$fn)));
 		}
 		$gzip_types = array(

@@ -1148,7 +1148,7 @@ function getEncodeUUID(json_name, uuid){
 }
 
 function encodeFilePost(type){
-	
+	console.log(biosample_ids);
 	$.ajax({ type: "GET",
 		url: BASE_PATH + "/public/ajax/encode_files.php",
 		data: { sample_id: biosample_ids[0], type: type, experiment: experiment_accs[0], replicate: replicate_uuids[0] },
@@ -1402,7 +1402,7 @@ function encodePost(subType){
 	if (subType == "patch" && experiment_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('experiments', experiment_pre_json[1], subType, "experiment", "ngs_samples");
 	}
-	
+	/*
 	//	TREATMENT SUBMISSION
 	if (treatment_pre_json[0] != "[]") {
 		responseOutput += encodeSubmission('treatments', treatment_pre_json[0], "post", "treatment", "ngs_source");
@@ -1410,7 +1410,7 @@ function encodePost(subType){
 	if (subType == "patch" && treatment_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('treatments', treatment_pre_json[1], subType, "treatment", "ngs_source");
 	}
-	
+	*/
 	//	BIOSAMPLE SUBMISSION
 	if (biosample_pre_json[0] != "[]") {
 		responseOutput += encodeSubmission('biosamples', biosample_pre_json[0], "post", "biosample", "ngs_samples");
@@ -1426,7 +1426,7 @@ function encodePost(subType){
 	if (subType == "patch" && library_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('libraries', library_pre_json[1], subType, "library", "ngs_samples");
 	}
-	
+	/*
 	//	ANTIBODY_LOT SUBMISSION
 	if (antibody_lot_pre_json[0] != "[]") {
 		responseOutput += encodeSubmission('antibodies', antibody_lot_pre_json[0], "post", "antibody_lot", "ngs_antibody_target");
@@ -1434,7 +1434,7 @@ function encodePost(subType){
 	if (subType == "patch" && antibody_lot_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('antibodies', antibody_lot_pre_json[1], subType, "antibody_lot", "ngs_antibody_target");
 	}
-	
+	*/
 	//	REPLICATE SUBMISSION
 	if (replicate_pre_json[0] != "[]") {
 		responseOutput += encodeSubmission('replicate', replicate_pre_json[0], "post", "replicate", "ngs_samples");

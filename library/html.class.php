@@ -619,9 +619,10 @@ e range"><i class="fa fa-calendar"></i></button>
 						<li><a name="send_to_status_button" onClick="sendToStatus()">Pipeline Status</a></li>
 						<li class="divider"></li>
 						<li><a name="export_excel_button" onClick="exportExcel()">Export to Excel</a></li>';
-	if($_SESSION['uid'] == 1){
+	if($_SESSION['uid'] == 1 || $_SESSION['uid'] == 205){
 							#<li><a name="send_to_NCBI_button" onClick="" disabled>Send to NCBI</a></li>
-		$html.= 			'<li><a name="send_to_ENCODE_button" onClick="checkForEncodeSubmission()" disabled>Send to ENCODE</a></li>';
+		$html.= 			'<li class="divider"></li>
+							<li><a name="send_to_ENCODE_button" onClick="checkForEncodeSubmission()">Send to ENCODE</a></li>';
 	}
 	$html.=				'<li class="divider"></li>
 						<li><a name="change_group" onClick="changeDataGroup(this.name)" disabled>Change Experiment Group</a></li>

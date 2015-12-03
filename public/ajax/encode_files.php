@@ -180,7 +180,7 @@ foreach($file_query as $fq){
 									'broadPeak' => array('-type=bigBed6+3', $chromInfo, '-as='.$encValData.'/as/broadPeak.as'),
 									'gappedPeak' => array('-type=bigBed12+3', $chromInfo, '-as='.$encValData.'/as/gappedPeak.as'),
 									'narrowPeak' => array('-type=bigBed6+4', $chromInfo, '-as='.$encValData.'/as/narrowPeak.as'),
-									'bedRnaElements' => array('-type=bed6+3', $chromInfo, '-as=%'.$encValData.'/as/bedRnaElements.as'),
+									'bedRnaElements' => array('-type=bed6+3', $chromInfo, '-as='.$encValData.'/as/bedRnaElements.as'),
 									'bedExonScore' => array('-type=bigBed6+3', $chromInfo, '-as='.$encValData.'/as/bedExonScore.as'),
 									'bedRrbs' => array('-type=bigBed9+2', $chromInfo, '-as='.$encValData.'/as/bedRrbs.as'),
 									'enhancerAssay' => array('-type=bigBed9+1', $chromInfo, '-as='.$encValData.'/as/enhancerAssay.as'),
@@ -209,6 +209,7 @@ foreach($file_query as $fq){
 		);
 		
 		$validate_args = $validate_map[$data['file_format']][null];
+		echo json_encode($validate_args);
 		
 		$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
 		
@@ -237,9 +238,9 @@ foreach($file_query as $fq){
 		$item = $body->{'@graph'}[0];
 		
 		if(end($file_names) == $fn){
-			echo $response->body;
+			//echo $response->body;
 		}else{
-			echo $response->body . ",";	
+			//echo $response->body . ",";	
 		}
 		
 		####################
@@ -247,13 +248,9 @@ foreach($file_query as $fq){
 		
 		$creds = $item->{'upload_credentials'};
 		
-		//var_dump($creds);
-		
-		$envUpdate = 'AWS_ACCESS_KEY_ID="' . $creds->{'access_key'} . '" ;' .
-			'AWS_SECRET_ACCESS_KEY="' . $creds->{'secret_key'} . '" ;' .
-			'AWS_SECURITY_TOKEN="' . $creds->{'session_token'} . '" ;';
-		
-		//var_dump($envUpdate);
+		$envUpdate = 'AWS_ACCESS_KEY_ID=' . $creds->{'access_key'} . ' ;' .
+			'AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'} . ' ;' .
+			'AWS_SECURITY_TOKEN=' . $creds->{'session_token'} . ' ;';
 		
 		$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
 		pclose($AWS_COMMAND_KEY);	

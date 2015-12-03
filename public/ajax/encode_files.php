@@ -24,8 +24,12 @@ $experiment_info = json_decode($query->queryTable("
 	WHERE ngs_experiment_series.id =
 	(SELECT series_id FROM ngs_samples WHERE id = $sample_id)"));
 $file_query = json_decode($query->queryTable("
-	SELECT id, dir_id, run_id, sample_id, file_name, file_type, file_md5, file_uuid, file_acc
+	SELECT ngs_file_submissions.id, ngs_file_submissions.dir_id, ngs_file_submissions.run_id,
+	ngs_file_submissions.sample_id, ngs_file_submissions.file_name, ngs_file_submissions.file_type,
+	ngs_file_submissions.file_md5, ngs_file_submissions.file_uuid, ngs_file_submissions.file_acc, outdir
 	FROM ngs_file_submissions
+	LEFT JOIN ngs_runparams
+	ON ngs_runparams.id = ngs_file_submissions.run_id
 	WHERE sample_id = " . $sample_id ));
 $dir_query=json_decode($query->queryTable("
 	SELECT fastq_dir, backup_dir, amazon_bucket
@@ -56,11 +60,18 @@ foreach($file_query as $fq){
 	$file_names = explode(",",$fq->file_name);
 	foreach($file_names as $fn){
 		//File path
-		if(substr($dir_query[0]->backup_dir, -1) == '/'){
-			$file_size = filesize($dir_query[0]->backup_dir . $fn);
+		if($fq->file_type = 'fastq' && strpos($fn, "/") == false){
+			$directory = $dir_query[0]->backup_dir;
+			if(substr($directory, -1) != '/'){
+				$directory = $directory . "/";
+			}
 		}else{
-			$file_size = filesize($dir_query[0]->backup_dir . "/" . $fn);
+			$directory = $fq->outdir;
+			if(substr($directory, -1) != '/'){
+				$directory = $directory . "/";
+			}
 		}
+		$file_size = filesize($directory . $fn);
 		//File checksum
 		if(end($file_names) == $fn){
 			$md5sum = end(explode(",",$fq->file_md5));
@@ -75,7 +86,7 @@ foreach($file_query as $fq){
 			"output_type" => "reads",
 			"read_length" => 101,
 			"platform" => "ENCODE:HiSeq2000",
-			"submitted_file_name" => $fn,
+			"submitted_file_name" => end(explode("/",$fn)),
 			"lab" => $my_lab,
 			"award" => $my_award,
 		);
@@ -90,31 +101,31 @@ foreach($file_query as $fq){
 				$data["file_format"] = 'fastq';
 				$data["run_type"] = "paired-ended";
 				if(end($file_names) == $fn){
-					$data["aliases"] = array($my_lab.':'.$step.'_p2_'.$fn);
+					$data["aliases"] = array($my_lab.':'.$step.'_p2_'.end(explode("/",$fn)));
 					$data["paired_end"] = '2';
 					$data["paired_with"] = $my_lab.':'.$step.'_p1_'.$file_names[0];
 				}else{
-					$data["aliases"] = array($my_lab.':'.$step.'_p1_'.$fn);
+					$data["aliases"] = array($my_lab.':'.$step.'_p1_'.end(explode("/",$fn)));
 					$data["paired_end"] = '1';
 				}
 			}else if (count($file_names) == 1){
 				//	FASTQ SINGLE
 				$data["file_format"] = 'fastq';
 				$data["run_type"] = "single-ended";
-				$data["aliases"] = array($my_lab.':'.$step.'_'.$fn);
+				$data["aliases"] = array($my_lab.':'.$step.'_'.end(explode("/",$fn)));
 			}
 		}else if($fq->file_type = 'bam'){
 			//	BAM
 			$data["file_format"] = 'bam';
-			$data["aliases"] = array($my_lab.'":"step7_'.$fn);
+			$data["aliases"] = array($my_lab.'":"step7_'.end(explode("/",$fn)));
 		}else if($fq->file_type = 'bigwig'){
 			//	BIGWIG
 			$data["file_format"] = 'bigWig';
-			$data["aliases"] = array($my_lab.'":"step8_'.$fn);
+			$data["aliases"] = array($my_lab.'":"step8_'.end(explode("/",$fn)));
 		}else if($fq->file_type = 'tsv'){
 			//	TSV
 			$data["file_format"] = 'tsv';
-			$data["aliases"] = array($my_lab.':step9_'.$fn);
+			$data["aliases"] = array($my_lab.':step9_'.end(explode("/",$fn)));
 		}
 		$gzip_types = array(
 			"CEL",
@@ -244,11 +255,11 @@ foreach($file_query as $fq){
 		$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
 		pclose($AWS_COMMAND_KEY);	
 		
-		$cmd_aws_launch = "aws s3 cp $path ".$creds->{'upload_url'};
+		$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
 		$AWS_COMMAND_DO = popen( $cmd, "r" );
 		pclose($AWS_COMMAND_DO);
 	}
-	/*
+	
 	if(isset($inserted)){
 		$file_update = json_decode($query->runSQL("
 		UPDATE ngs_file_submissions
@@ -256,7 +267,6 @@ foreach($file_query as $fq){
 		`file_uuid` = '" . implode(",",$file_uuids) . "' 
 		WHERE id = " . $fq->id));
 	}
-	*/
 }
 
 ?>

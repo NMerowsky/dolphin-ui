@@ -210,58 +210,63 @@ foreach($file_query as $fq){
 		$validate_args = $validate_map[$data['file_format']][null];
 		
 		$cmd = "../php/encodeValidate/validateFiles " . $validate_args[0] . " " . $directory . $fn;
-		echo $cmd;
 		$VALIDATE = popen( $cmd, "r" );
 		$VALIDATE_READ =fread($VALIDATE, 2096);
 		pclose($VALIDATE);
 		
-		$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
-		
-		$server_start = "https://ggr-test.demo.encodedcc.org/";
-		//$server_start = "https://test.encodedcc.org/";
-		$server_end = "/";	
-		
-		$auth = array('auth' => array($encoded_access_key, $encoded_secret_access_key));
-		if($fq->file_acc == NULL){
-			$url = $server_start . 'file' . $server_end;
-			$response = Requests::post($url, $headers, json_encode($data), $auth);
-			$body = json_decode($response->body);
-			$inserted = true;
-			array_push($file_accs, $body->{'@graph'}[0]->{'accession'});
-			array_push($file_uuids, $body->{'@graph'}[0]->{'uuid'});
-		}else{
-			if(end($file_names) == $fn){
-				$url = $server_start . 'file/' . end(explode(",",$fq->file_acc)) . $server_end;
+		if($VALIDATE_READ == "Error count 0\n"){
+			//	File Validation Passed
+			$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
+			
+			$server_start = "https://ggr-test.demo.encodedcc.org/";
+			//$server_start = "https://test.encodedcc.org/";
+			$server_end = "/";	
+			
+			$auth = array('auth' => array($encoded_access_key, $encoded_secret_access_key));
+			if($fq->file_acc == NULL){
+				$url = $server_start . 'file' . $server_end;
+				$response = Requests::post($url, $headers, json_encode($data), $auth);
+				$body = json_decode($response->body);
+				$inserted = true;
+				array_push($file_accs, $body->{'@graph'}[0]->{'accession'});
+				array_push($file_uuids, $body->{'@graph'}[0]->{'uuid'});
 			}else{
-				$url = $server_start . 'file/' . explode(",",$fq->file_acc)[0] . $server_end;
+				if(end($file_names) == $fn){
+					$url = $server_start . 'file/' . end(explode(",",$fq->file_acc)) . $server_end;
+				}else{
+					$url = $server_start . 'file/' . explode(",",$fq->file_acc)[0] . $server_end;
+				}
+				$response = Requests::patch($url, $headers, json_encode($data), $auth);
+				$body = json_decode($response->body);
 			}
-			$response = Requests::patch($url, $headers, json_encode($data), $auth);
-			$body = json_decode($response->body);
-		}
-		
-		$item = $body->{'@graph'}[0];
-		
-		if(end($file_names) == $fn){
-			//echo $response->body;
+			
+			$item = $body->{'@graph'}[0];
+			
+			if(end($file_names) == $fn){
+				echo $response->body;
+			}else{
+				echo $response->body . ",";	
+			}
+			
+			####################
+			# POST file to S3
+			
+			$creds = $item->{'upload_credentials'};
+			
+			$envUpdate = 'AWS_ACCESS_KEY_ID=' . $creds->{'access_key'} . ' ;' .
+				'AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'} . ' ;' .
+				'AWS_SECURITY_TOKEN=' . $creds->{'session_token'} . ' ;';
+			
+			$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
+			pclose($AWS_COMMAND_KEY);
+			
+			$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
+			$AWS_COMMAND_DO = popen( $cmd, "r" );
+			pclose($AWS_COMMAND_DO);
 		}else{
-			//echo $response->body . ",";	
+			//	File Validation Failed
+			
 		}
-		
-		####################
-		# POST file to S3
-		
-		$creds = $item->{'upload_credentials'};
-		
-		$envUpdate = 'AWS_ACCESS_KEY_ID=' . $creds->{'access_key'} . ' ;' .
-			'AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'} . ' ;' .
-			'AWS_SECURITY_TOKEN=' . $creds->{'session_token'} . ' ;';
-		
-		$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
-		pclose($AWS_COMMAND_KEY);
-		
-		$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
-		$AWS_COMMAND_DO = popen( $cmd, "r" );
-		pclose($AWS_COMMAND_DO);
 	}
 	
 	if(isset($inserted)){

@@ -1147,11 +1147,11 @@ function getEncodeUUID(json_name, uuid){
 	return response;
 }
 
-function encodeFilePost(type){
+function encodeFilePost(){
 	console.log(biosample_ids);
 	$.ajax({ type: "GET",
 		url: BASE_PATH + "/public/ajax/encode_files.php",
-		data: { sample_id: biosample_ids[0], type: type, experiment: experiment_accs[0], replicate: replicate_uuids[0] },
+		data: { sample_id: biosample_ids[0], experiment: experiment_accs[0], replicate: replicate_uuids[0] },
 		async: false,
 		success : function(s)
 		{

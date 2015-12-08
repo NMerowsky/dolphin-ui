@@ -8,7 +8,6 @@ Requests::register_autoloader();
 $query = new dbfuncs();
 
 if (isset($_GET['sample_id'])){$sample_id = $_GET['sample_id'];}
-if (isset($_GET['type'])){$type = $_GET['type'];}
 if (isset($_GET['experiment'])){$experiment = $_GET['experiment'];}
 if (isset($_GET['replicate'])){$replicate = $_GET['replicate'];}
 
@@ -209,14 +208,12 @@ foreach($file_query as $fq){
 		);
 		
 		$validate_args = $validate_map[$data['file_format']][null];
-		echo json_encode($validate_args);
 		
-		$cmd = "../php/encodeValidate/validateFiles $validate_args " . $directory . $fn; 
+		$cmd = "../php/encodeValidate/validateFiles " . $validate_args[0] . " " . $directory . $fn;
+		echo $cmd;
 		$VALIDATE = popen( $cmd, "r" );
 		$VALIDATE_READ =fread($VALIDATE, 2096);
-		echo $VALIDATE_READ;
 		pclose($VALIDATE);
-		
 		
 		$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
 		

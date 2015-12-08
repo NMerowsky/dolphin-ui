@@ -211,6 +211,13 @@ foreach($file_query as $fq){
 		$validate_args = $validate_map[$data['file_format']][null];
 		echo json_encode($validate_args);
 		
+		$cmd = "../php/encodeValidate/validateFiles $validate_args " . $directory . $fn; 
+		$VALIDATE = popen( $cmd, "r" );
+		$VALIDATE_READ =fread($VALIDATE, 2096);
+		echo $VALIDATE_READ;
+		pclose($VALIDATE);
+		
+		
 		$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
 		
 		$server_start = "https://ggr-test.demo.encodedcc.org/";
@@ -253,7 +260,7 @@ foreach($file_query as $fq){
 			'AWS_SECURITY_TOKEN=' . $creds->{'session_token'} . ' ;';
 		
 		$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
-		pclose($AWS_COMMAND_KEY);	
+		pclose($AWS_COMMAND_KEY);
 		
 		$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
 		$AWS_COMMAND_DO = popen( $cmd, "r" );

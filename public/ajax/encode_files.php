@@ -219,6 +219,7 @@ foreach($file_query as $fq){
 			$headers = array('Content-Type' => 'application/json', 'Accept' => 'application/json');
 			
 			$server_start = "https://ggr-test.demo.encodedcc.org/";
+			//$server_start = "https://www.encodeproject.org/";
 			//$server_start = "https://test.encodedcc.org/";
 			$server_end = "/";	
 			
@@ -243,9 +244,9 @@ foreach($file_query as $fq){
 			$item = $body->{'@graph'}[0];
 			
 			if(end($file_names) == $fn){
-				echo $response->body;
+				//echo $response->body;
 			}else{
-				echo $response->body . ",";	
+				//echo $response->body . ",";	
 			}
 			
 			####################
@@ -253,19 +254,18 @@ foreach($file_query as $fq){
 			
 			$creds = $item->{'upload_credentials'};
 			
-			$envUpdate = 'AWS_ACCESS_KEY_ID=' . $creds->{'access_key'} . ' ;' .
-				'AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'} . ' ;' .
-				'AWS_SECURITY_TOKEN=' . $creds->{'session_token'} . ' ;';
-			
-			$AWS_COMMAND_KEY = popen( $envUpdate, "r" );
-			pclose($AWS_COMMAND_KEY);
+			putenv('AWS_ACCESS_KEY_ID=' . $creds->{'access_key'});
+			putenv('AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'});
+			putenv('AWS_SECURITY_TOKEN=' . $creds->{'session_token'});
 			
 			$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
-			$AWS_COMMAND_DO = popen( $cmd, "r" );
+			$AWS_COMMAND_DO = popen( $cmd_aws_launch, "r" );
+			$AWS_COMMAND_READ =fread($AWS_COMMAND_DO, 2096);
+			echo json_encode($creds);
 			pclose($AWS_COMMAND_DO);
 		}else{
 			//	File Validation Failed
-			
+			echo json_encode('"error":"$fn not validated');
 		}
 	}
 	

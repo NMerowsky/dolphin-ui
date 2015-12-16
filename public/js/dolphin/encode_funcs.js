@@ -454,8 +454,7 @@ function getSampleJson(){
 				sample_json += '"lab":"'+experiment_info[0].lab+'",';
 			}
 			//	Treatments
-			//	TBD
-			
+			sample_json += '"treatments":["' + experiment_info[0].lab + ':' + sample_info[x].source + '"],'
 			//	Date Obtained
 			var lane_id_pos = -1;
 			for(var y = 0; y < lane_info.length; y++){
@@ -522,8 +521,7 @@ function getSampleJson(){
 				sample_json_patch += '"lab":"'+experiment_info[0].lab+'",';
 			}
 			//	Treatments
-			//	TBD
-			
+			sample_json_patch += '"treatments":["' + experiment_info[0].lab + ':' + sample_info[x].source + '"],'
 			//	Date Obtained
 			var lane_id_pos = -1;
 			for(var y = 0; y < lane_info.length; y++){
@@ -596,12 +594,10 @@ function getLibraryJson(){
 			}
 			
 			//	Depleted_in_term_name
-			/*
-			if (sample_info[x].molecule != undefined) {
-				lib_json += '"depleted_in_term_name":"' + sample_info[x].molecule + '",';
+			if (sample_info[x].molecule.toLowerCase().indexOf('rrna') > -1) {
+				lib_json += '"depleted_in_term_name":["rRNA"],';
+				lib_json += '"depleted_in_term_id":"SO:0000252",';
 			}
-			*/
-			//	Depleted_in_term_id
 			
 			//	Search for Molecule within ontology db
 			
@@ -766,9 +762,9 @@ function getReplicateJson() {
 			}
 			//	Library
 			if (experiment_info[0].lab != null && sample_info[x].samplename != null) {
-				rep_json += '"library":"'+experiment_info[0].lab +':'+sample_info[x].samplename+'_lib"';
+				rep_json += '"library":"'+experiment_info[0].lab +':'+sample_info[x].samplename+'_lib",';
 			}
-			//rep_json += '"antibody":""'
+			rep_json += '"antibody":"ENCAB969VGQ"'
 			rep_json += '}';
 			var comma_bool = false;
 			for(var z = x + 1; z < sample_info.length; z++){
@@ -823,9 +819,9 @@ function getReplicateJson() {
 			}
 			//	Library
 			if (experiment_info[0].lab != null && sample_info[x].samplename != null) {
-				rep_json_patch += '"library":"'+experiment_info[0].lab +':'+sample_info[x].samplename+'_lib"';
+				rep_json_patch += '"library":"'+experiment_info[0].lab +':'+sample_info[x].samplename+'_lib",';
 			}
-			//rep_json += '"antibody":""'
+			rep_json_patch += '"antibody":"ENCAB969VGQ"'
 			rep_json_patch += '}';
 			var comma_bool = false;
 			for(var z = x + 1; z < sample_info.length; z++){
@@ -1207,7 +1203,6 @@ function encodeSubmission(name, json, subType, type, table){
 			}
 		});
 	}else{
-		accession = '';
 		console.log(accs.toString());
 		$.ajax({ type: "GET",
 			url: BASE_PATH + "/public/ajax/encode_patch.php",
@@ -1402,11 +1397,11 @@ function encodePost(subType){
 	if (subType == "patch" && experiment_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('experiments', experiment_pre_json[1], subType, "experiment", "ngs_samples");
 	}
-	/*
 	//	TREATMENT SUBMISSION
 	if (treatment_pre_json[0] != "[]") {
 		responseOutput += encodeSubmission('treatments', treatment_pre_json[0], "post", "treatment", "ngs_source");
 	}
+	/*
 	if (subType == "patch" && treatment_pre_json[1] != "[]") {
 		responseOutput += encodeSubmission('treatments', treatment_pre_json[1], subType, "treatment", "ngs_source");
 	}

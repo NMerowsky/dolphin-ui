@@ -100,11 +100,11 @@ foreach($file_query as $fq){
 				$data["file_format"] = 'fastq';
 				$data["run_type"] = "paired-ended";
 				if(end($file_names) == $fn){
-					$data["aliases"] = array($my_lab.':'.$step.'_p2_'.end(explode("/",$fn)));
+					$data["aliases"] = array($my_lab.':'.$step.'_p22_'.end(explode("/",$fn)));
 					$data["paired_end"] = '2';
-					$data["paired_with"] = $my_lab.':'.$step.'_p1_'.$file_names[0];
+					$data["paired_with"] = $my_lab.':'.$step.'_p11_'.$file_names[0];
 				}else{
-					$data["aliases"] = array($my_lab.':'.$step.'_p1_'.end(explode("/",$fn)));
+					$data["aliases"] = array($my_lab.':'.$step.'_p11_'.end(explode("/",$fn)));
 					$data["paired_end"] = '1';
 				}
 			}else if (count($file_names) == 1){
@@ -224,7 +224,7 @@ foreach($file_query as $fq){
 			$server_end = "/";	
 			
 			$auth = array('auth' => array($encoded_access_key, $encoded_secret_access_key));
-			if($fq->file_acc == NULL){
+			if($fq->file_acc == null){
 				$url = $server_start . 'file' . $server_end;
 				$response = Requests::post($url, $headers, json_encode($data), $auth);
 				$body = json_decode($response->body);
@@ -244,9 +244,9 @@ foreach($file_query as $fq){
 			$item = $body->{'@graph'}[0];
 			
 			if(end($file_names) == $fn){
-				//echo $response->body;
+				echo $response->body;
 			}else{
-				//echo $response->body . ",";	
+				echo $response->body . ",";	
 			}
 			
 			####################
@@ -254,14 +254,9 @@ foreach($file_query as $fq){
 			
 			$creds = $item->{'upload_credentials'};
 			
-			putenv('AWS_ACCESS_KEY_ID=' . $creds->{'access_key'});
-			putenv('AWS_SECRET_ACCESS_KEY=' . $creds->{'secret_key'});
-			putenv('AWS_SECURITY_TOKEN=' . $creds->{'session_token'});
-			
-			$cmd_aws_launch = "aws s3 cp ".$directory.$fn ." ".$creds->{'upload_url'};
+			$cmd_aws_launch = "python ../../scripts/encode_file_submission.py ".$directory.$fn ." ".$creds->{'access_key'} . " " . $creds->{'secret_key'} . " " .$creds->{'upload_url'} . " " . $creds->{'session_token'} . " & ";
 			$AWS_COMMAND_DO = popen( $cmd_aws_launch, "r" );
 			$AWS_COMMAND_READ =fread($AWS_COMMAND_DO, 2096);
-			echo json_encode($creds);
 			pclose($AWS_COMMAND_DO);
 		}else{
 			//	File Validation Failed
@@ -269,7 +264,7 @@ foreach($file_query as $fq){
 		}
 	}
 	
-	if(isset($inserted)){
+	if(isset($inserted) && implode(",",$file_accs) != ","){
 		$file_update = json_decode($query->runSQL("
 		UPDATE ngs_file_submissions
 		SET `file_acc` = '" . implode(",",$file_accs) . "',

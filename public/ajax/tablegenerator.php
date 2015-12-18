@@ -5,7 +5,7 @@ ini_set('report_errors','on');
 
 require_once("../../config/config.php");
 require_once("../../includes/dbfuncs.php");
-if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
+//if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 $query = new dbfuncs();
 
 if (isset($_GET['p'])){$p = $_GET['p'];}

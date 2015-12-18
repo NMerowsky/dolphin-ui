@@ -15,7 +15,7 @@ php:
   # aliased to a recent 5.6.x version
   - 5.6
   # aliased to a recent hhvm version
-  - hhvm
+  #- hhvm
 
 env:
   - mysql

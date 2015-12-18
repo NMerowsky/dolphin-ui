@@ -113,9 +113,8 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$out_string = $ngsimport->finalizeExcel($worksheet, $sheetData);
+			var_dump($out_string);
 		}
-		
-		var_dump($ngsimport);
 	}
 	
 	/*
@@ -138,6 +137,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->checkAlphaNumWithAddChars('-', 'A-1'), true);
 	}
+	
+	/*
+	 *	function:		testCheckAlphaNumWithAddChars
+	 *	description:	test the chec
 	
 	############################################## OTHER FUNCTIONS #################################################
 	

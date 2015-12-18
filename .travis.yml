@@ -43,7 +43,9 @@ before_script:
   - mysql < db/2015_10_27_tablegen_sidebar.sql
   - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
 
-script: phpunit unitTesting/ngsimport_unittest.php
+script:
+  - phpunit unitTesting/ngsimport_unittest.php
+  - phpunit unitTesting/ajax/tablegenerator_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT id FROM ngs_samples WHERE name = 'example_sample_1';" -uroot

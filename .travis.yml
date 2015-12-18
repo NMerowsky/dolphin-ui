@@ -45,7 +45,7 @@ before_script:
 
 script:
   - phpunit unitTesting/ngsimport_unittest.php
-  -	cd public/ajax/
+  -	cd public/ajax
   - phpunit ../../unitTesting/ajax/tablegenerator_unittest.php
 
 after_script:

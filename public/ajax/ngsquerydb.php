@@ -71,7 +71,7 @@ else if ($p == 'grabReload')
 	if (isset($_GET['groupID'])){$groupID = $_GET['groupID'];}
 
 	$data=$query->queryTable("
-	SELECT outdir, json_parameters, run_name, run_description
+	SELECT outdir, json_parameters, run_name, run_description, group_id, perms
 	FROM ngs_runparams
 	WHERE ngs_runparams.id = $groupID $andPerms
 	");

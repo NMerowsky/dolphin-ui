@@ -81,6 +81,8 @@ function grabReload(groupID){
 			jsonArray.push(s[0].outdir);
 			jsonArray.push(s[0].run_name);
 			jsonArray.push(s[0].run_description);
+			jsonArray.push(s[0].group_id);
+			jsonArray.push(s[0].perms);
 		}
 	});
 	return jsonArray

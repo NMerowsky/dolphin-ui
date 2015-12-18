@@ -8,7 +8,6 @@ $(function() {
 	if (typeof(initialSubmission) != undefined && window.location.href.split("/")[window.location.href.split("/").length -1] == 'process') {
 		console.log(initialSubmission);
 		var initial_split = initialSubmission.split(",");
-		var json;
 		var outdir;
 		var runname;
 		var rundesc;
@@ -16,6 +15,7 @@ $(function() {
 		var experiment_series;
 		var group;
 		var perms;
+		var JSON_OBJECT = {};
 
 		//	Create the Json object
 		if (window.location.href.split("/")[window.location.href.split("/").length - 2] == 'fastlane') {
@@ -23,21 +23,28 @@ $(function() {
 			rundesc = 'Fastlane Initial Run within import: ' + initial_split[5];
 			outdir = initial_split[8] + '/initial_run';
 			
-			json = '{"genomebuild":"human,hg19"';
+			JSON_OBJECT['genomebuild'] = 'human,hg19';
 			if (initial_split[3] == 'yes') {
-				json = json + ',"spaired":"paired"';
+				JSON_OBJECT['spaired'] = 'paired';
 			}else{
-				json = json + ',"spaired":"no"';
+				JSON_OBJECT['spaired'] = 'no';
 			}
-			json = json + ',"resume":"no","fastqc":"no"';
+			JSON_OBJECT['resume'] = 'no';
+			JSON_OBJECT['fastqc'] = 'no';
 			if (initial_split[2] == 'no') {
-				json = json + ',"barcodes":"none","adapters":"none"';
+				JSON_OBJECT['barcodes'] = 'none';
+				JSON_OBJECT['adapters'] = 'none';
 			}else{
-				json = json + ',"barcodes":"distance,' + barcode_array.split(',')[0] + ':format,'+ barcode_array.split(",")[1];
-				json = json + '","adapters":"' + initial_split[initial_split.length - 3].split(" ")[1].replace(/\:/g, "__cr____cn__") + '"';
+				var barcodes = {};
+				barcodes['distance'] = barcode_array.split(',')[0];
+				barcodes['format'] = barcode_array.split(",")[1];
+				JSON_OBJECT['barcodes'] = [barcodes];
+				JSON_OBJECT['adapters'] = initial_split[initial_split.length - 3].split(" ")[1].replace(/\:/g, "__cr____cn__");
 			}
-			json = json + ',"quality":"none",';
-			json = json + '"trim":"none","split":"none","commonind":"none"}'
+			JSON_OBJECT['quality'] = 'none';
+			JSON_OBJECT['trim'] = 'none';
+			JSON_OBJECT['split'] = 'none';
+			JSON_OBJECT['commonind'] = 'none';
 			
 			var names_list = [];
 			if (initial_split[2] == 'yes') {
@@ -67,21 +74,27 @@ $(function() {
 			outdir = initial_split[1] + '/initial_run';
 			experiment_series = initial_split[0];
 			
-			json = '{"genomebuild":"human,hg19"';
+			JSON_OBJECT['genomebuild'] = 'human,hg19';
 			if (initial_split[4] == 'paired') {
-				json = json + ',"spaired":"paired"';
+				JSON_OBJECT['spaired'] = 'paired';
 			}else{
-				json = json + ',"spaired":"no"';
+				JSON_OBJECT['spaired'] = 'no';
 			}
-			json = json + ',"resume":"no","fastqc":"no",';
+			JSON_OBJECT['resume'] = 'no';
+			JSON_OBJECT['fastqc'] = 'no';
 			if (initial_split[3] == 'lane') {
-				json = json + '"barcodes":"distance,1:format,5 end read 1",';
+				var barcodes = {};
+				barcodes['distance'] = '1';
+				barcodes['format'] = '5 end read 1';
+				JSON_OBJECT['barcodes'] = [barcodes];
 			}else{
-				json = json + '"barcodes":"none",';
+				JSON_OBJECT['barcodes'] = 'none';
 			}
-			json = json + '"adapters":"none",';
-			json = json + '"quality":"none",';
-			json = json + '"trim":"none","split":"none","commonind":"none"}'
+			JSON_OBJECT['adapters'] = 'none';
+			JSON_OBJECT['quality'] = 'none';
+			JSON_OBJECT['trim'] = 'none';
+			JSON_OBJECT['split'] = 'none';
+			JSON_OBJECT['commonind'] = 'none';
 			
 			var names_list = initialNameList.split(",");
 			console.log(initial_split);
@@ -96,7 +109,7 @@ $(function() {
 			perms = initial_split[initial_split.length - 1];
 		}
 		
-		if (json != undefined && outdir != undefined && runname != undefined && rundesc != undefined) {
+		if (JSON_OBJECT != undefined && outdir != undefined && runname != undefined && rundesc != undefined) {
 			//	Check to see if runparams has already launched
 			var run_ids = [];
 			var initial_run_ids = [];
@@ -179,13 +192,13 @@ $(function() {
 								}
 							});
 						}
-							var runparamsInsert = postInsertRunparams(json, outdir, runname, rundesc, perms, group);
+							var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group);
 							console.log(runparamsInsert);
 					}
 				}
 			}else{
 				//insert new values into ngs_runparams
-				var runparamsInsert = postInsertRunparams(json, outdir, runname, rundesc, perms, group);
+				var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group);
 				console.log(runparamsInsert);
 				console.log(names_to_ids);
 				if (window.location.href.split("/")[window.location.href.split("/").length - 2] != 'fastlane') {

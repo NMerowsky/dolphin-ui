@@ -4,7 +4,7 @@
  *Ascription:
  */
 
-function postInsertRunparams(json, outputdir, name, description, perms, group){
+function postInsertRunparams(JSON_OBJECT, outputdir, name, description, perms, group){
 
    var successCheck = false;
    var runlistCheck = "";
@@ -38,10 +38,10 @@ function postInsertRunparams(json, outputdir, name, description, perms, group){
        runGroupID = 'new';
    }
 
-   if (json.indexOf('"barcodes":"none"') != -1) {
+   if (JSON_OBJECT.barcodes == 'none') {
       barcode = 0;
    }
-   
+   json = JSON.stringify(JSON_OBJECT);
    $.ajax({
            type: 	'POST',
            url: 	BASE_PATH+'/public/ajax/ngsalterdb.php',

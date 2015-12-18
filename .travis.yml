@@ -45,8 +45,7 @@ before_script:
 
 script:
   - phpunit unitTesting/ngsimport_unittest.php
-  -	cd public/ajax
-  - phpunit ../../unitTesting/ajax/tablegenerator_unittest.php
+  - phpunit unitTesting/ajax/tablegenerator_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT id FROM ngs_samples WHERE name = 'example_sample_1';" -uroot

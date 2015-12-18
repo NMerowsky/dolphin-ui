@@ -1,6 +1,8 @@
 <?php
 //	Include files needed to test ngsimport
 
+chdir('public/ajax/');
+
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples(){

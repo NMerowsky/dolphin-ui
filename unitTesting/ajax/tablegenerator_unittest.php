@@ -6,11 +6,10 @@ chdir('public/ajax/');
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples() {
-		$this->assertEquals(1,1);
 		$p = 'getTableSamples';
 		$search = 7;
 		include('tablegenerator.php');
-		$this->assertEquals(json_decode($data)->samplename,1);
+		$this->assertEquals(json_decode($data)->samplename,'example_sample_1');
 	}
 	
 	public function testGetTableRuns() {

@@ -44,7 +44,6 @@ before_script:
   - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
 
 script:
-  - phpunit unitTesting/ngsimport_unittest.php
   - phpunit unitTesting/ajax/tablegenerator_unittest.php
 
 after_script:

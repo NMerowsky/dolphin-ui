@@ -1,6 +1,6 @@
 <?php
 //	Include files needed to test ngsimport
-error_reporting(0);
+if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 chdir('public/ajax/');
 
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase

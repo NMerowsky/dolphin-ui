@@ -1,4 +1,5 @@
 <?php
+if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 //	Include files needed to test ngsimport
 include 'config/config.php';
 include 'config/inflection.php';

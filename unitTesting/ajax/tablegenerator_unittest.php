@@ -3,11 +3,12 @@
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 chdir('public/ajax/');
 
+$_GET['p'] = 'getTableSamples';
+$_GET['search'] = 1;
+$data = '@';
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples(){
-		$_GET['p'] = 'getTableSamples';
-		$_GET['search'] = 1;
 		include 'tablegenerator.php';
 		print $_GET['p'];
 		print $data;

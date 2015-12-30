@@ -9,7 +9,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(1,1);
 		$_GET['p'] = 'getTableSamples';
 		$_GET['search'] = 1;
-		include 'tablegenerator.php';
+		//include 'tablegenerator.php';
 		$this->assertEquals(1,1);
 	}
 	
@@ -17,7 +17,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(1,1);
 		$_GET['p'] = 'getTableRuns';
 		$_GET['search'] = 1;
-		include 'tablegenerator.php';
+		//include 'tablegenerator.php';
 		$this->assertEquals(1,1);
 	}
 	
@@ -26,15 +26,15 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(1,1);
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = '';
-		include 'tablegenerator.php';
+		//include 'tablegenerator.php';
 		$this->assertEquals(1,1);
 	}
 	
 	public function testSamplesWithRuns() {
 		$this->assertEquals(1,1);
 		$_GET['p'] = 'sampleWithRuns';
-		include 'tablegenerator.php';
-		$this->assertEquals(1,1);
+		//include 'tablegenerator.php';
+		$this->assertEquals(1,2);
 	}
 }
 

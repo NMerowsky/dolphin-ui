@@ -10,8 +10,8 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples(){
 		include 'tablegenerator.php';
-		print $_GET['p'];
-		print $data;
+		echo $_GET['p'];
+		echo $data;
 		$this->assertEquals($_GET['search'],1);
 	}
 	
@@ -19,8 +19,8 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTableRuns';
 		$_GET['search'] = 1;
 		$data = include 'tablegenerator.php';
-		print $_GET['p'];
-		print $data;
+		echo $_GET['p'];
+		echo $data;
 	}
 	
 	//find wkey example
@@ -28,15 +28,15 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = '';
 		$data = include 'tablegenerator.php';
-		print $_GET['p'];
-		print $data;
+		echo $_GET['p'];
+		echo $data;
 	}
 	
 	public function testSamplesWithRuns(){
 		$_GET['p'] = 'sampleWithRuns';
 		$data = include 'tablegenerator.php';
-		print $_GET['p'];
-		print $data;
+		echo $_GET['p'];
+		echo $data;
 	}
 }
 

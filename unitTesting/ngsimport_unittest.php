@@ -51,7 +51,6 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGroup() {
 		$ngsimport = new Ngsimport();
-		echo $ngsimport->getGroup('kucukura');
 		$this->assertContains($ngsimport->getGroup('kucukura'),'1');
 	}
 	

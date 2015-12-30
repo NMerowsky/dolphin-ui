@@ -3,19 +3,18 @@
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 chdir('public/ajax/');
 
-$_GET['p'] = 'getTableSamples';
-$_GET['search'] = 1;
-$data = '@';
+echo 'test';
+
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
-	public function testGetTableSamples(){
+	public function testGetTableSamples() {
 		include 'tablegenerator.php';
 		echo $_GET['p'];
 		echo $data;
 		$this->assertEquals($_GET['search'],1);
 	}
 	
-	public function testGetTableRuns(){
+	public function testGetTableRuns() {
 		$_GET['p'] = 'getTableRuns';
 		$_GET['search'] = 1;
 		$data = include 'tablegenerator.php';
@@ -24,7 +23,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	//find wkey example
-	public function testGetTableReportsList(){
+	public function testGetTableReportsList() {
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = '';
 		$data = include 'tablegenerator.php';
@@ -32,7 +31,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		echo $data;
 	}
 	
-	public function testSamplesWithRuns(){
+	public function testSamplesWithRuns() {
 		$_GET['p'] = 'sampleWithRuns';
 		$data = include 'tablegenerator.php';
 		echo $_GET['p'];

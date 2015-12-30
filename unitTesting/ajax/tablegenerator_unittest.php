@@ -7,11 +7,10 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples() {
 		$this->assertEquals(1,1);
-		$_GET['p'] = 'getTableSamples';
 		$p = 'getTableSamples';
-		$_GET['search'] = 1;
 		$search = 1;
 		include('tablegenerator.php');
+		echo $data;
 		$this->assertEquals(1,1);
 	}
 	

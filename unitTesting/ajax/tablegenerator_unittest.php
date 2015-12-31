@@ -68,7 +68,8 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testDeleteTable(){
 		$p = 'deleteTable';
-		$id = 1;
+		$id = '1';
+		$_GET['id'] = '1';
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'1');
 	}

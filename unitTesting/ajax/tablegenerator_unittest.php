@@ -38,10 +38,9 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testCreateTableFile(){
 		$p = 'createTableFile';
-		$url = '/home/travis/build/Rhaknam/dolphin-ui/public/api/getsamplevals.php?samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';
+		$url = '/home/travis/build/Rhaknam/dolphin-ui/public/api/getsamplevals.php?samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json2';
 		include('tablegenerator.php');
 		$file = json_decode($data);
-		echo $file;
 		$this->assertEquals(json_decode($data),$file);
 	}
 	

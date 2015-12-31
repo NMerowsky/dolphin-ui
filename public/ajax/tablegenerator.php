@@ -130,7 +130,7 @@ else if ($p == 'deleteTable')
 		WHERE id = $id
 		");
 	$data=json_decode($file);
-	echo $file;
+	echo $file[0]->file;
 	$handle = popen('rm ../tmp/files/'.$file[0]->file, "r");
 	pclose($handle);
 	

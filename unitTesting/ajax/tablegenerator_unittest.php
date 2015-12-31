@@ -67,7 +67,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$_GET['file'] = 'file=rsem/genes_expression_tpm.tsv';
 		$_GET['common'] = 'common=gene,transcript';
 		$_GET['key'] = 'key=gene';
-		$_GET['format'] = 'format=json';
+		$_GET['format'] = 'format=json2';
 		include('tablegenerator.php');
 		$file = json_decode($data);
 		$this->assertEquals(json_decode($data),$file);

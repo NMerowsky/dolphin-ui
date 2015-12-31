@@ -46,7 +46,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		include('tablegenerator.php');
 		$file = json_decode($data);
 		$this->assertEquals(json_decode($data),$file);
-		return $file
+		return $file;
 	}
 	
 	public function testCreateNewTable($file){

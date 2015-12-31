@@ -49,3 +49,5 @@ script:
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_runlist;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot

@@ -48,4 +48,4 @@ script:
   - phpunit unitTesting/ajax/tablegenerator_unittest.php
 
 after_script:
-  - mysql -e "use biocore; SELECT id FROM ngs_samples WHERE name = 'example_sample_1';" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot

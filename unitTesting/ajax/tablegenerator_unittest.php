@@ -13,27 +13,24 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testGetTableRuns() {
-		$this->assertEquals(1,1);
 		$_GET['p'] = 'getTableRuns';
-		$_GET['search'] = 1;
-		//include 'tablegenerator.php';
-		$this->assertEquals(1,1);
+		$_GET['search'] = 7;
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data)[0]->sample_id,7);
 	}
 	
 	//find wkey example
 	public function testGetTableReportsList() {
-		$this->assertEquals(1,1);
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = '';
-		//include 'tablegenerator.php';
-		$this->assertEquals(1,1);
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data)[0]->file,'');
 	}
 	
 	public function testSamplesWithRuns() {
-		$this->assertEquals(1,1);
 		$_GET['p'] = 'sampleWithRuns';
-		//include 'tablegenerator.php';
-		$this->assertEquals(1,1);
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data)[0]->sample_id,7);
 	}
 }
 

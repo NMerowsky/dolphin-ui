@@ -7,6 +7,8 @@ chdir('public/ajax/');
 
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
+	$file = '';
+	
 	public function testGetTableSamples() {
 		$p = 'getTableSamples';
 		$search = 7;

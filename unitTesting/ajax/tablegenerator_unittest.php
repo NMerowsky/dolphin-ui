@@ -3,7 +3,6 @@
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 $_SESSION['uid'] = 1;
 $_SESSION['user'] = 'kucukura';
-$file = '';
 chdir('public/ajax/');
 
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
@@ -47,9 +46,10 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		include('tablegenerator.php');
 		$file = json_decode($data);
 		$this->assertEquals(json_decode($data),$file);
+		return $file
 	}
 	
-	public function testCreateNewTable(){
+	public function testCreateNewTable($file){
 		$p = 'createNewTable';
 		$search = 'samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';
 		$name = 'test_table';

@@ -2,6 +2,7 @@
 //	Include files needed to test ngsimport
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 $_SESSION['uid'] = 1;
+$file = '';
 chdir('public/ajax/');
 
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
@@ -34,11 +35,18 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data)[0]->sample_id,1);
 	}
 	
+	public function testCreateTableFile(){
+		$p = 'createTableFile';
+		$url = '/home/travis/build/Rhaknam/dolphin-ui/public/api/getsamplevals.php?samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';
+		include('tablegenerator.php');
+		$file = json_decode($data);
+		$this->assertEquals(json_decode($data),$file);
+	}
+	
 	public function testCreateNewTable(){
 		$p = 'createNewTable';
 		$search = 'samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';
 		$name = 'test_table';
-		$file = 'kucukura_2015-11-05-15-07-05.json2';
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'true');
 	}

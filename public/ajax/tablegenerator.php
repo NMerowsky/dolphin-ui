@@ -154,8 +154,8 @@ else if ($p == 'createTableFile')
 else if ($p == 'convertToTSV')
 {
 	if (isset($_GET['url'])){$url = $_GET['url'];}
-	
-	$json_data = json_decode(file_get_contents($url));
+	$json = file_get_contents($url);
+	$json_data = json_decode($json);
 	
 	$user = $_SESSION['user'].'_'.date('Y-m-d-H-i-s').'.tsv';
 	$file = fopen('../tmp/files/'.$user, "w");

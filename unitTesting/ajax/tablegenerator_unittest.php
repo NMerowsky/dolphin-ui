@@ -60,6 +60,20 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),'true');
 	}
 	
+	public function testConvertToTSV(){
+		$p = 'convertToTSV';
+		$url = '/home/travis/build/Rhaknam/dolphin-ui/public/api/getsamplevals.php';
+		$_GET['samples'] = 'samples=1,2,3,4,5,6:3';
+		$_GET['file'] = 'file=rsem/genes_expression_tpm.tsv';
+		$_GET['common'] = 'common=gene,transcript';
+		$_GET['key'] = 'key=gene';
+		$_GET['format'] = 'format=json2';
+		include('tablegenerator.php');
+		$file = json_decode($data);
+		$this->assertEquals(json_decode($data),$file);
+		return $file;
+	}
+	
 	public function testGetCreatedTables(){
 		$p = 'getCreatedTables';
 		include('tablegenerator.php');
@@ -72,6 +86,15 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$_GET['id'] = '1';
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'1');
+	}
+	
+	/**
+	 * @depends testConvertToTSV
+	 */
+	public function testRemoveTSV($file){
+		$p = 'removeTSV';
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data),'deleted');
 	}
 }
 

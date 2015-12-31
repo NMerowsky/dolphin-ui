@@ -37,17 +37,23 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	public function testCreateNewTable(){
 		$p = 'createNewTable';
 		$search = 'samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';
+		$name = 'test_table';
 		$file = 'kucukura_2015-11-05-15-07-05.json2';
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'true');
 	}
 	
 	public function testGetCreatedTables(){
-		
+		$p = 'getCreatedTables';
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data)[0]->name,'test_table');
 	}
 	
 	public function testDeleteTable(){
-		
+		$p = 'deleteTable';
+		$id = 1;
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data),'1');
 	}
 }
 

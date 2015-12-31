@@ -144,7 +144,7 @@ else if ($p == 'createTableFile')
 	if (isset($_GET['url'])){$url = $_GET['url'];}
 	$json = file_get_contents($url);
 	$user = $_SESSION['user'].'_'.date('Y-m-d-H-i-s').'.json2';
-	
+	echo $json;
 	$file = fopen('../tmp/files/'.$user, "w");
 	fwrite($file,$json);
 	fclose($file);
@@ -156,7 +156,7 @@ else if ($p == 'convertToTSV')
 	if (isset($_GET['url'])){$url = $_GET['url'];}
 	$json = file_get_contents($url);
 	$json_data = json_decode($json);
-	echo $json;
+	
 	$user = $_SESSION['user'].'_'.date('Y-m-d-H-i-s').'.tsv';
 	$file = fopen('../tmp/files/'.$user, "w");
 	foreach($json_data as $jd){

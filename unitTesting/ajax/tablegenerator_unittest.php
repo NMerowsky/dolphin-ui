@@ -24,11 +24,11 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = 'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV';
 		include('tablegenerator.php');
-		$this->assertEquals(json_decode($data)[0]->file,'');
+		$this->assertEquals(json_decode($data)[0]->file,'rsem/genes_expression_tpm.tsv');
 	}
 	
 	public function testSamplesWithRuns() {
-		$_GET['p'] = 'sampleWithRuns';
+		$_GET['p'] = 'samplesWithRuns';
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data)[0]->sample_id,1);
 	}

@@ -7,8 +7,6 @@ chdir('public/ajax/');
 
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
-	$file = '';
-	
 	public function testGetTableSamples() {
 		$p = 'getTableSamples';
 		$search = 7;
@@ -51,6 +49,9 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		return $file;
 	}
 	
+	/**
+	 * @depends testCreateTableFile
+	 */
 	public function testCreateNewTable($file){
 		$p = 'createNewTable';
 		$search = 'samples=1,2,3,4,5,6:3&file=rsem/genes_expression_tpm.tsv&common=gene,transcript&key=gene&format=json';

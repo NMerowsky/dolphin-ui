@@ -91,7 +91,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 		$_SESSION['plot_type'] = 'generated';
 		$_SESSION['plot_file'] = 'test.file';
 		include('sessionrequests.php');
-		$this->assertEquals(isset($_SESSION['plot_file']),false);
+		$this->assertEquals(isset($_SESSION['plot_file']),true);
 	}
 	
 	public function testChangeRunType(){

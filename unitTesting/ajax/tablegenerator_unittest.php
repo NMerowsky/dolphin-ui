@@ -46,6 +46,11 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		include('tablegenerator.php');
 		$file = json_decode($data);
 		$this->assertEquals(json_decode($data),$file);
+		$array = array();
+		exec('cat ../tmp/files/'.$file, $array);
+		foreach($array as $line){
+			echo $line;
+		}
 		return $file;
 	}
 	

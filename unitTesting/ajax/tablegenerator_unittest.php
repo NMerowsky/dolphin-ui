@@ -93,6 +93,7 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemoveTSV($file){
 		$_GET['p'] = 'removeTSV';
+		$_GET['file'] = $file;
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'deleted');
 	}

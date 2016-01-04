@@ -67,6 +67,7 @@ foreach ($a as $i => $row)
    }
 
    $url=API_PATH."/public/api/?source=".API_PATH."/public/pub/".$i."/$file&$fields&format=json";
+   echo $url;
    #print $url."<br><br>";
    $json = file_get_contents($url);
    #print $json."<br><br>";

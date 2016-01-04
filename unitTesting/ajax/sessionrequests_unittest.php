@@ -15,11 +15,11 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testSendBasketInfo(){
 		$_GET['p'] = 'sendBasketInfo';
-		$_POST['id'] = '1';
-		$_SESSION['basket'] = '';
+		$_POST['id'] = '2';
+		$_SESSION['basket'] = '1';
 		include('sessionrequests.php');
 		echo $_SESSION['basket'];
-		$this->assertEquals($_SESSION['basket'],'1');
+		$this->assertEquals($_SESSION['basket'],'1,2');
 	}
 }
 

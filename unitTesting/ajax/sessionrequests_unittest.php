@@ -44,7 +44,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testSendWKey(){
-		$_GET['p'] = 'getWKey';
+		$_GET['p'] = 'sendWKey';
 		$_POST['wkey'] = 'wkey';
 		include('sessionrequests.php');
 		$this->assertEquals($_SESSION['wkey'],'wkey');
@@ -75,7 +75,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTableToggle';
 		$_GET['table'] = 'samples';
 		include('sessionrequests.php');
-		$this->assertEquals($_SESSION['ngs_samples'],false);
+		$this->assertEquals($_SESSION['ngs_samples'],'extend');
 	}
 }
 

@@ -18,8 +18,64 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 		$_POST['id'] = '2';
 		$_SESSION['basket'] = '1';
 		include('sessionrequests.php');
-		echo $_SESSION['basket'];
 		$this->assertEquals($_SESSION['basket'],'1,2');
+	}
+	
+	public function testGetBasketInfo(){
+		$_GET['p'] = 'getBasketInfo';
+		$_SESSION['basket'] = '1';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['basket'],'1');
+	}
+	
+	public function testRemoveBasketInfo(){
+		$_GET['p'] = 'removeBasketInfo';
+		$_POST['id'] = '2';
+		$_SESSION['basket'] = '1,2';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['basket'],'1');
+	}
+	
+	public function testFlushBasketInfo(){
+		$_GET['p'] = 'flushBasketInfo';
+		$_SESSION['basket'] = '1,2';
+		include('sessionrequests.php');
+		$this->assertEquals(isset($_SESSION['basket']),false);
+	}
+	
+	public function testSendWKey(){
+		$_GET['p'] = 'getWKey';
+		$_POST['wkey'] = 'wkey';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['wkey'],'wkey');
+	}
+	
+	public function testGetWkey(){
+		$_GET['p'] = 'getWKey';
+		$_POST['wkey'] = 'wkey';
+		include('sessionrequests.php');
+		$this->assertEquals($_POST['wkey'],'wkey');
+	}
+	
+	public function testFlushWKey(){
+		$_GET['p'] = 'flushWKey';
+		$_SESSION['wkey'] = 'wkey';
+		include('sessionrequests.php');
+		$this->assertEquals(isset($_SESSION['wkey']),false);
+	}
+	
+	public function testTableToggle(){
+		$_GET['p'] = 'TableToggle';
+		$_GET['table'] = 'samples';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['ngs_samples'],'extend');
+	}
+	
+	public function testGetTableToggle(){
+		$_GET['p'] = 'getTableToggle';
+		$_GET['table'] = 'samples';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['ngs_samples'],false);
 	}
 }
 

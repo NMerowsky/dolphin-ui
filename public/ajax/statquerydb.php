@@ -1,7 +1,7 @@
 <?php
 //error_reporting(E_ERROR);
-error_reporting(E_ALL);
-ini_set('report_errors','on');
+//error_reporting(E_ALL);
+//ini_set('report_errors','on');
 
 require_once("../../config/config.php");
 require_once("../../includes/dbfuncs.php");
@@ -115,5 +115,5 @@ else if($p == "getJobTime")
 //header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 //header('Content-type: application/json');
 echo $data;
-exit;
+//exit;
 ?>

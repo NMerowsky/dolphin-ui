@@ -59,8 +59,6 @@ class statquerydb_unittest extends PHPUnit_Framework_TestCase
 		include('statquerydb.php');
 		$this->assertEquals(1,1);
 	}
-	
-	
 }
 
 ?>

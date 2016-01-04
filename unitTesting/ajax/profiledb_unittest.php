@@ -52,7 +52,42 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 	public function testObtainGroups(){
 		$_GET['p'] = 'obtainGroups';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data)[0]->id,1);
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+	}
+	
+	public function testObtainProfileInfo(){
+		$_GET['p'] = 'obtainProfileInfo';
+		include("profiledb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+	}
+	
+	public function testNewGroupProcess(){
+		$_GET['p'] = 'newGroupProcess';
+		$_GET['newGroup'] = 'new_group';
+		include("profiledb.php");
+		$this->assertEquals(json_decode($data),'Your group has been created');
+	}
+	
+	public function testJoinGroupList(){
+		$_GET['p'] = 'joinGroupList';
+		include("profiledb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'2');
+	}
+	
+	public function testSendJoinGroupRequest(){
+		$_GET['p'] = 'sendJoinGroupRequest';
+		$_GET['group_id'] = '2';
+		$_SESSION['uid'] = 2;
+		include("profiledb.php");
+		$this->assertEquals(json_decode($data),1);
+		$_SESSION['uid'] = 1;
+	}
+	
+	public function testViewGroupMembers(){
+		$_GET['p'] = 'viewGroupMembers';
+		$_GET['group'] = '1';
+		include("profiledb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 	}
 }
 

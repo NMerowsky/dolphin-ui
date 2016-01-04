@@ -77,6 +77,34 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 		include('sessionrequests.php');
 		$this->assertEquals($_SESSION['ngs_samples'],'extend');
 	}
+	
+	public function testSetPlotToggle(){
+		$_GET['p'] = 'setPlotToggle';
+		$_GET['type'] = 'generated';
+		$_GET['file'] = 'test.file';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['plot_file'],'test.file');
+	}
+	
+	public function testGetPlotToggle(){
+		$_GET['p'] = 'getPlotToggle';
+		include('sessionrequests.php');
+		$this->assertEquals($_SESSION['plot_file'],'test.file');
+	}
+	
+	public function testChangeRunType(){
+		$_GET['p'] = 'changeRunType';
+		$_GET['run_type'] = '1';
+		include('sessionrequests.php');
+		$this->assertEquals(isset($_SESSION['run_type']),true);
+		$this->assertEquals($_SESSION['run_type'],1);
+	}
+	
+	public function testGetRunType(){
+		$_GET['p'] = 'getRunToggle';
+		include('sessionrequests.php');
+		$this->assertEquals(isset($_SESSION['run_type']),true);
+	}
 }
 
 ?>

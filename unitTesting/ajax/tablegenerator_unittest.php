@@ -66,6 +66,19 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),'true');
 	}
 	
+	public function testGetCreatedTables(){
+		$_GET['p'] = 'getCreatedTables';
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data)[0]->name,'test_table');
+	}
+	
+	public function testDeleteTable(){
+		$_GET['p'] = 'deleteTable';
+		$_GET['id'] = '1';
+		include('tablegenerator.php');
+		$this->assertEquals(json_decode($data),'1');
+	}
+	/*
 	public function testConvertToTSV(){
 		$_GET['p'] = 'convertToTSV';
 		$_GET['url'] = '/home/travis/build/Rhaknam/dolphin-ui/public/api/getsamplevals.php';
@@ -79,29 +92,18 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),$file);
 		return $file;
 	}
-	
-	public function testGetCreatedTables(){
-		$_GET['p'] = 'getCreatedTables';
-		include('tablegenerator.php');
-		$this->assertEquals(json_decode($data)[0]->name,'test_table');
-	}
-	
-	public function testDeleteTable(){
-		$_GET['p'] = 'deleteTable';
-		$_GET['id'] = '1';
-		include('tablegenerator.php');
-		$this->assertEquals(json_decode($data),'1');
-	}
-	
+	*/
 	/**
 	 * @depends testConvertToTSV
 	 */
+	/*
 	public function testRemoveTSV($file){
 		$_GET['p'] = 'removeTSV';
 		$_GET['file'] = $file;
 		include('tablegenerator.php');
 		$this->assertEquals(json_decode($data),'deleted');
 	}
+	*/
 }
 
 ?>

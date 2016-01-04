@@ -40,13 +40,13 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 	public function testObtainAmazonKeys(){
 		$_GET['p'] = 'obtainAmazonKeys';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data)[0]->id,1);
+		$this->assertEquals(json_decode($data)[0]->id,array());
 	}
 	
 	public function testProfileLoad(){
 		$_GET['p'] = 'profileLoad';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data)[0]->photo_loc,1);
+		$this->assertEquals(json_decode($data)[0]->photo_loc,'test.img');
 	}
 	
 	public function testObtainGroups(){

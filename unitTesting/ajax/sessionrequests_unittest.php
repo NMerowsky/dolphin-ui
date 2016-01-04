@@ -65,7 +65,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testTableToggle(){
-		$_GET['p'] = 'TableToggle';
+		$_GET['p'] = 'tableToggle';
 		$_GET['table'] = 'samples';
 		include('sessionrequests.php');
 		$this->assertEquals($_SESSION['ngs_samples'],'extend');
@@ -75,7 +75,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTableToggle';
 		$_GET['table'] = 'samples';
 		include('sessionrequests.php');
-		$this->assertEquals($_SESSION['ngs_samples'],'extend');
+		$this->assertEquals($_SESSION['ngs_samples'],'');
 	}
 	
 	public function testSetPlotToggle(){
@@ -89,7 +89,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 	public function testGetPlotToggle(){
 		$_GET['p'] = 'getPlotToggle';
 		include('sessionrequests.php');
-		$this->assertEquals($_SESSION['plot_file'],'test.file');
+		$this->assertEquals(isset($_SESSION['plot_file']),false);
 	}
 	
 	public function testChangeRunType(){
@@ -103,7 +103,7 @@ class sessionrequests_unittest extends PHPUnit_Framework_TestCase
 	public function testGetRunType(){
 		$_GET['p'] = 'getRunToggle';
 		include('sessionrequests.php');
-		$this->assertEquals(isset($_SESSION['run_type']),true);
+		$this->assertEquals(isset($_SESSION['run_type']),false);
 	}
 }
 

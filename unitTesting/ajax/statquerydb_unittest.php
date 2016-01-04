@@ -5,12 +5,12 @@ $_SESSION['uid'] = 1;
 $_SESSION['user'] = 'kucukura';
 chdir('public/ajax/');
 
-class statquery_unittest extends PHPUnit_Framework_TestCase
+class statquerydb_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetDailyRuns(){
 		echo '@@@@@@@@@@@@@@@@@@@@@@';
 		$_GET['p'] = 'getDailyRuns';
-		include('statquery.php');
+		include('statquerydb.php');
 		$this->assertEquals(1,1);
 	}
 }

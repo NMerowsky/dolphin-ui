@@ -49,6 +49,7 @@ script:
   - phpunit unitTesting/ajax/tablegenerator_unittest.php
   - phpunit unitTesting/ajax/statquerydb_unittest.php
   - phpunit unitTesting/ajax/sessionrequests_unittest.php
+  - phpunit unitTesting/ajax/profiledb_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot

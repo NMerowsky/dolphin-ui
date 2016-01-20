@@ -294,7 +294,7 @@ if($p == 'exportExcel')
 	
 	//	Save the file to be downloaded
 	$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-	$name = "/tmp/files/".$user."_".date('Y-m-d-H-i-s').".xlsx";
+	$name = "/tmp/files/".$user."_".date('Y-m-d-H-i-s').".xls";
 	$objWriter->save("..".$name);
 	echo $name;
 }

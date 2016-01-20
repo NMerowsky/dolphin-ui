@@ -34,7 +34,15 @@ function reportSelected(runID, groupID){
 			}
 		}
 	});
-	window.location.href = BASE_PATH+"/pipeline/report/" + runID + '/' + ids + "$";
+	$.ajax({ type: "GET",
+		url: BASE_PATH +"/ajax/sessionrequests.php",
+		data: { p: 'setReportsRunID', reports_id: runID, reports_selection: ids.toString() },
+		async: false,
+		success : function(s)
+		{
+			window.location.href = BASE_PATH+"/pipeline/report";
+		}
+	});
 }
 
 function getSampleIDs(search){

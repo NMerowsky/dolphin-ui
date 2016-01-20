@@ -314,14 +314,14 @@ class Ngsimport extends VanillaModel {
 			
 			//	Fastq Directory
 			if($this->fastq_dir == null && $this->sheetData[$i]["A"]=="fastq directory"){
-				$text.= $this->errorText("fastq directory is required for submission");
+				$text.= $this->errorText("Fastq directory is required for submission");
 				$this->final_check = false;
 				$meta_check = false;
 			}
 			
 			//	Backup Directory
-			if($this->backup_dir == null && ($this->sheetData[$i]["A"]=="backup directory" || $this->sheetData[$i]["A"]=="temporary directory")){
-				$text.= $this->errorText("backup directory is required for submission");
+			if($this->backup_dir == null && ($this->sheetData[$i]["A"]=="backup directory" || $this->sheetData[$i]["A"]=="temporary directory" || $this->sheetData[$i]["A"]=="processed directory" || $this->sheetData[$i]["A"]=="process directory")){
+				$text.= $this->errorText("Processed directory is required for submission");
 				$this->final_check = false;
 				$meta_check = false;
 			}
@@ -349,7 +349,7 @@ class Ngsimport extends VanillaModel {
 				$request = API_PATH.'/api/service.php?func=checkPermissions&username='.$this->clustername;
 				$valid_fastq = json_decode('['.json_decode(file_get_contents($request)).']');
 				if(isset($valid_fastq[0]->ERROR)){
-					$text.= $this->errorText("Process Directory error (".$this->backup_dir."). ".$valid_fastq[0]->ERROR);
+					$text.= $this->errorText("Processed Directory error (".$this->backup_dir."). ".$valid_fastq[0]->ERROR);
 					$this->final_check = false;
 					$meta_check = false;
 				}
@@ -358,7 +358,7 @@ class Ngsimport extends VanillaModel {
 				$request = API_PATH.'/api/service.php?func=checkPermissions&username='.$this->clustername.'&outdir='.$this->backup_dir;
 				$valid_fastq = json_decode('['.json_decode(file_get_contents($request)).']');
 				if(isset($valid_fastq[0]->ERROR)){
-					$text.= $this->errorText("Process Directory error (".$this->backup_dir."). ".$valid_fastq[0]->ERROR);
+					$text.= $this->errorText("Processed Directory error (".$this->backup_dir."). ".$valid_fastq[0]->ERROR);
 					$this->final_check = false;
 					$meta_check = false;
 				}
@@ -370,7 +370,7 @@ class Ngsimport extends VanillaModel {
 		 */
 		//	Experiment Name
 		if(isset($this->experiment_name)){
-			if(!$this->checkAlphaNumWithAddChars(' ', $this->experiment_name)){
+			if(!$this->checkAlphaNumWithAddChars('\s\_\-', $this->experiment_name)){
 				$text.= $this->errorText("title does not contain proper characters, please use alpha-numeric characters and spaces");
 				$this->final_check = false;
 				$meta_check = false;
@@ -492,7 +492,7 @@ class Ngsimport extends VanillaModel {
 			//	Lane Name
 			if($blank == 'false'){
 				if(isset($lane->name)){
-					if($this->checkAlphaNumWithAddChars('_-', $lane->name)){
+					if($this->checkAlphaNumWithAddChars('\s\_\-', $lane->name)){
 						$this->lane_arr[$lane->name]=$lane;
 					}else{
 						$text.= $this->errorText("Import name does not contain proper characters, please use alpha-numeric characters and underscores (row " . $i . ")");
@@ -735,7 +735,7 @@ class Ngsimport extends VanillaModel {
 				
 				//	Name
 				if(isset($samp->name)){
-					if($this->checkAlphaNumWithAddChars('_-', $samp->name)){
+					if($this->checkAlphaNumWithAddChars('\s\_\-', $samp->name)){
 						//	Need to check the database for similar names as well at a later date
 						if(isset($this->sample_arr[$samp->name])){
 							$text.= $this->errorText("Sample name already exists in that Import (row " . $i . ")");
@@ -1048,7 +1048,7 @@ class Ngsimport extends VanillaModel {
 			if($blank == 'false'){
 				//	Sample/Lane Name
 				if(isset($file->name)){
-					if($this->checkAlphaNumWithAddChars('_-', $file->name)){
+					if($this->checkAlphaNumWithAddChars('\s\_\-', $file->name)){
 						if(!(isset($this->sample_arr[$file->name])) & !(isset($this->lane_arr[$file->name]))){
 							$text.= $this->errorText("sample/import name does not match the samples/imports given (row " . $i . ")");
 							$this->final_check = false;

@@ -77,7 +77,7 @@ if ($p == "submitPipeline" )
     $outdir_check = $query->queryAVal("SELECT outdir FROM ngs_runparams WHERE outdir = '$outdir'");
     
     if($outdir_check == $outdir){
-	$table=json_decode($query->queryTable("SELECT id,wrapper_pid,runworkflow_pid,wkey FROM ngs_runparams WHERE outdir = '$outdir' limit 1"));
+		$table=json_decode($query->queryTable("SELECT id,wrapper_pid,runworkflow_pid,wkey FROM ngs_runparams WHERE outdir = '$outdir' limit 1"));
         $idKey=$table[0]->id;
         $wrapper_pid=$table[0]->wrapper_pid;
         $workflow_pid=$table[0]->runworkflow_pid;
@@ -107,9 +107,8 @@ if ($p == "submitPipeline" )
         last_modified_user = $uid
         WHERE id = '$idKey'
         ");
-        if(strpos($json, '"resume":"no"') > -1){
-        	$wkey = "";
-        }
+		
+		$wkey = "";
         runCmd($idKey, $query, $wkey);
         $data=$idKey;
     }else{

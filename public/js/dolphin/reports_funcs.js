@@ -31,7 +31,6 @@ function parseTSV(jsonName, url_path){
 
 function parseMoreTSV(jsonNameArray, url_path){
 	var parsedArray = [];
-	console.log(BASE_PATH + "/public/api/?source=" + API_PATH + "/public/pub/" + wkey + "/" + url_path);
 	$.ajax({ type: "GET",
 			url: BASE_PATH + "/public/api/?source=" + API_PATH + "/public/pub/" + wkey + "/" + url_path,
 			async: false,
@@ -67,9 +66,25 @@ function createSummary(fastqc_summary) {
 
 function createDetails(libraries) {
 	var masterDiv = document.getElementById('details_exp_body');
-	var hrefSplit = window.location.href.split("/");
-	var runId = hrefSplit[hrefSplit.length - 2];
-	var pairCheck = findIfMatePaired(runId);
+	var run_id = '0';
+	$.ajax({ type: "GET",
+		url: BASE_PATH +"/ajax/sessionrequests.php",
+		data: { p: 'getReportsRunID' },
+		async: false,
+		success : function(s)
+		{
+			console.log(s);
+			var returnedSamples = s.split(',');
+			console.log(returnedSamples);
+			for(var x = 0; x < s.length; x++){
+				if (x == 0) {
+					run_id = returnedSamples[x];
+				}
+			}
+		}
+	});
+	var wkey = getReportWKey(run_id);
+	var pairCheck = findIfMatePaired(run_id);
 	
 	for(var x = 0; x < libraries.length; x++){
 		if (pairCheck) {
@@ -478,10 +493,25 @@ $(function() {
 	"use strict";
 	if (phpGrab.theSegment == 'report') {
 		var hrefSplit = window.location.href.split("/");
-		var runId = hrefSplit[hrefSplit.length - 2];
-		wkey = getReportWKey(runId);
-		var samples = hrefSplit[hrefSplit.length - 1].substring(0, hrefSplit[hrefSplit.length - 1].length - 1).split(",");
-		
+		var run_id = '0';
+		var samples = [];
+		$.ajax({ type: "GET",
+			url: BASE_PATH +"/ajax/sessionrequests.php",
+			data: { p: 'getReportsRunID' },
+			async: false,
+			success : function(s)
+			{
+				var returnedSamples = s.split(',');
+				for(var x = 0; x < returnedSamples.length; x++){
+					if (x == 0) {
+						run_id = returnedSamples[x];
+					}else{
+						samples.push(returnedSamples[x]);
+					}
+				}
+			}
+		});
+		wkey = getReportWKey(run_id);
 		var summary_files = [];
 		var count_files = [];
 		var RSEM_files = [];
@@ -629,7 +659,7 @@ $(function() {
 		}
 		
 		//Create a check for FASTQC output????
-		if (getFastQCBool(runId)) {
+		if (getFastQCBool(run_id)) {
 			createSummary(true);
 			createDetails(libraries);
 		}else{

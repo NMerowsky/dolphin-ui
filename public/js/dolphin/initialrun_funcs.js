@@ -45,6 +45,7 @@ $(function() {
 			JSON_OBJECT['trim'] = 'none';
 			JSON_OBJECT['split'] = 'none';
 			JSON_OBJECT['commonind'] = 'none';
+			JSON_OBJECT['submission'] = '0';
 			
 			var names_list = [];
 			if (initial_split[2] == 'yes') {
@@ -95,6 +96,7 @@ $(function() {
 			JSON_OBJECT['trim'] = 'none';
 			JSON_OBJECT['split'] = 'none';
 			JSON_OBJECT['commonind'] = 'none';
+			JSON_OBJECT['submission'] = '0';
 			
 			var names_list = initialNameList.split(",");
 			console.log(initial_split);

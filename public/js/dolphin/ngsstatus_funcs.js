@@ -18,7 +18,15 @@ function sendToPlot(id){
 }
 
 function sendToAdvancedStatus(run_id){
-	window.location.href = BASE_PATH+'/stat/advstatus/' + run_id;
+	$.ajax({ type: "GET",
+		url: BASE_PATH +"/ajax/sessionrequests.php",
+		data: { p: 'setAdvStatusRunID', adv_status_id: run_id },
+		async: false,
+		success : function(s)
+		{
+			window.location.href = BASE_PATH+'/stat/advstatus';
+		}
+	});
 }
 
 function getWKey(run_id){

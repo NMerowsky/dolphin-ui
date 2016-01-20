@@ -205,7 +205,7 @@ class Dolphin:
 
     def writeInputParamLine(self, fp, jsonobj, input_str, input_object, itself, previous_str=None):
       try:
-       previous="NONE"
+       previous = ( previous_str if previous_str!=None else "NONE" )
 
        if (input_object in jsonobj and jsonobj[input_object].lower() != 'none' and jsonobj[input_object]!=''):
          print >>fp, '%s=%s'%(input_str, self.parse_content(jsonobj[input_object]))
@@ -222,11 +222,11 @@ class Dolphin:
     def writeInput(self,  input_fn, data_dir, content, runparams) :
       try:
        commonind=''
-       if runparams['commonind']:
-          commonind = re.sub('test', '', commonind)
+       if ('commonind' in runparams and runparams['commonind'].lower() != "none"):
+          commonind = re.sub('test', '', runparams['commonind'])
           gb=runparams['genomebuild'].split(',')
           commonind = re.sub('genome', str(gb[1]), commonind)
-              
+       print 'COMMONIND:'+commonind       
        gb=runparams['genomebuild'].split(',')
        previous="NONE"
        fp = open( input_fn, 'w' )
@@ -264,9 +264,10 @@ class Dolphin:
                runparams['trim']="%s:%s"%(str(pipe["5len1"]),str(pipe["3len1"]))
        previous=self.writeInputParamLine(fp, runparams, "@TRIM", 'trim', "TRIM", previous)
        
-       if (runparams['commonind'] and runparams['commonind'].lower() != 'none'):
-         arr=re.split(r'[,:]+', self.parse_content(runparams['commonind']))
+       if ('commonind' in runparams and  runparams['commonind'].lower() != "none"):
+         arr=re.split(r'[,:]+', self.parse_content(commonind))
          for i in arr:
+           print i
            if(len(i)>1):
               default_bowtie_params="@DEFBOWTIE2PARAM"
               default_description="@DEFDESCRIPTION"
@@ -295,7 +296,7 @@ class Dolphin:
        previoussplit=previous
        previous=self.writeInputParamLine(fp, runparams, "@SPLIT", 'split', "SPLIT", previous )
               
-       if (runparams['pipeline']):
+       if ('pipeline' in runparams):
            for pipe in runparams['pipeline']:
              if (pipe['Type']=="RNASeqRSEM"):
                paramsrsem=pipe['Params'] if ('Params' in pipe and pipe['Params']!="") else "NONE"
@@ -338,7 +339,12 @@ class Dolphin:
                  self.writeInputParamLine(fp, pipe, "@BSMAPPARAM", 'BSMapParams', "BSMapStep")
                if (pipe['MCallStep']== "yes"):
                  self.writeInputParamLine(fp, pipe, "@MCONDS", 'Conditions', "MCallStep")
+                 self.writeInputParamLine(fp, pipe, "@MFIELDS", 'Columns', "MCallStep")
                  self.writeInputParamLine(fp, pipe, "@MCALLPARAM", 'MCallParams', "MCallStep")
+                 print >>fp, '@GBUILD=%s'%(gb[1])
+                 print >>fp, '@STRAND=none'
+                 print >>fp, '@TILE_SIZE=300'
+                 
                if (pipe['MCompStep'] == ""):
                  self.writeInputParamLine(fp, pipe, "@MCOMPPARAM", 'MCompParams', "MCompStep")
 
@@ -392,21 +398,26 @@ class Dolphin:
     
     def writeWorkflow(self,  file, gettotalreads, amazonupload, backupS3, runparamsid, runparams ):
       try:
+        commonind=''
+        if ('commonind' in runparams and  runparams['commonind'].lower() != "none"):
+          commonind = re.sub('test', '', runparams['commonind'])
+          gb=runparams['genomebuild'].split(',')
+          commonind = re.sub('genome', str(gb[1]), commonind)
         fp = open ( file, 'w')
         sep='\t'          
         resume = (runparams['resume'] if ('resume' in runparams) else "yes")
         self.prf(fp, stepCheck % locals() )
         self.prf(fp, stepBarcode % locals() if ('barcodes' in runparams and runparams['barcodes'].lower()!="none") else None )
-        self.prf(fp, stepGetTotalReads % locals() if ('gettotalreads' in runparams and runparams['gettotalreads'].lower()!="none") else None )
-        self.prf(fp, stepBackupS3 % locals() if ('backupS3' in runparams and runparams['backupS3'].lower()!="none") else None )
+        self.prf(fp, stepGetTotalReads % locals() if (gettotalreads and gettotalreads.lower()!="none") else None )
+        self.prf(fp, stepBackupS3 % locals() if (backupS3 and backupS3.lower()!="none") else None )
         self.prf(fp, stepFastQC % locals() + "\n" + stepMergeFastQC % locals() if ('fastqc' in runparams and runparams['fastqc'].lower()=="yes") else None )
         self.prf(fp, stepAdapter % locals() if ('adapter' in runparams and runparams['adapter'].lower()!="none") else None )
         self.prf(fp, stepQuality % locals() if ('quality' in runparams and runparams['quality'].lower()!="none") else None )
         self.prf(fp, stepTrim % locals() if ('trim' in runparams and runparams['trim'].lower()!="none") else None  )
        
         countstep = False
-        if ('commonind' in runparams and runparams['commonind'].lower() != 'none'):
-           arr=re.split(r'[,:]+', self.parse_content(runparams['commonind']))
+        if ('commonind' in runparams and  runparams['commonind'].lower() != 'none'):
+           arr=re.split(r'[,:]+', self.parse_content(commonind))
            for i in arr:
               countstep = True
               if(len(i)>1):
@@ -495,6 +506,8 @@ class Dolphin:
                  self.writeVisualizationStr( fp, type, pipe, sep )
                  
                  self.prf( fp, '%s'% ( stepMCall % locals() if ('MCallStep' in pipe and pipe['MCallStep'].lower()=="yes") else None ) )
+                 methylkit_name="exper"
+                 self.prf( fp, '%s'% ( stepMethylKit % locals() if ('MCallStep' in pipe and pipe['MCallStep'].lower()=="yes") else None ) )
                  self.prf( fp, '%s'% ( stepMComp % locals() if ('MCompStep' in pipe and pipe['MCompStep'].lower()=="yes") else None ) )
                  
 

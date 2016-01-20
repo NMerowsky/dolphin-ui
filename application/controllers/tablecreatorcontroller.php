@@ -1,10 +1,8 @@
 <?php
  
 class TablecreatorController extends VanillaController {
-
     function beforeAction() {
     }
-
     function index() {
 		$this->set('field', "Generation");
 		
@@ -28,8 +26,6 @@ class TablecreatorController extends VanillaController {
         $gids = $this->Tablecreator->getGroup($_SESSION['user']);
         $this->set('gids', $gids);
 	}
-
     function afterAction() {
     }
-
 }

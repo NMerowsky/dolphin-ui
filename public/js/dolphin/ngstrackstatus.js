@@ -187,8 +187,18 @@ $(function() {
 	//runparams.fnAdjustColumnSizing(true);
 	
 	}else if (segment == 'advstatus') {
-	
-	var wkey = getWKey(window.location.href.split("/")[window.location.href.split("/").length - 1]);
+	var run_id = '0';
+		$.ajax({ type: "GET",
+			url: BASE_PATH +"/ajax/sessionrequests.php",
+			data: { p: 'getAdvStatusRunID' },
+			async: false,
+			success : function(s)
+			{
+				console.log(s);
+				run_id = s;
+			}
+		});
+	var wkey = getWKey(run_id);
 	var runparams = $('#jsontable_services').dataTable();
 	console.log(wkey);
 	
@@ -305,9 +315,8 @@ $(function() {
 			
 			$('#jsontable_runparams').DataTable().page(page_mark_runparams).draw(false);
 		}else if (segment == 'advstatus') {
-			var wkey = getWKey(window.location.href.split("/")[window.location.href.split("/").length - 1]);
 			var runparams = $('#jsontable_services').dataTable();
-	
+			
 			$.ajax({ type: "GET",
 					 url: BASE_PATH + "/public/ajax/dataservice.php?wkey=" + wkey,
 					 async: false,

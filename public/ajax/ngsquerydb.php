@@ -468,5 +468,5 @@ else if ($p == "changeOwnerExperiment")
 #header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 #header('Content-type: application/json');
 echo $data;
-exit;
+#exit;
 ?>

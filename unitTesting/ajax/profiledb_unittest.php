@@ -41,7 +41,7 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'checkAmazonPermissions';
 		$_GET['a_id'] = '1';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data),1);
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
 	
@@ -49,7 +49,7 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_GET['p'] = 'obtainAmazonKeys';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data),array());
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
 	
@@ -90,7 +90,7 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_GET['p'] = 'joinGroupList';
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'2');
+		$this->assertEquals(json_decode($data)[0]->id,'3');
 		ob_end_clean();
 	}
 	
@@ -100,7 +100,7 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['group_id'] = '2';
 		$_SESSION['uid'] = 2;
 		include("profiledb.php");
-		$this->assertEquals(json_decode($data),1);
+		$this->assertEquals(json_decode($data),0);
 		$_SESSION['uid'] = 1;
 		ob_end_clean();
 	}

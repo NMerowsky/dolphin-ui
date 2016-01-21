@@ -7,11 +7,11 @@ include 'library/inflection.class.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
-$_SESSION['uid'] = 1;
-$_SESSION['gids'] = 1;
+$_SESSION['uid'] = '1';
+$_SESSION['gids'] = '1';
 $_SESSION['user'] = 'kucukura';
-$_POST['group_id'] = 1;
-$_POST['security_id'] = 15;
+$_POST['group_id'] = '1';
+$_POST['security_id'] = '15';
 
 include 'application/models/ngsimport.php';
 

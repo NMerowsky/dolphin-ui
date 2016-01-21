@@ -163,6 +163,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	description:	Grabs worksheet information for test cases
 	*/
 	public function worksheetTestGenerator(){
+		ob_start();
 		//	Include necessary excel classes if not already loaded
 		set_include_path('includes/excel/Classes/');
 		require_once 'PHPExcel/IOFactory.php';
@@ -173,6 +174,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
 		$worksheetData = $objReader->listWorksheetInfo($inputFileName);
 		
+		ob_end_clean();
 		return $worksheetData;
 	}
 }

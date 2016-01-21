@@ -86,6 +86,41 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
+	
+	public function testGetCustomTSV(){
+		ob_start();
+		$_GET['p'] = 'getCustomTSV';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data),'[]');
+		ob_end_clean();
+	}
+	
+	public function testCheckOutputDir(){
+		ob_start();
+		$_GET['p'] = 'checkOutputDir';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->outdir,'/export/barcodetest');
+		ob_end_clean();
+	}
+	
+	public function testChangeDataGroupNames(){
+		ob_start();
+		$_GET['p'] = 'changeDataGroupNames';
+		$_GET['experiment'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testChangeDataGroup(){
+		ob_start();
+		$_GET['p'] = 'checkOutputDir';
+		$_GET['group_id'] = '1';
+		$_GET['experiment'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data),'passed');
+		ob_end_clean();
+	}
 }
 
 ?>

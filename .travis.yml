@@ -41,6 +41,7 @@ before_script:
   - mysql < db/2015_08_31_wkeylist.sql
   - mysql < db/2015_10_16_ngs_createtables.sql
   - mysql < db/2015_10_27_tablegen_sidebar.sql
+  - mysql < db/2015_11_05_user_group_requests.sql
   - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
   - mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
   - mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot

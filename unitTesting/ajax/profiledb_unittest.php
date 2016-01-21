@@ -8,110 +8,110 @@ chdir('public/ajax/');
 class profiledb_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testAlterAccessKey(){
+		ob_start();
 		$_GET['p'] = 'alterAccessKey';
 		$_GET['id'] = '1';
 		$_GET['a_key'] = 'access_key';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),1);
+		ob_end_clean();
 	}
 	
 	public function testAlterSecretKey(){
+		ob_start();
 		$_GET['p'] = 'alterSecretKey';
 		$_GET['id'] = '1';
 		$_GET['s_key'] = 'secret_key';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),1);
+		ob_end_clean();
 	}
 	
 	public function testUpdateProfile(){
+		ob_start();
 		$_GET['p'] = 'updateProfile';
 		$_GET['img'] = 'test.img';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),1);
+		ob_end_clean();
 	}
 	
 	public function testCheckAmazonPermissions(){
+		ob_start();
 		$_GET['p'] = 'checkAmazonPermissions';
 		$_GET['a_id'] = '1';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),1);
+		ob_end_clean();
 	}
 	
 	public function testObtainAmazonKeys(){
-		$_GET['p'] = 'obtainAmazonKeys';
 		ob_start();
+		$_GET['p'] = 'obtainAmazonKeys';
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
 	}
 	
 	public function testProfileLoad(){
-		$_GET['p'] = 'profileLoad';
 		ob_start();
+		$_GET['p'] = 'profileLoad';
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data)[0]->photo_loc,'test.img');
+		ob_end_clean();
 	}
 	
 	public function testObtainGroups(){
-		$_GET['p'] = 'obtainGroups';
 		ob_start();
+		$_GET['p'] = 'obtainGroups';
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
 	}
 	
 	public function testObtainProfileInfo(){
-		$_GET['p'] = 'obtainProfileInfo';
 		ob_start();
+		$_GET['p'] = 'obtainProfileInfo';
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
 	}
 	
 	public function testNewGroupProcess(){
+		ob_start();
 		$_GET['p'] = 'newGroupProcess';
 		$_GET['newGroup'] = 'new_group';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),'Your group has been created');
+		ob_end_clean();
 	}
 	
 	public function testJoinGroupList(){
-		$_GET['p'] = 'joinGroupList';
 		ob_start();
+		$_GET['p'] = 'joinGroupList';
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data)[0]->id,'2');
+		ob_end_clean();
 	}
 	
 	public function testSendJoinGroupRequest(){
+		ob_start();
 		$_GET['p'] = 'sendJoinGroupRequest';
 		$_GET['group_id'] = '2';
 		$_SESSION['uid'] = 2;
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data),1);
 		$_SESSION['uid'] = 1;
+		ob_end_clean();
 	}
 	
 	public function testViewGroupMembers(){
+		ob_start();
 		$_GET['p'] = 'viewGroupMembers';
 		$_GET['group'] = '1';
-		ob_start();
 		include("profiledb.php");
-		ob_end_clean();
 		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
 	}
 }
 

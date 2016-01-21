@@ -91,13 +91,14 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_GET['p'] = 'getCustomTSV';
 		include("ngsquerydb.php");
-		$this->assertEquals(json_decode($data),'[]');
+		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
 	}
 	
 	public function testCheckOutputDir(){
 		ob_start();
 		$_GET['p'] = 'checkOutputDir';
+		$_GET['outdir'] = '/export/barcodetest';
 		include("ngsquerydb.php");
 		$this->assertEquals(json_decode($data)[0]->outdir,'/export/barcodetest');
 		ob_end_clean();
@@ -114,7 +115,7 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testChangeDataGroup(){
 		ob_start();
-		$_GET['p'] = 'checkOutputDir';
+		$_GET['p'] = 'changeDataGroup';
 		$_GET['group_id'] = '1';
 		$_GET['experiment'] = '1';
 		include("ngsquerydb.php");

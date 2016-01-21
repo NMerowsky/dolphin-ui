@@ -91,8 +91,10 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 	public function testJoinGroupList(){
 		#ob_start();
 		$_GET['p'] = 'joinGroupList';
+		$_SESSION['uid'] = '4';
 		include("profiledb.php");
 		var_dump($data);
+		$_SESSION['uid'] = '1';
 		$this->assertEquals(json_decode($data)[0]->id,'3');
 		#ob_end_clean();
 	}
@@ -101,10 +103,10 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_GET['p'] = 'sendJoinGroupRequest';
 		$_GET['group_id'] = '2';
-		$_SESSION['uid'] = 2;
+		$_SESSION['uid'] = '2';
 		include("profiledb.php");
 		$this->assertEquals(json_decode($data),0);
-		$_SESSION['uid'] = 1;
+		$_SESSION['uid'] = '1';
 		ob_end_clean();
 	}
 	

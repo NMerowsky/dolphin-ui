@@ -37,22 +37,20 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testCheckAmazonPermissions(){
-		#ob_start();
+		ob_start();
 		$_GET['p'] = 'checkAmazonPermissions';
 		$_GET['a_id'] = '1';
 		include("profiledb.php");
-		var_dump($data);
 		$this->assertEquals(json_decode($data)[0]->id,'1');
-		#ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testObtainAmazonKeys(){
-		#ob_start();
+		ob_start();
 		$_GET['p'] = 'obtainAmazonKeys';
 		include("profiledb.php");
-		var_dump($data);
 		$this->assertEquals(json_decode($data)[0]->id,'1');
-		#ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testProfileLoad(){
@@ -95,7 +93,7 @@ class profiledb_unittest extends PHPUnit_Framework_TestCase
 		include("profiledb.php");
 		var_dump($data);
 		$_SESSION['uid'] = '1';
-		$this->assertEquals(json_decode($data)[0]->id,'3');
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		#ob_end_clean();
 	}
 	

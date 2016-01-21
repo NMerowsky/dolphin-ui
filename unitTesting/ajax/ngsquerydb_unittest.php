@@ -81,6 +81,7 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 	public function testGetExperimentIdFromSample(){
 		ob_start();
 		$_GET['p'] = 'getExperimentIdFromSample';
+		$_GET['sample'] = '1';
 		include("ngsquerydb.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();

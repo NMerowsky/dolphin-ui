@@ -12,7 +12,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'experimentSeriesCheck';
 		$_GET['name'] = 'Barcode Sep Test ';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -22,7 +22,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['experiment'] = '1';
 		$_GET['lane'] = 'New Lane';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -33,7 +33,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['lane'] = '1';
 		$_GET['sample'] = 'control_rep1';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -44,31 +44,30 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['backup'] = '/export/backup/barcodetest';
 		$_GET['amazon'] = 's3';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
 	public function testInsertExperimentSeries(){
-		#ob_start();
+		ob_start();
 		$_GET['p'] = 'insertExperimentSeries';
 		$_POST['name'] = 'test_series_1';
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
-		var_dump($name);
-		$this->assertEquals(json_decode($data),'0');
-		#ob_end_clean();
+		$this->assertEquals(json_decode($data),'1');
+		ob_end_clean();
 	}
 	
-	public function testInserLane(){
+	public function testInsertLane(){
 		ob_start();
 		$_GET['p'] = 'insertLane';
 		$_POST['experiment'] = '3';
-		$_POST['name'] = 'test_lane_1';
+		$_POST['lane'] = 'test_lane_1';
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -79,11 +78,11 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['lane'] = '3';
 		$_GET['organism'] = 'test_organism';
 		$_GET['barcode'] = 'test_barcode';
-		$_GET['name'] = 'test_sample_1';
+		$_GET['sample'] = 'test_sample_1';
 		$_GET['gids'] = '1';
 		$_GET['perms'] = '32';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -96,7 +95,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -109,7 +108,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -122,7 +121,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -141,7 +140,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'obtainGroupFromName';
 		$_GET['name'] = 'umw_biocore';
 		include("ngsfastlanedb.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	

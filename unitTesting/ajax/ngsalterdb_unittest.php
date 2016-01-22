@@ -24,7 +24,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testSubmitPipelineInsert(){
-		ob_start();
+		#ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json';
 		$_POST['outdir'] = '/test/outdir';
@@ -36,12 +36,14 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
+		var_dump($idKey);
+		var_dump($table);
 		$this->assertEquals(json_decode($data),'4');
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	public function testSubmitPipelineUpdate(){
-		ob_start();
+		#ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json_update';
 		$_POST['outdir'] = '/test/outdir';
@@ -53,8 +55,10 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
+		var_dump($idKey);
+		var_dump($table);
 		$this->assertEquals(json_decode($data),'4');
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	public function testInsertRunList(){
@@ -92,7 +96,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['p'] = 'updateProfile';
 		$_POST['img'] = 'test_img.png';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -102,7 +106,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['id'] = '1';
 		$_POST['a_key'] = 'ngsalterdb new key';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	
@@ -110,9 +114,9 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_POST['p'] = 'alterSecretKey';
 		$_POST['id'] = '1';
-		$_POST['a_key'] = 'ngsalterdb new secret key';
+		$_POST['s_key'] = 'ngsalterdb new secret key';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 }

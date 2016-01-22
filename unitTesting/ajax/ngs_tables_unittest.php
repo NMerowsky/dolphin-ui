@@ -9,13 +9,26 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetStatus(){
 		ob_start();
-		$_POST['p'] = 'getStatus';
-		$_POST['q'] = '';
-		$_POST['r'] = '';
-		$_POST['seg'] = '';
-		$_POST['search'] = '';
-		$_POST['uid'] = '1';
-		$_POST['gids'] = '1';
+		$_GET['p'] = 'getStatus';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
+		$_GET['seg'] = '';
+		$_GET['search'] = '';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
+		include("ngs_tables.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+	}
+	
+	public function testGetSelectedSamples(){
+		ob_start();
+		$_GET['p'] = 'getSelectedSamples';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
+		$_GET['seg'] = '';
+		$_GET['search'] = '';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
 		include("ngs_tables.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 	}

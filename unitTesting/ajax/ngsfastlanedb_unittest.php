@@ -76,7 +76,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'insertSample';
 		$_GET['experiment'] = '3';
 		$_GET['lane'] = '3';
-		$_GET['organism'] = 'test_organism';
+		$_GET['organism'] = 'tst_org,test_organism';
 		$_GET['barcode'] = 'test_barcode';
 		$_GET['sample'] = 'test_sample_1';
 		$_GET['gids'] = '1';

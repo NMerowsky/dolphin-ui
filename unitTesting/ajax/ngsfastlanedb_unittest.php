@@ -49,14 +49,15 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testInsertExperimentSeries(){
-		ob_start();
+		#ob_start();
 		$_GET['p'] = 'insertExperimentSeries';
 		$_POST['name'] = 'test_series_1';
 		$_POST['gids'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
+		var_dump($name);
 		$this->assertEquals(json_decode($data),'0');
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	public function testInserLane(){

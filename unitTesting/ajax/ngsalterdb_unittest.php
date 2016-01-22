@@ -11,6 +11,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testKillPid(){
 		ob_start();
 		$_POST['p'] = 'none';
+		$data = '';
 		include("ngsalterdb.php");
 		$wkey = killPid('1',$query);
 		$this->assertEquals($wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');

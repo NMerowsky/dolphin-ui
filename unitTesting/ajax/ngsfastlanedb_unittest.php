@@ -10,7 +10,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testExperimentSeriesCheck(){
 		ob_start();
 		$_GET['p'] = 'experimentSeriesCheck';
-		$_GET['name'] = '';
+		$_GET['name'] = 'Barcode Sep Test ';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
@@ -20,7 +20,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_GET['p'] = 'laneCheck';
 		$_GET['experiment'] = '1';
-		$_GET['lane'] = '';
+		$_GET['lane'] = 'New Lane';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
@@ -31,7 +31,7 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'sampleCheck';
 		$_GET['experiment'] = '1';
 		$_GET['lane'] = '1';
-		$_GET['sample'] = '';
+		$_GET['sample'] = 'control_rep1';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
@@ -40,9 +40,9 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testDirectoryCheck(){
 		ob_start();
 		$_GET['p'] = 'directoryCheck';
-		$_GET['input'] = '';
-		$_GET['backup'] = '';
-		$_GET['amazon'] = '';
+		$_GET['input'] = '/export/genome_data/mousetest/mm10/barcodetest';
+		$_GET['backup'] = '/export/backup/barcodetest';
+		$_GET['amazon'] = 's3';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
@@ -51,9 +51,9 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testInsertExperimentSeries(){
 		ob_start();
 		$_GET['p'] = 'insertExperimentSeries';
-		$_GET['name'] = 'test_series_1';
-		$_GET['gids'] = '1';
-		$_GET['perms'] = '32';
+		$_POST['name'] = 'test_series_1';
+		$_POST['gids'] = '1';
+		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
@@ -62,10 +62,10 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testInserLane(){
 		ob_start();
 		$_GET['p'] = 'insertLane';
-		$_GET['experiment'] = '3';
-		$_GET['name'] = 'test_lane_1';
-		$_GET['gids'] = '1';
-		$_GET['perms'] = '32';
+		$_POST['experiment'] = '3';
+		$_POST['name'] = 'test_lane_1';
+		$_POST['gids'] = '1';
+		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
@@ -89,11 +89,11 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testInsertDirectories(){
 		ob_start();
 		$_GET['p'] = 'insertDirectories';
-		$_GET['input'] = '/input/directory/test';
-		$_GET['backup'] = '/backup/directory/test';
-		$_GET['amazon'] = 'S3:testAmazon';
-		$_GET['gids'] = '1';
-		$_GET['perms'] = '32';
+		$_POST['input'] = '/input/directory/test';
+		$_POST['backup'] = '/backup/directory/test';
+		$_POST['amazon'] = 'S3:testAmazon';
+		$_POST['gids'] = '1';
+		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
@@ -102,11 +102,11 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testInsertTempSample(){
 		ob_start();
 		$_GET['p'] = 'insertTempSample';
-		$_GET['filename'] = 'test_filename_sample';
-		$_GET['sample_id'] = '11';
-		$_GET['input'] = '3';
-		$_GET['gids'] = '1';
-		$_GET['perms'] = '32';
+		$_POST['filename'] = 'test_filename_sample';
+		$_POST['sample_id'] = '11';
+		$_POST['input'] = '3';
+		$_POST['gids'] = '1';
+		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
@@ -115,11 +115,11 @@ class ngsfastlanddb_unittest extends PHPUnit_Framework_TestCase
 	public function testInsertTempLane(){
 		ob_start();
 		$_GET['p'] = 'insertTempLane';
-		$_GET['file_name'] = 'test_filename_lane';
-		$_GET['lane_id'] = '3';
-		$_GET['dir_id'] = '3';
-		$_GET['gids'] = '1';
-		$_GET['perms'] = '32';
+		$_POST['file_name'] = 'test_filename_lane';
+		$_POST['lane_id'] = '3';
+		$_POST['dir_id'] = '3';
+		$_POST['gids'] = '1';
+		$_POST['perms'] = '32';
 		include("ngsfastlanedb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();

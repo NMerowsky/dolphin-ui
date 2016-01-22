@@ -55,6 +55,7 @@ script:
   - phpunit unitTesting/ajax/ngsquerydb_unittest.php
   - phpunit unitTesting/ajax/ngsfastlanedb_unittest.php
   - phpunit unitTesting/ajax/ngsalterdb_unittest.php
+  - phpunit unitTesting/ajax/ngs_tables_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot

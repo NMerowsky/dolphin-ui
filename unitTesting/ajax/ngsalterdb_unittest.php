@@ -23,7 +23,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
-	public function testSubmitPipeline(){
+	public function testSubmitPipelineInsert(){
 		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json';
@@ -35,8 +35,13 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['uid'] = '1';
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
-		include("ngsalterdb.php");
+		#include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),'4');
+		ob_end_clean();
+	}
+	
+	public function testSubmitPipelineUpdate(){
+		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json_update';
 		$_POST['outdir'] = '/test/outdir';

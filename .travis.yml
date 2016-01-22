@@ -53,11 +53,13 @@ script:
   - phpunit unitTesting/ajax/sessionrequests_unittest.php
   - phpunit unitTesting/ajax/profiledb_unittest.php
   - phpunit unitTesting/ajax/ngsquerydb_unittest.php
+  - phpunit unitTesting/ajax/ngsfastlanedb_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_lanes;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_experiment_series;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_dirs;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_runlist;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
   - mysql -e "use biocore; SELECT * FROM report_list;" -uroot

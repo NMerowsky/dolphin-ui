@@ -7,14 +7,6 @@ chdir('public/ajax/');
 
 class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 {
-	public function testRunCmd(){
-		ob_start();
-		$_POST['p'] = 'none';
-		include("ngsalterdb.php");
-		runCmd('3', $query, '');
-		$this->assertEquals(json_decode($data),'0');
-		ob_end_clean();
-	}
 	
 	public function testKillPid(){
 		ob_start();
@@ -32,19 +24,19 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['outdir'] = '/test/outdir';
 		$_POST['name'] = 'test insertPipeline';
 		$_POST['desc'] = 'unittesting insertPipeline';
-		$_POST['runGroupID'] = '4';
+		$_POST['runGroupID'] = 'new';
 		$_POST['barcode'] = 'none';
 		$_POST['uid'] = '1';
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
-		var_dump($idKey);
+		var_dump($data);
 		$this->assertEquals(json_decode($data),'4');
 		#ob_end_clean();
 	}
 	
 	public function testSubmitPipelineUpdate(){
-		#ob_start();
+		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json_update';
 		$_POST['outdir'] = '/test/outdir';
@@ -56,10 +48,8 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
-		var_dump($idKey);
-		var_dump($table);
 		$this->assertEquals(json_decode($data),'4');
-		#ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testInsertRunList(){

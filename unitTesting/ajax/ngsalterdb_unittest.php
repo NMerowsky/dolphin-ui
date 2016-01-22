@@ -5,12 +5,12 @@ $_SESSION['uid'] = '1';
 $_SESSION['user'] = 'kucukura';
 chdir('public/ajax/');
 
-include("ngsalterdb.php");
-
 class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 {
+	/*
 	public function testRunCmd(){
 		ob_start();
+		include("ngsalterdb.php");
 		runCmd('3', $query, '');
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
@@ -23,6 +23,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
 		ob_end_clean();
 	}
+	*/
 	
 	public function testSubmitPipelineInsert(){
 		ob_start();
@@ -36,7 +37,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['uid'] = '1';
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
-		#include("ngsalterdb.php");
+		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),'4');
 		ob_end_clean();
 	}

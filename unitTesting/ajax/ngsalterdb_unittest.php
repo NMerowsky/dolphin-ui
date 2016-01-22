@@ -9,6 +9,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testRunCmd(){
 		ob_start();
+		$_POST['p'] = 'none';
 		include("ngsalterdb.php");
 		runCmd('3', $query, '');
 		$this->assertEquals(json_decode($data),'0');
@@ -17,6 +18,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	
 	public function testKillPid(){
 		ob_start();
+		$_POST['p'] = 'none';
 		include("ngsalterdb.php");
 		$wkey = killPid('1',$query);
 		$this->assertEquals($wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
@@ -37,7 +39,6 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
 		var_dump($idKey);
-		var_dump($table);
 		$this->assertEquals(json_decode($data),'4');
 		#ob_end_clean();
 	}
@@ -62,15 +63,17 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testInsertRunList(){
-		ob_start();
+		#ob_start();
 		$_POST['p'] = 'insertRunList';
 		$_POST['sampID'] = '1';
 		$_POST['runID'] = '4';
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
+		var_dump($searchQuery);
+		var_dump($data);
 		$this->assertEquals(json_decode($data),'1');
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	public function testNoAddedParamsRerun(){
@@ -85,9 +88,9 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testDeleteRunparams(){
 		ob_start();
 		$_POST['p'] = 'deleteRunparams';
-		$_POST['run_id'] = '4';
+		$_POST['run_id'] = '3';
 		include("ngsalterdb.php");
-		$this->assertEquals($run_id,'4');
+		$this->assertEquals($run_id,'3');
 		ob_end_clean();
 	}
 	

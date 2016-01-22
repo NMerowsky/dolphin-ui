@@ -122,6 +122,71 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),'passed');
 		ob_end_clean();
 	}
+	public function testGetExperimentSeriesGroup(){
+		ob_start();
+		$_GET['p'] = 'getExperimentSeriesGroup';
+		$_GET['experiment'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->group_id,'1');
+		$this->assertEquals(json_decode($data)[0]->owner_id,'1');
+		ob_end_clean();
+	}
+	
+	public function testGetGroups(){
+		ob_start();
+		$_GET['p'] = 'getGroups';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testGetRunPerms(){
+		ob_start();
+		$_GET['p'] = 'getRunPerms';
+		$_GET['run_id'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->perms,'3');
+		ob_end_clean();
+	}
+	
+	public function testChangeRunGroup(){
+		ob_start();
+		$_GET['p'] = 'changeRunGroup';
+		$_GET['run_id'] = '1';
+		$_GET['group_id'] = '2';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data),'pass');
+		ob_end_clean();
+	}
+	
+	public function testChangeRunPerms(){
+		ob_start();
+		$_GET['p'] = 'changeRunPerms';
+		$_GET['run_id'] = '1';
+		$_GET['perms'] = '15';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data),'pass');
+		ob_end_clean();
+	}
+	
+	public function testGetAllUsers(){
+		ob_start();
+		$_GET['p'] = 'getAllUsers';
+		$_GET['experiment'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testChangeOwnerExperiment(){
+		ob_start();
+		$_GET['p'] = 'changeOwnerExperiment';
+		$_GET['owner_id'] = '1';
+		$_GET['experiment'] = '1';
+		include("ngsquerydb.php");
+		$this->assertEquals(json_decode($data),'passed');
+		ob_end_clean();
+	}
 }
 
 ?>

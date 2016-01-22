@@ -145,7 +145,7 @@ class ngsquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getRunPerms';
 		$_GET['run_id'] = '1';
 		include("ngsquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->perms,'3');
+		$this->assertEquals(json_decode($data),'3');
 		ob_end_clean();
 	}
 	

@@ -92,7 +92,7 @@ else if ($p == 'checkFileToSamples')
 	$data=$query->queryTable("
 	SELECT distinct file_name
 	FROM ngs_fastq_files
-	WHERE file_name = '$name'
+	WHERE file_name = '$file_name'
 	");
 }
 else if ($p == 'removeRunlistSamples')

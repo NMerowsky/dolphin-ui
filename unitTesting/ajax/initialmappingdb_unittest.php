@@ -39,7 +39,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
     public function testGetCounts(){
         ob_start();
         $_GET['p'] = 'getCounts';
-        $_GET['samples'] = '1';
+        $_GET['samples'] = '1,2';
         include("initialmappingdb.php");
         $this->assertEquals(json_decode($data)[0]->total_counts,'24788');
         ob_end_clean();
@@ -60,7 +60,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['p'] = 'checkRunParams';
         $_GET['run_ids'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($data)[0]->id,'1');
+        $this->assertEquals(json_decode($data),'');
         ob_end_clean();
     }
     
@@ -69,7 +69,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['p'] = 'checkRunToSamples';
         $_GET['run_id'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($data)[0]->id,'1');
+        $this->assertEquals(json_decode($data)[0]->sample_id,'1');
         ob_end_clean();
     }
     
@@ -89,7 +89,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['run_id'] = '1';
         $_GET['sample_ids'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals($ids->sample_id,'1');
+        $this->assertEquals(json_decode($data),'1');
         ob_end_clean();
     }
 }

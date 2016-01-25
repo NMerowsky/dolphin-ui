@@ -7,7 +7,6 @@ chdir('public/ajax/');
 
 class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 {
-	/*
 	public function testKillPid(){
 		ob_start();
 		$_POST['p'] = 'none';
@@ -17,7 +16,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
 		ob_end_clean();
 	}
-	*/
+	
 	public function testSubmitPipelineInsert(){
 		#ob_start();
 		$_POST['p'] = 'submitPipeline';

@@ -60,6 +60,7 @@ script:
   - phpunit unitTesting/ajax/initialmappingdb_unittest.php
   - phpunit unitTesting/ajax/export_excel_unittest.php
   - phpunit unitTesting/ajax/dolphinfuncs_unittest.php
+  - phpunit unitTesting/ajax/dataservice_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot

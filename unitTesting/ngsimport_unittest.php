@@ -7,11 +7,11 @@ include 'library/inflection.class.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
-$_SESSION['uid'] = 1;
-$_SESSION['gids'] = 1;
+$_SESSION['uid'] = '1';
+$_SESSION['gids'] = '1';
 $_SESSION['user'] = 'kucukura';
-$_POST['group_id'] = 1;
-$_POST['security_id'] = 15;
+$_POST['group_id'] = '1';
+$_POST['security_id'] = '15';
 
 include 'application/models/ngsimport.php';
 
@@ -24,11 +24,13 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *					for excel spreadsheet column pinpointing
 	 */
 	public function testNum2Aplha() {
+		ob_start();
 		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->num2alpha(0),'A');
 		$this->assertEquals($ngsimport->num2alpha(25),'Z');
 		$this->assertEquals($ngsimport->num2alpha(26),'AA');
 		$this->assertEquals($ngsimport->num2alpha(51),'AZ');
+		ob_end_clean();
   	}
 	
 	/*
@@ -37,11 +39,13 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *					for excel spreadsheet column pinpointing
 	 */
 	public function testColumnNumber() {
+		ob_start();
 		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->columnNumber('A'),1);
 		$this->assertEquals($ngsimport->columnNumber('Z'),26);
 		$this->assertEquals($ngsimport->columnNumber('AA'),27);
 		$this->assertEquals($ngsimport->columnNumber('AZ'),52);
+		ob_end_clean();
 	}
 	
 	/*
@@ -50,8 +54,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *					in obtaining a list of groups in which the user is a part of
 	 */
 	public function testGetGroup() {
+		ob_start();
 		$ngsimport = new Ngsimport();
 		$this->assertContains($ngsimport->getGroup('kucukura'),'1');
+		ob_end_clean();
 	}
 	
 	/*
@@ -60,6 +66,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *					in creating the defined 'samplename' layout for the DC project samples
 	 */
 	public function testCreateSampleName() {
+		ob_start();
 		$ngsimport = new Ngsimport();
 		
 		//	Sample needed for function
@@ -83,6 +90,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($ngsimport->createSampleName($samp),'D01_MDDC_Lps_1h');
 		$this->assertEquals($ngsimport->createSampleName($nobar),'nobarcode');
 		$this->assertEquals($ngsimport->createSampleName($rand),'');
+		ob_end_clean();
 	}
 	
 	/*
@@ -90,6 +98,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	description:	tests the parseExcel function and the finalizeExcel function for submission
 	*/
 	public function testParseExcelFinalizeExcel(){
+		ob_start();
 		$out_string = '';
 		$gid = 1;
 		$uid = 1;
@@ -115,6 +124,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$out_string = $ngsimport->finalizeExcel($worksheet, $sheetData);
 			$this->assertEquals(strpos($out_string, "color='red'"), false);
 		}
+		ob_end_clean();
 	}
 	
 	/*
@@ -122,10 +132,12 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *	description:	tests the text outputs for correct color scheme
 	 */
 	public function testTextTypes(){
+		ob_start();
 		$ngsimport = new Ngsimport();
 		$this->assertContains('red', $ngsimport->errorText('kucukura'));
 		$this->assertContains('B45F04', $ngsimport->warningText('kucukura'));
 		$this->assertContains('green', $ngsimport->successText('kucukura'));
+		ob_end_clean();
 	}
 	
 	/*
@@ -134,8 +146,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	 *					The function should output true if the given string is alpha-numeric with additional specified keys
 	 */
 	public function testCheckAlphaNumWithAddChars(){
+		ob_start();
 		$ngsimport = new Ngsimport();
 		$this->assertEquals($ngsimport->checkAlphaNumWithAddChars('-', 'A-1'), true);
+		ob_end_clean();
 	}
 	
 	/*
@@ -149,6 +163,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	description:	Grabs worksheet information for test cases
 	*/
 	public function worksheetTestGenerator(){
+		ob_start();
 		//	Include necessary excel classes if not already loaded
 		set_include_path('includes/excel/Classes/');
 		require_once 'PHPExcel/IOFactory.php';
@@ -159,6 +174,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
 		$worksheetData = $objReader->listWorksheetInfo($inputFileName);
 		
+		ob_end_clean();
 		return $worksheetData;
 	}
 }

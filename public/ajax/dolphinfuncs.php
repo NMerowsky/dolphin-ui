@@ -20,9 +20,9 @@ if($p == "getFileList")
 }
 else if($p == "updateHashBackup")
 {
-   if (isset($_GET['input'])){$input = rawurldecode($_GET['input']);}
-   if (isset($_GET['dirname'])){$dirname = rawurldecode($_GET['dirname']);}
-   if (isset($_GET['hashstr'])){$hashstr = rawurldecode($_GET['hashstr']);}
+   if (isset($_GET['input'])){$input = $_GET['input'];}
+   if (isset($_GET['dirname'])){$dirname = $_GET['dirname'];}
+   if (isset($_GET['hashstr'])){$hashstr = $_GET['hashstr'];}
    #print $input."<br>";
    #print $dirname."<br>";
    #print $hashstr."<br>";

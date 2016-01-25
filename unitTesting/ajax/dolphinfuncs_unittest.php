@@ -18,7 +18,7 @@ class dolphinfuncs_unittest extends PHPUnit_Framework_TestCase
     public function testUpdateHashBackup(){
         ob_start();
 		$_GET['p'] = 'updateHashBackup';
-        $_GET['input'] = '1';
+        $_GET['input'] = 'control_rep1.1.fastq.gz,control_rep1.2.fastq.gz';
         $_GET['dirname'] = '/export/genome_data/mousetest/mm10/barcodetest';
         $_GET['hashstr'] = 'test_hash';
 		include("dolphinfuncs.php");

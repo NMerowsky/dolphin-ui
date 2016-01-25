@@ -8,12 +8,13 @@ chdir('public/ajax/');
 class dataerrorlogs_unittest extends PHPUnit_Framework_TestCase
 {
     public function testGetStdOut(){
-        ob_start();
+        #ob_start();
 		$_GET['p'] = 'getStdOut';
         $_GET['run_id'] = '1';
 		include("dataerrorlogs.php");
+		var_dump($data);
 		$this->assertEquals(json_decode($data),'');
-		ob_end_clean();
+		#ob_end_clean();
     }
     
     public function testCheckQueued(){

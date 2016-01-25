@@ -319,5 +319,5 @@ else if($p == 'deleteExcel')
 }
 
 //footer
-exit;
+#exit;
 ?>

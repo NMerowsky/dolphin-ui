@@ -9,7 +9,7 @@ require_once("../../includes/dbfuncs.php");
 $query = new dbfuncs();
 //header
 
-if(!function_exists('runCmd')){
+submitPipelineists('runCmd')){
 	function runCmd($idKey, $query, $wkey)
 	{
 		$wkeystr="";

@@ -69,3 +69,4 @@ after_script:
   - mysql -e "use biocore; SELECT * FROM amazon_credentials;" -uroot
   - mysql -e "use biocore; SELECT * FROM groups;" -uroot
   - mysql -e "use biocore; SELECT * FROM user_group_requests;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_wkeylist;" -uroot

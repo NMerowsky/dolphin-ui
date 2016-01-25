@@ -1,12 +1,9 @@
 <?php
-//error_reporting(E_ERROR);
-error_reporting(E_ALL);
-ini_set('report_errors','on');
-
-require_once("../../config/config.php");
-require_once("../../includes/dbfuncs.php");
-
-$query = new dbfuncs();
+//	Include files needed to test ngsimport
+if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
+$_SESSION['uid'] = '1';
+$_SESSION['user'] = 'kucukura';
+chdir('public/ajax/');
 
 class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
 {

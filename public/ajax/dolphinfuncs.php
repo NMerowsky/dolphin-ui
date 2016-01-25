@@ -10,7 +10,6 @@ $query = new dbfuncs();
 
 if (isset($_GET['p'])){$p = $_GET['p'];}
 
-
 if($p == "getFileList")
 {
     $data=$query->queryTable("

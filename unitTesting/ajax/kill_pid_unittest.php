@@ -11,7 +11,7 @@ class kill_pid_unittest extends PHPUnit_Framework_TestCase
         $_GET['p'] = 'killRun';
         $_GET['run_id'] = '1';
         include("kill_pid.php");
-        $this->assertEquals(json_decode($data)[0]->id,'0');
+        $this->assertEquals($data,'');
     }
 }
 

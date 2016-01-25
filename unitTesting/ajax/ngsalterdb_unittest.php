@@ -34,6 +34,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		var_dump($outdir_check);
 		var_dump($outdir);
 		var_dump($data);
+		var_dump($idKey);
 		$this->assertEquals(json_decode($data),'4');
 		#ob_end_clean();
 	}

@@ -23,9 +23,9 @@ else if($p == "updateHashBackup")
    if (isset($_GET['input'])){$input = rawurldecode($_GET['input']);}
    if (isset($_GET['dirname'])){$dirname = rawurldecode($_GET['dirname']);}
    if (isset($_GET['hashstr'])){$hashstr = rawurldecode($_GET['hashstr']);}
-   print $input."<br>";
-   print $dirname."<br>";
-   print $hashstr."<br>";
+   #print $input."<br>";
+   #print $dirname."<br>";
+   #print $hashstr."<br>";
    $data=$query->queryTable(" 
    UPDATE  ngs_fastq_files nff, 
    (SELECT nff.id FROM ngs_fastq_files nff, ngs_dirs nd

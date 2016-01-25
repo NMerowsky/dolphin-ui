@@ -125,7 +125,7 @@ if ($p == "submitPipeline" )
         //need to grab the id for runlist insertion
         $idKey=$query->queryAVal("SELECT id FROM ngs_runparams WHERE run_group_id = -1 and run_name = '$name' order by id desc limit 1");
         $wkey="";
-		runCmd($idKey, $query, $wkey);
+		//runCmd($idKey, $query, $wkey);
         //update required to make run_group_id equal to it's primary key "id".Replace the arbitrary -1 with the id
         if( $runGroupID == 'new'){
             $data=$query->runSQL("UPDATE ngs_runparams SET run_group_id = id WHERE run_group_id = -1");

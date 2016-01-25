@@ -27,7 +27,6 @@ if($p == 'getStdOut'){
 		$grep_find_workflow = popen( "ps -ef | grep '[".substr($workflow_pid, 0, 1)."]".substr($workflow_pid,1)."'", "r" );
 		$workflow = fread($grep_find_workflow, 2096);
 		pclose($grep_find_workflow);
-		$workflow = fread($grep_find_workflow, 2096);
 	}else{
 		$workflow = null;
 	}
@@ -35,7 +34,6 @@ if($p == 'getStdOut'){
 		$grep_find_wrapper = popen( "ps -ef | grep '[".substr($wrapper_pid, 0, 1)."]".substr($wrapper_pid,1)."'", "r" );
 		$wrapper = fread($grep_find_wrapper, 2096);
 		pclose($grep_find_wrapper);
-		$wrapper = fread($grep_find_wrapper, 2096);
 	}else{
 		$wrapper = null;
 	}

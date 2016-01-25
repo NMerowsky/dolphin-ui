@@ -15,7 +15,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['name'] = 'test insertPipeline';
 		$_POST['desc'] = 'unittesting insertPipeline';
 		$_POST['runGroupID'] = 'new';
-		$_POST['barcode'] = 'none';
+		$_POST['barcode'] = '0';
 		$_POST['uid'] = '1';
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
@@ -66,7 +66,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testDeleteRunparams(){
 		ob_start();
 		$_POST['p'] = 'deleteRunparams';
-		$_POST['run_id'] = '4';
+		$_POST['run_id'] = '3';
 		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();

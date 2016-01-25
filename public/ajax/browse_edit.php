@@ -162,9 +162,9 @@ else if ($p == 'intialRunCheck')
 	$data=$query->queryTable("SELECT sample_id FROM ngs_fastq_files WHERE sample_id IN ($samples) AND total_reads > 0");
 }
 
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
+#header('Cache-Control: no-cache, must-revalidate');
+#header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+#header('Content-type: application/json');
 echo $data;
-exit;
+#exit;
 ?>

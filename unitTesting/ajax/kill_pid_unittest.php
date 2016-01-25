@@ -8,12 +8,13 @@ chdir('public/ajax/');
 class kill_pid_unittest extends PHPUnit_Framework_TestCase
 {
     public function testKillRun(){
-        ob_start();
+        #ob_start();
         $_GET['p'] = 'killRun';
         $_GET['run_id'] = '1';
         include("kill_pid.php");
+        $var_dump($pids);
         $this->assertEquals($data,'');
-        ob_end_clean();
+        #ob_end_clean();
     }
 }
 

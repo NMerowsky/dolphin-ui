@@ -16,6 +16,7 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
+		
     }
 }
 

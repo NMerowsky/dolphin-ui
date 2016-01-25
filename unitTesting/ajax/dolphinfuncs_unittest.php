@@ -16,7 +16,7 @@ class dolphinfuncs_unittest extends PHPUnit_Framework_TestCase
     }
     
     public function testUpdateHashBackup(){
-        ob_start();
+        #ob_start();
 		$_GET['p'] = 'updateHashBackup';
         $_GET['input'] = 'control_rep1.1.fastq.gz,control_rep1.2.fastq.gz';
         $_GET['dirname'] = '/export/genome_data/mousetest/mm10/barcodetest';
@@ -26,7 +26,7 @@ class dolphinfuncs_unittest extends PHPUnit_Framework_TestCase
 		var_dump($dirname);
 		var_dump($hashstr);
 		$this->assertEquals(json_decode($data),'0');
-		ob_end_clean();
+		#ob_end_clean();
     }
 }
 

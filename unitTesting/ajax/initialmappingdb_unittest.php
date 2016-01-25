@@ -41,13 +41,13 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['p'] = 'getCounts';
         $_GET['samples'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($data)[0]->total_counts,'1');
+        $this->assertEquals(json_decode($data)[0]->total_counts,'24788');
         ob_end_clean();
     }
     
     public function testCheckRunList(){
         ob_start();
-        $_GET['p'] = 'checkRunlist';
+        $_GET['p'] = 'checkRunList';
         $_GET['sample_ids'] = '1';
         $_GET['run_ids'] = '1';
         include("initialmappingdb.php");
@@ -69,7 +69,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['p'] = 'checkRunToSamples';
         $_GET['run_id'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($data)[0]->sample_id,'1');
+        $this->assertEquals(json_decode($data)[0]->id,'1');
         ob_end_clean();
     }
     
@@ -77,9 +77,9 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         ob_start();
         $_GET['p'] = 'checkFileToSamples';
         $_GET['run_id'] = '1';
-        $_GET['file_name'] = '1';
+        $_GET['file_name'] = 'control_rep1.1.fastq.gz,control_rep1.2.fastq.gz';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($data)[0]->file_name,'1');
+        $this->assertEquals(json_decode($data)[0]->file_name,'control_rep1.1.fastq.gz,control_rep1.2.fastq.gz');
         ob_end_clean();
     }
     
@@ -89,7 +89,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
         $_GET['run_id'] = '1';
         $_GET['sample_ids'] = '1';
         include("initialmappingdb.php");
-        $this->assertEquals(json_decode($ids)[0]->sample_id,'1');
+        $this->assertEquals($ids->sample_id,'1');
         ob_end_clean();
     }
 }

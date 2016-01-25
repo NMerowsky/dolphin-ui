@@ -204,6 +204,48 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
+	
+	public function testGetSamplesAll(){
+		ob_start();
+		$_GET['p'] = 'getSamples';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
+		$_GET['seg'] = '';
+		$_GET['search'] = '';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
+		include("ngs_tables.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testGetLanesAll(){
+		ob_start();
+		$_GET['p'] = 'getLanes';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
+		$_GET['seg'] = '';
+		$_GET['search'] = '';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
+		include("ngs_tables.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testGetExperimentSeriesAll(){
+		ob_start();
+		$_GET['p'] = 'getExperimentSeries';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
+		$_GET['seg'] = '';
+		$_GET['search'] = '';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
+		include("ngs_tables.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
 }
 
 ?>

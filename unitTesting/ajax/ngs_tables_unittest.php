@@ -78,24 +78,10 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
-	public function testDetailsGetSamplesTheValue(){
+	public function testDetailsGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'getTableSamples';
-		$_GET['r'] = '1';
-		$_GET['seg'] = 'details';
-		$_GET['search'] = 'organism=human';
-		$_GET['uid'] = '1';
-		$_GET['gids'] = '1';
-		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
-		ob_end_clean();
-	}
-	
-	public function testDetailsGetSamplesTheField(){
-		ob_start();
-		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'getTableSamples';
+		$_GET['q'] = '';
 		$_GET['r'] = '';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = 'organism=human';
@@ -137,8 +123,8 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testNoSearchBrowseGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'Organism';
-		$_GET['r'] = 'human';
+		$_GET['q'] = '';
+		$_GET['r'] = '';
 		$_GET['seg'] = 'browse';
 		$_GET['search'] = '';
 		$_GET['uid'] = '1';
@@ -176,24 +162,10 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
-	public function testNoSearchDetailsGetSamplesTheValue(){
+	public function testNoSearchDetailsGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'getTableSamples';
-		$_GET['r'] = '1';
-		$_GET['seg'] = 'details';
-		$_GET['search'] = '';
-		$_GET['uid'] = '1';
-		$_GET['gids'] = '1';
-		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
-		ob_end_clean();
-	}
-	
-	public function testNoSearchDetailsGetSamplesTheField(){
-		ob_start();
-		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'getTableSamples';
+		$_GET['q'] = '';
 		$_GET['r'] = '';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = '';

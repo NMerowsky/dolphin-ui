@@ -17,7 +17,7 @@ if($p == 'killRun')
 	$pids = json_decode($query->queryTable("SELECT wrapper_pid, runworkflow_pid
 							   FROM ngs_runparams
 							   WHERE id = $run_id"));
-	
+	var_dump($pids);
 	if($pids[0]->runworkflow_pid != null){
 		$workflow_pid = $pids[0]->runworkflow_pid;
 		$grep_check_workflow = "ps -ef | grep '[".substr($workflow_pid, 0, 1)."]".substr($workflow_pid,1)."'";

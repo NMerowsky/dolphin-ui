@@ -39,10 +39,10 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testBrowseGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = '';
-		$_GET['r'] = '';
+		$_GET['q'] = 'Organism';
+		$_GET['r'] = 'human';
 		$_GET['seg'] = 'browse';
-		$_GET['search'] = '1';
+		$_GET['search'] = 'organism=human';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
@@ -53,10 +53,10 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testBrowseGetLanes(){
 		ob_start();
 		$_GET['p'] = 'getLanes';
-		$_GET['q'] = '';
-		$_GET['r'] = '';
+		$_GET['q'] = 'Organism';
+		$_GET['r'] = 'human';
 		$_GET['seg'] = 'browse';
-		$_GET['search'] = '1';
+		$_GET['search'] = 'organism=human';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
@@ -67,10 +67,10 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testBrowseGetExperimentSeries(){
 		ob_start();
 		$_GET['p'] = 'getExperimentSeries';
-		$_GET['q'] = '';
-		$_GET['r'] = '';
+		$_GET['q'] = 'Organism';
+		$_GET['r'] = 'human';
 		$_GET['seg'] = 'browse';
-		$_GET['search'] = '1';
+		$_GET['search'] = 'organism=human';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");

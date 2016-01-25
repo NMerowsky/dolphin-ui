@@ -6,17 +6,7 @@ $_SESSION['user'] = 'kucukura';
 chdir('public/ajax/');
 
 class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
-{
-	public function testKillPid(){
-		ob_start();
-		$_POST['p'] = 'none';
-		$data = '';
-		include("ngsalterdb.php");
-		$wkey = killPid('10000',$query);
-		$this->assertEquals($wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
-		ob_end_clean();
-	}
-	
+{	
 	public function testSubmitPipelineInsert(){
 		#ob_start();
 		$_POST['p'] = 'submitPipeline';
@@ -55,9 +45,9 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
-	public function testInsertRunList(){
+	public function testInsertRunlist(){
 		#ob_start();
-		$_POST['p'] = 'insertRunList';
+		$_POST['p'] = 'insertRunlist';
 		$_POST['sampID'] = '1';
 		$_POST['runID'] = '4';
 		$_POST['uid'] = '1';
@@ -79,9 +69,9 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testDeleteRunparams(){
 		ob_start();
 		$_POST['p'] = 'deleteRunparams';
-		$_POST['run_id'] = '3';
+		$_POST['run_id'] = '4';
 		include("ngsalterdb.php");
-		$this->assertEquals($run_id,'3');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	

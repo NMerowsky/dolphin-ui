@@ -20,10 +20,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
-		var_dump($outdir_check);
-		var_dump($outdir);
 		var_dump($data);
-		var_dump($idKey);
 		$this->assertEquals(json_decode($data),'0');
 		#ob_end_clean();
 	}
@@ -62,7 +59,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['p'] = 'noAddedParamsRerun';
 		$_POST['run_id'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'0');
+		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
 	

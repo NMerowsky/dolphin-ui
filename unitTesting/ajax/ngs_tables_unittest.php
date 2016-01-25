@@ -46,7 +46,7 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data)[0]->id,'7');
 		ob_end_clean();
 	}
 	
@@ -60,7 +60,7 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'1');
+		$this->assertEquals(json_decode($data)[0]->id,'2');
 		ob_end_clean();
 	}
 	
@@ -71,6 +71,20 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		$_GET['r'] = 'human';
 		$_GET['seg'] = 'browse';
 		$_GET['search'] = 'organism=human';
+		$_GET['uid'] = '1';
+		$_GET['gids'] = '1';
+		include("ngs_tables.php");
+		$this->assertEquals(json_decode($data)[0]->id,'2');
+		ob_end_clean();
+	}
+	
+	public function testDetailsGetSamples(){
+		ob_start();
+		$_GET['p'] = 'getSamples';
+		$_GET['q'] = 'samples';
+		$_GET['r'] = '7';
+		$_GET['seg'] = 'details';
+		$_GET['search'] = '';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");

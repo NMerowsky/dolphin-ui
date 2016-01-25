@@ -133,8 +133,8 @@ if ($p == "submitPipeline" )
         }else{
             $data=$query->runSQL("UPDATE ngs_runparams SET run_group_id = $runGroupID WHERE run_group_id = -1");
         }
-        */
         $data=$idKey;
+        */
     }
 }
 else if ($p == 'insertRunlist')

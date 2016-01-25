@@ -8,7 +8,7 @@ chdir('public/ajax/');
 class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 {	
 	public function testSubmitPipelineInsert(){
-		#ob_start();
+		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json';
 		$_POST['outdir'] = '/test/outdir';
@@ -20,9 +20,8 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['group'] = '1';
 		$_POST['perms'] = '32';
 		include("ngsalterdb.php");
-		var_dump($data);
 		$this->assertEquals(json_decode($data),'4');
-		#ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testSubmitPipelineUpdate(){

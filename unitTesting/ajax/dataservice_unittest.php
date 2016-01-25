@@ -9,9 +9,9 @@ class dataservice_unittest extends PHPUnit_Framework_TestCase
 {
     public function testDataservice(){
         ob_start();
-		$_GET['wkey'] = 'test_wkey';
+		$_GET['wkey'] = 'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV';
 		include("dataservice.php");
-		$this->assertEquals(json_decode($data)[0]->id,'');
+		$this->assertEquals(json_decode($data)[0]->id,'id_1');
 		ob_end_clean();
     }
 }

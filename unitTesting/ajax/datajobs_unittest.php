@@ -11,7 +11,7 @@ class datajobs_unittest extends PHPUnit_Framework_TestCase
         ob_start();
 		$_GET['id'] = '1';
 		include("datajobs.php");
-		$this->assertEquals(json_decode($data)[0]->id,'');
+		$this->assertEquals(json_decode($data)[0]->id,'id_1');
 		ob_end_clean();
     }
 }

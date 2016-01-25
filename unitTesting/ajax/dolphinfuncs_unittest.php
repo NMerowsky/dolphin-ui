@@ -22,6 +22,9 @@ class dolphinfuncs_unittest extends PHPUnit_Framework_TestCase
         $_GET['dirname'] = '/export/genome_data/mousetest/mm10/barcodetest';
         $_GET['hashstr'] = 'test_hash';
 		include("dolphinfuncs.php");
+		var_dump($input);
+		var_dump($dirname);
+		var_dump($hashstr);
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();
     }

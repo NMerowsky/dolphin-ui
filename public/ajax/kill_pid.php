@@ -18,25 +18,26 @@ if($p == 'killRun')
 							   FROM ngs_runparams
 							   WHERE id = $run_id"));
 	
-	$workflow_pid = $pids[0]->runworkflow_pid;
-	$wrapper_pid = $pids[0]->wrapper_pid;
-	
-	$grep_check_workflow = "ps -ef | grep '[".substr($workflow_pid, 0, 1)."]".substr($workflow_pid,1)."'";
-	$grep_check_wrapper = "ps -ef | grep '[".substr($wrapper_pid, 0, 1)."]".substr($wrapper_pid,1)."'";
-	
-	$grep_find_workflow = pclose(popen( $grep_check_workflow, "r" ) );
-	$grep_find_wrapper = pclose(popen( $grep_check_wrapper, "r" ) );
-	
-	if($grep_find_workflow > 0 && $grep_find_workflow != NULL){
-		pclose(popen( "kill -9 $workflow_pid", "r" ) );
-		$setStatus = "killed";
-	}
-	if($grep_find_wrapper > 0 && $grep_find_wrapper != NULL){
-		pclose(popen( "kill -9 $wrapper_pid", "r" ) );
-		$setStatus = "killed";
+	if(isset($pids[0]->runworkflow_pid)){
+		$workflow_pid = $pids[0]->runworkflow_pid;
+		$grep_check_workflow = "ps -ef | grep '[".substr($workflow_pid, 0, 1)."]".substr($workflow_pid,1)."'";
+		$grep_find_workflow = pclose(popen( $grep_check_workflow, "r" ) );
+		if($grep_find_workflow > 0 && $grep_find_workflow != NULL){
+			pclose(popen( "kill -9 $workflow_pid", "r" ) );
+			$setStatus = "killed";
+		}
 	}
 	
-	$data = '';
+	if(isset($pids[0]->wrapper_pid)){
+		$wrapper_pid = $pids[0]->wrapper_pid;
+		$grep_check_wrapper = "ps -ef | grep '[".substr($wrapper_pid, 0, 1)."]".substr($wrapper_pid,1)."'";
+		$grep_find_wrapper = pclose(popen( $grep_check_wrapper, "r" ) );
+		if($grep_find_wrapper > 0 && $grep_find_wrapper != NULL){
+			pclose(popen( "kill -9 $wrapper_pid", "r" ) );
+			$setStatus = "killed";
+		}
+	}
+		
 	if($setStatus == "killed"){
 		$data = $query->queryTable("UPDATE ngs_runparams
 							   SET run_status = 4

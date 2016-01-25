@@ -123,42 +123,42 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testNoSearchBrowseGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = 'Organism';
-		$_GET['r'] = 'human';
+		$_GET['q'] = 'Organism_id';
+		$_GET['r'] = '1';
 		$_GET['seg'] = 'browse';
 		$_GET['search'] = '';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'7');
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
 	
 	public function testNoSearchBrowseGetLanes(){
 		ob_start();
 		$_GET['p'] = 'getLanes';
-		$_GET['q'] = 'Organism';
-		$_GET['r'] = 'human';
+		$_GET['q'] = 'Organism_id';
+		$_GET['r'] = '1';
 		$_GET['seg'] = 'browse';
 		$_GET['search'] = '';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'2');
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
 	
 	public function testNoSearchBrowseGetExperimentSeries(){
 		ob_start();
 		$_GET['p'] = 'getExperimentSeries';
-		$_GET['q'] = 'Organism';
-		$_GET['r'] = 'human';
+		$_GET['q'] = 'Organism_id';
+		$_GET['r'] = '1';
 		$_GET['seg'] = 'browse';
 		$_GET['search'] = '';
 		$_GET['uid'] = '1';
 		$_GET['gids'] = '1';
 		include("ngs_tables.php");
-		$this->assertEquals(json_decode($data)[0]->id,'2');
+		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();
 	}
 	

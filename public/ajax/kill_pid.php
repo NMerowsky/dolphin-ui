@@ -18,7 +18,7 @@ if($p == 'killRun')
 							   FROM ngs_runparams
 							   WHERE id = $run_id"));
 	
-	if(isset($pids[0]->runworkflow_pid)){
+	if($pids[0]->runworkflow_pid != null){
 		$workflow_pid = $pids[0]->runworkflow_pid;
 		$grep_check_workflow = "ps -ef | grep '[".substr($workflow_pid, 0, 1)."]".substr($workflow_pid,1)."'";
 		$grep_find_workflow = pclose(popen( $grep_check_workflow, "r" ) );
@@ -28,7 +28,7 @@ if($p == 'killRun')
 		}
 	}
 	
-	if(isset($pids[0]->wrapper_pid)){
+	if($pids[0]->wrapper_pid != null){
 		$wrapper_pid = $pids[0]->wrapper_pid;
 		$grep_check_wrapper = "ps -ef | grep '[".substr($wrapper_pid, 0, 1)."]".substr($wrapper_pid,1)."'";
 		$grep_find_wrapper = pclose(popen( $grep_check_wrapper, "r" ) );

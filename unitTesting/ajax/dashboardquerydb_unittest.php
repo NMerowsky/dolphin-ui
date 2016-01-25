@@ -11,7 +11,7 @@ class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
         ob_start();
 		$_GET['p'] = 'getMonthlyRuns';
 		include("dashboardquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->countToal,'');
+		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -19,7 +19,7 @@ class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
         ob_start();
 		$_GET['p'] = 'getDailyRuns';
 		include("dashboardquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->countToal,'');
+		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -27,7 +27,7 @@ class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
         ob_start();
 		$_GET['p'] = 'getMonthlyJobs';
 		include("dashboardquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->countSuccess,'');
+		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
 }

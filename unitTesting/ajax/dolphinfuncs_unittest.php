@@ -18,8 +18,8 @@ class dolphinfuncs_unittest extends PHPUnit_Framework_TestCase
     public function testUpdateHashBackup(){
         ob_start();
 		$_GET['p'] = 'updateHashBackup';
-        $_GET['input'] = '';
-        $_GET['dirname'] = '';
+        $_GET['input'] = '1';
+        $_GET['dirname'] = '/export/genome_data/mousetest/mm10/barcodetest';
         $_GET['hashstr'] = 'test_hash';
 		include("dolphinfuncs.php");
 		$this->assertEquals(json_decode($data),'0');

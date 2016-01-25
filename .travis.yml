@@ -46,7 +46,6 @@ before_script:
   - mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
   - mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot
   - mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
-  - mysql -e "use biocore; SELECT * FROM ngs_fastq_files" -uroot
   
 script:
   - phpunit unitTesting/ngsimport_unittest.php
@@ -80,3 +79,4 @@ after_script:
   - mysql -e "use biocore; SELECT * FROM user_group_requests;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_wkeylist;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_organism;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_fastq_files" -uroot

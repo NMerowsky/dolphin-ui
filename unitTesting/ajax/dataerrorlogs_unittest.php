@@ -17,12 +17,13 @@ class dataerrorlogs_unittest extends PHPUnit_Framework_TestCase
     }
     
     public function testCheckQueued(){
-        ob_start();
+        #ob_start();
 		$_GET['p'] = 'checkQueued';
         $_GET['run_id'] = '1';
 		include("dataerrorlogs.php");
-		$this->assertEquals(json_decode($data)[0],'0');
-		ob_end_clean();
+		var_dump($data);
+		$this->assertEquals(json_decode($data),'0');
+		#ob_end_clean();
     }
     
     public function testErrorCheck(){

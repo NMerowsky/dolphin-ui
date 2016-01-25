@@ -65,7 +65,7 @@ class initialmappingdb_unittest extends PHPUnit_Framework_TestCase
     }
     
     public function testCheckRunToSamples(){
-        oob_start();
+        ob_start();
         $_GET['p'] = 'checkRunToSamples';
         $_GET['run_id'] = '1';
         include("ngs_tables.php");

@@ -95,7 +95,7 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testDetailsGetLanes(){
 		ob_start();
 		$_GET['p'] = 'getLanes';
-		$_GET['q'] = 'experiment';
+		$_GET['q'] = '';
 		$_GET['r'] = '1';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = 'organism=human';
@@ -109,8 +109,8 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testDetailsGetExperimentSeries(){
 		ob_start();
 		$_GET['p'] = 'getExperimentSeries';
-		$_GET['q'] = 'experiment_series';
-		$_GET['r'] = '1';
+		$_GET['q'] = '1';
+		$_GET['r'] = '';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = 'organism=human';
 		$_GET['uid'] = '1';
@@ -193,8 +193,8 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testNoSearchDetailsGetExperimentSeries(){
 		ob_start();
 		$_GET['p'] = 'getExperimentSeries';
-		$_GET['q'] = 'experiment_series';
-		$_GET['r'] = '1';
+		$_GET['q'] = '1';
+		$_GET['r'] = '';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = '';
 		$_GET['uid'] = '1';

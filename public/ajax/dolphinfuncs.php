@@ -5,7 +5,7 @@ ini_set('report_errors','on');
 
 require_once("../../config/config.php");
 require_once("../../includes/dbfuncs.php");
-
+if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 $query = new dbfuncs();
 
 if (isset($_GET['p'])){$p = $_GET['p'];}
@@ -20,12 +20,12 @@ if($p == "getFileList")
 }
 else if($p == "updateHashBackup")
 {
-   if (isset($_GET['input'])){$input = $_GET['input'];}
-   if (isset($_GET['dirname'])){$dirname = $_GET['dirname'];}
-   if (isset($_GET['hashstr'])){$hashstr = $_GET['hashstr'];}
-   #print $input."<br>";
-   #print $dirname."<br>";
-   #print $hashstr."<br>";
+   if (isset($_GET['input'])){$input = rawurldecode($_GET['input']);}
+   if (isset($_GET['dirname'])){$dirname = rawurldecode($_GET['dirname']);}
+   if (isset($_GET['hashstr'])){$hashstr = rawurldecode($_GET['hashstr']);}
+   print $input."<br>";
+   print $dirname."<br>";
+   print $hashstr."<br>";
    $data=$query->queryTable(" 
    UPDATE  ngs_fastq_files nff, 
    (SELECT nff.id FROM ngs_fastq_files nff, ngs_dirs nd

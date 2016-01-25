@@ -39,7 +39,8 @@ if($p == 'killRun')
 	}
 		
 	if($setStatus == "killed"){
-		$data = $query->queryTable("UPDATE ngs_runparams
+		$data = $query->queryTable("SET SQL_SAFE_UPDATES = 0;
+							   UPDATE ngs_runparams
 							   SET run_status = 4
 							   WHERE id = $run_id");
 	}

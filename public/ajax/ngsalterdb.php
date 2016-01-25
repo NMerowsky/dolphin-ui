@@ -122,6 +122,7 @@ if ($p == "submitPipeline" )
         owner_id, group_id, perms, date_created, date_modified, last_modified_user)
         VALUES (-1, '$outdir', 0, $barcode, '$json', '$name', '$desc',
         $uid, $group, $perms, now(), now(), $uid)");
+		/*
         //need to grab the id for runlist insertion
         $idKey=$query->queryAVal("SELECT id FROM ngs_runparams WHERE run_group_id = -1 and run_name = '$name' order by id desc limit 1");
         $wkey="";
@@ -132,6 +133,7 @@ if ($p == "submitPipeline" )
         }else{
             $data=$query->runSQL("UPDATE ngs_runparams SET run_group_id = $runGroupID WHERE run_group_id = -1");
         }
+        */
         $data=$idKey;
     }
 }

@@ -46,21 +46,21 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testInsertRunlist(){
-		#ob_start();
+		ob_start();
 		$_POST['p'] = 'insertRunlist';
 		$_POST['sampID'] = '1';
 		$_POST['runID'] = '4';
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'0');
-		#ob_end_clean();
+		$this->assertEquals(json_decode($data),'1');
+		ob_end_clean();
 	}
 	
 	public function testNoAddedParamsRerun(){
 		ob_start();
 		$_POST['p'] = 'noAddedParamsRerun';
-		$_POST['run_id'] = '4';
+		$_POST['run_id'] = '1';
 		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),'0');
 		ob_end_clean();

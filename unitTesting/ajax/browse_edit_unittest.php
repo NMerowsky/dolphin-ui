@@ -73,7 +73,6 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
 		$_GET['lanes'] = '4';
 		$_GET['experiments'] = '3';
 		include("browse_edit.php");
-		$this->assertEquals($wkey_json[0]->wkey,'');
 		$this->assertEquals($data,'');
 		ob_end_clean();
 	}

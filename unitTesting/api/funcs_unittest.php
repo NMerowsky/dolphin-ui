@@ -145,6 +145,41 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->rerunJob('stepCheck', 'stepCheck', 'kucukura', 'Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD'), 1);
 		ob_end_clean();
 	}
+	
+	public function testCheckStatus(){
+		ob_start();
+		$funcs  = new funcs();
+		$params['servicename'] = 'stepCheck';
+        $params['wkey'] = 'Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD';
+		$this->assertEquals($funcs->checkStatus($params), 'START');
+		ob_end_clean();
+	}
+	
+	public function testGetServiceOrder(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->getServiceOrder('1','1','Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD'), '');
+		ob_end_clean();
+	}
+	
+	public function testGetWorkflowID(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->getWorkflowID('Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD'), '');
+		ob_end_clean();
+	}
+	
+	public function testGetId(){
+		ob_start();
+		$funcs  = new funcs();
+		$name = 'workflow';
+		$username = 'galaxy';
+		$val = 'seqmapping_workflow';
+		$wkey = 'Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD';
+		$defaultparam = '/usr/local/share/dolphin_tools/default_params/Dolphin_v1.3_default.txt';
+		$this->assertEquals($funcs->getID($name, $username, $val, $wkey, $defaultparam), '1');
+		ob_end_clean();
+	}
 }
 
 ?>

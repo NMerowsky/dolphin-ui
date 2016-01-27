@@ -88,6 +88,20 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->getKey(),'');
 		ob_end_clean();
 	}
+	
+	public function testRunSQL(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals(json_decode($funcs->runSQL('SELECT * FROM ngs_samples'))[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testQueryAVal(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->queryAVal('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\''),'1');
+		ob_end_clean();
+	}
 }
 
 ?>

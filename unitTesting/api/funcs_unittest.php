@@ -61,12 +61,31 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	public function testCheckFile(){
 		ob_start();
 		$funcs  = new funcs();
-		$params['user'] = 'root';
+		$params['username'] = 'root';
 		$params['file'] = 'funcs.php';
 		$this->assertEquals($funcs->checkFile($params),"{\"Result\":\"Ok\"}");
-		$params['user'] = 'root';
+		$params['username'] = 'root';
 		$params['file'] = 'does_not_exist.php';
 		$this->assertEquals($funcs->checkFile($params),"{\"ERROR\": \"No such file or directory: ".$params['file']."\"}");
+		ob_end_clean();
+	}
+	
+	public function testCheckPermissions(){
+		ob_start();
+		$funcs  = new funcs();
+		$params['username'] = 'root';
+		$params['outdir'] = 'funcs_dir_test';
+		$this->assertEquals($funcs->checkPermissions($params),"{\"Result\":\"Ok\"}");
+		$params['username'] = 'random';
+		$params['outdir'] = 'funcs_dir_test';
+		$this->assertEquals($funcs->checkPermissions($params),"{\"ERROR\": \"Permission denied: ".$params['outdir']."\"}");
+		ob_end_clean();
+	}
+	
+	public function testGetKey(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->getKey(),'');
 		ob_end_clean();
 	}
 }

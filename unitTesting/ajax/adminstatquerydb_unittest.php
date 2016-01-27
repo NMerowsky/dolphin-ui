@@ -65,7 +65,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getJobTime';
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->count,'0');
+		$this->assertEquals(json_decode($data)[0]->count,'30');
 		ob_end_clean();
     }
 }

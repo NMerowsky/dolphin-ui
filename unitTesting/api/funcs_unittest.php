@@ -105,7 +105,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		#ob_start();
 		$funcs  = new funcs();
 		var_dump($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\''));
-		$this->assertEquals($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\''),'1');
+		$this->assertEquals($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\'')[0]->id,'1');
 		#ob_end_clean();
 	}
 	
@@ -113,7 +113,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$funcs  = new funcs();
 		$command = 'ls funcs.php';
-		$this->assertEquals(preg_replace("\n","",$funcs->syscall($command)),'funcs.php');
+		$this->assertEquals(str_replace("\n", "", $funcs->syscall($command)),'funcs.php');
 		$command = 'ls hootnanny';
 		$this->assertEquals($funcs->syscall($command),"ERROR 104: Cannot run $command!");
 		ob_end_clean();

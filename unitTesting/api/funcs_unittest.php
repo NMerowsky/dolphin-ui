@@ -22,7 +22,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->jobstatus,'N');
 		$this->assertEquals($funcs->config,'Docker');
 		$this->assertEquals($funcs->python,'python');
-		$this->assertEquals($funcs->scheduler,'N');
+		$this->assertEquals($funcs->schedular,'N');
 		ob_end_clean();
 	}
 	
@@ -39,7 +39,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->jobstatus,'N');
 		$this->assertEquals($funcs->config,'Docker');
 		$this->assertEquals($funcs->python,'python');
-		$this->assertEquals($funcs->scheduler,'N');
+		$this->assertEquals($funcs->schedular,'N');
 		ob_end_clean();
 	}
 	
@@ -55,6 +55,18 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$funcs  = new funcs();
 		$this->assertEquals($funcs->getCMDS(''),'');
+		ob_end_clean();
+	}
+	
+	public function testCheckFile(){
+		ob_start();
+		$funcs  = new funcs();
+		$params['user'] = 'root';
+		$params['file'] = 'funcs.php';
+		$this->assertEquals($funcs->checkFile($params),"{\"Result\":\"Ok\"}");
+		$params['user'] = 'root';
+		$params['file'] = 'does_not_exist.php';
+		$this->assertEquals($funcs->checkFile($params),"{\"ERROR\": \"No such file or directory: ".$params['file']."\"}");
 		ob_end_clean();
 	}
 }

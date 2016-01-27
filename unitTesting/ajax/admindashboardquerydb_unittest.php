@@ -5,12 +5,12 @@ $_SESSION['uid'] = '1';
 $_SESSION['user'] = 'kucukura';
 chdir('public/ajax/');
 
-class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
+class admindashboardquerydb_unittest extends PHPUnit_Framework_TestCase
 {
     public function testGetMonthlyRuns(){
         ob_start();
 		$_GET['p'] = 'getMonthlyRuns';
-		include("dashboardquerydb.php");
+		include("admindashboardquerydb.php");
 		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
@@ -18,7 +18,7 @@ class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
     public function testGetDailyRuns(){
         ob_start();
 		$_GET['p'] = 'getDailyRuns';
-		include("dashboardquerydb.php");
+		include("admindashboardquerydb.php");
 		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
@@ -26,7 +26,7 @@ class dashboardquerydb_unittest extends PHPUnit_Framework_TestCase
     public function testGetMonthlyJobs(){
         ob_start();
 		$_GET['p'] = 'getMonthlyJobs';
-		include("dashboardquerydb.php");
+		include("admindashboardquerydb.php");
 		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }

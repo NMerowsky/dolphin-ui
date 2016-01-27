@@ -13,16 +13,16 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$funcs  = new funcs();
 		$funcs->readINI();
-		$this->assertEquals($funcs->dbhost,'');
-		$this->assertEquals($funcs->db,'');
-		$this->assertEquals($funcs->dbuser,'');
-		$this->assertEquals($funcs->dbpass,'');
-		$this->assertEquals($funcs->tool_path,'');
-		$this->assertEquals($funcs->remotehost,'');
-		$this->assertEquals($funcs->jobstatus,'');
-		$this->assertEquals($funcs->config,'');
-		$this->assertEquals($funcs->python,'');
-		$this->assertEquals($funcs->scheduler,'');
+		$this->assertEquals($funcs->dbhost,'localhost');
+		$this->assertEquals($funcs->db,'biocore');
+		$this->assertEquals($funcs->dbuser,'bioinfo');
+		$this->assertEquals($funcs->dbpass,'bioinfo2013');
+		$this->assertEquals($funcs->tool_path,'/usr/local/share/dolphin_tools/src');
+		$this->assertEquals($funcs->remotehost,'N');
+		$this->assertEquals($funcs->jobstatus,'N');
+		$this->assertEquals($funcs->config,'Localhost');
+		$this->assertEquals($funcs->python,'python');
+		$this->assertEquals($funcs->scheduler,'N');
 		ob_end_clean();
 	}
 }

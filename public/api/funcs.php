@@ -272,7 +272,7 @@ class funcs
                         $rowout = $resout->fetch_assoc();
                         require_once('class.html2text.inc');
                         
-                        $h2t =& new html2text($rowout['jobout']);
+                        $h2t = new html2text($rowout['jobout']);
                         $jobout = $h2t->get_text();
                         return 'ERROR:' . $retval . "\n" . $rowout['jobname'] . " Failed\nCheck LSF output\n" . $jobout;
                       }

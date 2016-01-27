@@ -102,7 +102,7 @@ class funcs
         $wkey       = "";
         $ret        = "";
         for ($i = 0; $i < 30; $i++) {
-            $wkey .= $characters[rand(0, strlen($characters))];
+            $wkey .= $characters[rand(0, strlen($characters)-1)];
         }
         # If this random key exist it randomize another key
         if ($this->getWorkflowId($wkey))

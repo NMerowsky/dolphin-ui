@@ -47,7 +47,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$funcs  = new funcs();
 		$funcs->setCMDs();
-		$this->assertEquals($funcs->checkjob_cmd,'');
+		$this->assertEquals($funcs->checkjob_cmd,'ps -ef|grep "[[:space:]][[:space:]]"|awk \'{printf("%s	%s",$8,$2)}\'');
 		ob_end_clean();
 	}
 	
@@ -77,9 +77,6 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$params['username'] = 'root';
 		$params['outdir'] = 'funcs_dir_test';
 		$this->assertEquals($funcs->checkPermissions($params),"{\"Result\":\"Ok\"}");
-		$params['username'] = 'random';
-		$params['outdir'] = 'funcs_dir_test';
-		$this->assertEquals($funcs->checkPermissions($params),"{\"ERROR\": \"Permission denied: ".$params['outdir']."\"}");
 		ob_end_clean();
 	}
 	
@@ -93,7 +90,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	public function testRunSQL(){
 		ob_start();
 		$funcs  = new funcs();
-		$this->assertEquals(json_decode($funcs->runSQL('SELECT * FROM ngs_samples'))[0]->id,'1');
+		$this->assertEquals($funcs->runSQL('SELECT * FROM ngs_samples')->id,'1');
 		ob_end_clean();
 	}
 	

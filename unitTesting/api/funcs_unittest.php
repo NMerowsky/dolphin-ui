@@ -88,10 +88,11 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testRunSQL(){
-		ob_start();
+		#ob_start();
 		$funcs  = new funcs();
-		$this->assertEquals($funcs->runSQL('SELECT * FROM ngs_samples')->id,'1');
-		ob_end_clean();
+		var_dump($funcs->runSQL('SELECT * FROM ngs_samples'));
+		$this->assertEquals($funcs->runSQL('SELECT * FROM ngs_samples')[0]->id,'1');
+		#ob_end_clean();
 	}
 	
 	public function testQueryAVal(){
@@ -115,7 +116,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$command = 'ls funcs.php';
 		$this->assertEquals(str_replace("\n", "", $funcs->syscall($command)),'funcs.php');
 		$command = 'ls hootnanny';
-		$this->assertEquals($funcs->syscall($command),"ERROR 104: Cannot run $command!");
+		$this->assertEquals(str_replace("\n", "", $funcs->syscall($command)),"ls: cannot access hootnanny: No such file or directory");
 		ob_end_clean();
 	}
 	
@@ -136,7 +137,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	public function testCheckJobInDB(){
 		ob_start();
 		$funcs  = new funcs();
-		$this->assertEquals($funcs->checkJobInDB('test_wkey', '99999', 'root'), 'Job Finsihed Sucessfully!!!');
+		$this->assertEquals($funcs->checkJobInDB('test_wkey', '99999', 'root'), 0);
 		ob_end_clean();
 	}
 	

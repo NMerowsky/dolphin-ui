@@ -64,6 +64,7 @@ script:
   - phpunit unitTesting/ajax/datajobs_unittest.php
   - phpunit unitTesting/ajax/dataerrorlogs_unittest.php
   - phpunit unitTesting/ajax/dashboardquerydb_unittest.php
+  - phpunit unitTesting/ajax/browse_edit_unittest.php
 
 after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot

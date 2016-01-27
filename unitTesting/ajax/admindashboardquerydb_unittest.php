@@ -27,7 +27,7 @@ class admindashboardquerydb_unittest extends PHPUnit_Framework_TestCase
         ob_start();
 		$_GET['p'] = 'getMonthlyJobs';
 		include("admindashboardquerydb.php");
-		$this->assertEquals(json_decode($data)[0]->countSuccess,'11');
+		$this->assertEquals(json_decode($data)[0]->countSucess,'11');
 		ob_end_clean();
     }
 }

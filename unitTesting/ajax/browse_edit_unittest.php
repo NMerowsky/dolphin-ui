@@ -12,7 +12,7 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'updateDatabase';
 		$_GET['id'] = '1';
         $_GET['type'] = 'organism';
-        $_GET['table'] = 'ngs_lanes';
+        $_GET['table'] = 'ngs_samples';
         $_GET['value'] = 'human';
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data),'1');
@@ -74,12 +74,13 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
 		$_GET['experiments'] = '3';
 		include("browse_edit.php");
 		$this->assertEquals($wkey_json[0]->wkey,'');
+		$this->assertEquals($data,'');
 		ob_end_clean();
 	}
 	
-	public function testInitialRunCheck(){
+	public function testIntialRunCheck(){
 		ob_start();
-		$_GET['p'] = 'initialRunCheck';
+		$_GET['p'] = 'intialRunCheck';
         $_GET['samples'] = '1';
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data)[0]->sample_id,'1');

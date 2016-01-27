@@ -23,6 +23,51 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),array());
 		ob_end_clean();
     }
+    
+    public function testGetTopUsersTime(){
+        ob_start();
+		$_GET['p'] = 'getTopUsersTime';
+        $_GET['type'] = 'Dolphin';
+		include("adminstatquerydb.php");
+		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
+    }
+    
+    public function testGetUsersTime(){
+        ob_start();
+		$_GET['p'] = 'getUsersTime';
+        $_GET['type'] = 'Dolphin';
+		include("adminstatquerydb.php");
+		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
+    }
+    
+    public function testGetLabsTime(){
+        ob_start();
+		$_GET['p'] = 'getLabsTime';
+        $_GET['type'] = 'Dolphin';
+		include("adminstatquerydb.php");
+		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
+    }
+    
+    public function testGetToolTime(){
+        ob_start();
+		$_GET['p'] = 'getToolTime';
+        $_GET['type'] = 'Dolphin';
+		include("adminstatquerydb.php");
+		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
+    }
+    
+    public function testGetJobTime(){
+        ob_start();
+		$_GET['p'] = 'getJobTime';
+        $_GET['type'] = 'Dolphin';
+		include("adminstatquerydb.php");
+		$this->assertEquals(json_decode($data),array());
+		ob_end_clean();
+    }
 }
 
 ?>

@@ -42,6 +42,21 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->scheduler,'N');
 		ob_end_clean();
 	}
+	
+	public function testSetCMDs(){
+		ob_start();
+		$funcs  = new funcs();
+		$funcs = $funcs->setCMDs();
+		$this->assertEquals($funcs->checkjob_cmd,'');
+		ob_end_clean();
+	}
+	
+	public function testGetCMDs(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->getCMDS(''),'');
+		ob_end_clean();
+	}
 }
 
 ?>

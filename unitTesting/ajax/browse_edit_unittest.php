@@ -10,9 +10,10 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
     public function testUpdateDatabase(){
         ob_start();
 		$_GET['p'] = 'updateDatabase';
+		$_GET['id'] = '1';
         $_GET['type'] = 'organism';
         $_GET['table'] = 'ngs_lanes';
-        $_GET['value'] = '1';
+        $_GET['value'] = 'human';
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
@@ -53,6 +54,35 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
         $_GET['lanes'] = '1';
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testGetSamplePermissions(){
+		ob_start();
+		$_GET['p'] = 'getSamplePermissions';
+        $_GET['samples'] = '1';
+		include("browse_edit.php");
+		$this->assertEquals(json_decode($data)[0]->id,'1');
+		ob_end_clean();
+	}
+	
+	public function testDeleteSelected(){
+		ob_start();
+		$_GET['p'] = 'deleteSelected';
+        $_GET['samples'] = '11';
+		$_GET['lanes'] = '4';
+		$_GET['experiments'] = '3';
+		include("browse_edit.php");
+		$this->assertEquals($wkey_json[0]->wkey,'');
+		ob_end_clean();
+	}
+	
+	public function testInitialRunCheck(){
+		ob_start();
+		$_GET['p'] = 'initialRunCheck';
+        $_GET['samples'] = '1';
+		include("browse_edit.php");
+		$this->assertEquals(json_decode($data)[0]->sample_id,'1');
 		ob_end_clean();
 	}
 }

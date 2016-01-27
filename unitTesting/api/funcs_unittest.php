@@ -132,6 +132,20 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->isJobRunning('test_wkey', '99999', 'root'), 'EXIT');
 		ob_end_clean();
 	}
+	
+	public function testCheckJobInDB(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->checkJobInDB('test_wkey', '99999', 'root'), 'Job Finsihed Sucessfully!!!');
+		ob_end_clean();
+	}
+	
+	public function testRerunJob(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->rerunJob('stepCheck', 'stepCheck', 'kucukura', 'Od1HnRuJ0BJAeMpHOTwsH9rqxBDiD'), 1);
+		ob_end_clean();
+	}
 }
 
 ?>

@@ -102,11 +102,10 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testQueryTable(){
-		#ob_start();
+		ob_start();
 		$funcs  = new funcs();
-		var_dump($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\''));
-		$this->assertEquals($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\'')[0]->id,'1');
-		#ob_end_clean();
+		$this->assertEquals($funcs->queryTable('SELECT id FROM ngs_samples WHERE samplename = \'control_rep1\'')[0]['id'],'1');
+		ob_end_clean();
 	}
 	
 	public function testSyscall(){

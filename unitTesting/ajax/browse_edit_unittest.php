@@ -10,7 +10,7 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
     public function testUpdateDatabase(){
         ob_start();
 		$_GET['p'] = 'updateDatabase';
-        $_GET['type'] = 'lanes';
+        $_GET['type'] = 'organism';
         $_GET['table'] = 'ngs_lanes';
         $_GET['value'] = '1';
 		include("browse_edit.php");
@@ -50,7 +50,7 @@ class browse_edit_unittest extends PHPUnit_Framework_TestCase
 	public function testGetLanePermissions(){
 		ob_start();
 		$_GET['p'] = 'getLanePermissions';
-        $_GET['lane'] = '1';
+        $_GET['lanes'] = '1';
 		include("browse_edit.php");
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		ob_end_clean();

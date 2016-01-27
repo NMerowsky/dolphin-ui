@@ -46,7 +46,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	public function testSetCMDs(){
 		ob_start();
 		$funcs  = new funcs();
-		$funcs = $funcs->setCMDs();
+		$funcs->setCMDs();
 		$this->assertEquals($funcs->checkjob_cmd,'');
 		ob_end_clean();
 	}
@@ -59,15 +59,16 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testCheckFile(){
-		ob_start();
+		#ob_start();
 		$funcs  = new funcs();
 		$params['username'] = 'root';
 		$params['file'] = 'funcs.php';
+		var_dump($params);
 		$this->assertEquals($funcs->checkFile($params),"{\"Result\":\"Ok\"}");
 		$params['username'] = 'root';
 		$params['file'] = 'does_not_exist.php';
 		$this->assertEquals($funcs->checkFile($params),"{\"ERROR\": \"No such file or directory: ".$params['file']."\"}");
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	public function testCheckPermissions(){

@@ -88,11 +88,10 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testRunSQL(){
-		#ob_start();
+		ob_start();
 		$funcs  = new funcs();
-		var_dump($funcs->runSQL('SELECT * FROM ngs_samples'));
-		$this->assertEquals($funcs->runSQL('SELECT * FROM ngs_samples')[0]->id,'1');
-		#ob_end_clean();
+		$this->assertEquals($funcs->runSQL('SELECT * FROM ngs_samples')->type,0);
+		ob_end_clean();
 	}
 	
 	public function testQueryAVal(){

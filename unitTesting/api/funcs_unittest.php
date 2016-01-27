@@ -59,7 +59,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	}
 	
 	public function testCheckFile(){
-		#ob_start();
+		ob_start();
 		$funcs  = new funcs();
 		$params['username'] = 'root';
 		$params['file'] = 'funcs.php';
@@ -68,7 +68,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$params['username'] = 'root';
 		$params['file'] = 'does_not_exist.php';
 		$this->assertEquals($funcs->checkFile($params),"{\"ERROR\": \"No such file or directory: ".$params['file']."\"}");
-		#ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testCheckPermissions(){
@@ -83,7 +83,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 	public function testGetKey(){
 		ob_start();
 		$funcs  = new funcs();
-		$this->assertEquals($funcs->getKey(),'');
+		$this->assertEquals(strlen($funcs->getKey()),30);
 		ob_end_clean();
 	}
 	
@@ -115,6 +115,20 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($funcs->syscall($command),'funcs.php');
 		$command = 'ls hootnanny';
 		$this->assertEquals($funcs->syscall($command),"ERROR 104: Cannot run $command!");
+		ob_end_clean();
+	}
+	
+	public function testGetSSH(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->getSSH(),"ssh -o ConnectTimeout=30  ". $funcs->username. "@" . $funcs->remotehost . " ");
+		ob_end_clean();
+	}
+	
+	public function testIsJobRunning(){
+		ob_start();
+		$funcs  = new funcs();
+		$this->assertEquals($funcs->isJobRunning('test_wkey', '99999', 'root'), 'EXIT');
 		ob_end_clean();
 	}
 }

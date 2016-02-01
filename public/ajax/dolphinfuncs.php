@@ -5,11 +5,10 @@ ini_set('report_errors','on');
 
 require_once("../../config/config.php");
 require_once("../../includes/dbfuncs.php");
-
+if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 $query = new dbfuncs();
 
 if (isset($_GET['p'])){$p = $_GET['p'];}
-
 
 if($p == "getFileList")
 {
@@ -27,7 +26,8 @@ else if($p == "updateHashBackup")
    print $input."<br>";
    print $dirname."<br>";
    print $hashstr."<br>";
-   $data=$query->queryTable(" 
+   $data=$query->queryTable("
+   SET SQL_SAFE_UPDATES = 0;
    UPDATE  ngs_fastq_files nff, 
    (SELECT nff.id FROM ngs_fastq_files nff, ngs_dirs nd
    where nff.dir_id = nd.id AND 
@@ -38,9 +38,9 @@ else if($p == "updateHashBackup")
    ");
 }
 
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
+#header('Cache-Control: no-cache, must-revalidate');
+#header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+#header('Content-type: application/json');
 echo $data;
-exit;
+#exit;
 ?>

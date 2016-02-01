@@ -1,8 +1,7 @@
 <?php
 //error_reporting(E_ERROR);
-error_reporting(E_ALL);
-ini_set('report_errors','on');
-
+//error_reporting(E_ALL);
+//ini_set('report_errors','on');
 require_once("../../config/config.php");
 require_once("../../includes/dbfuncs.php");
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
@@ -138,7 +137,7 @@ else if ($p == 'deleteTable')
 		");
 	$data=json_decode($file);
 	
-	$handle = popen('rm ../tmp/files/'.$file[0]->file, "r");
+	$handle = popen('rm ../tmp/files/'.$data[0]->file, "r");
 	pclose($handle);
 	
 	$data=$query->runSQL("
@@ -161,9 +160,8 @@ else if ($p == 'createTableFile')
 else if ($p == 'convertToTSV')
 {
 	if (isset($_GET['url'])){$url = $_GET['url'];}
-	
-	$json_data = json_decode(file_get_contents($url));
-	
+	$json = file_get_contents($url);
+	$json_data = json_decode($json);
 	$user = $_SESSION['user'].'_'.date('Y-m-d-H-i-s').'.tsv';
 	$file = fopen('../tmp/files/'.$user, "w");
 	foreach($json_data as $jd){
@@ -293,9 +291,9 @@ else if ($p == 'createCustomTable')
 	$data=json_encode($params);
 }
 
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
+//header('Cache-Control: no-cache, must-revalidate');
+//header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+//header('Content-type: application/json');
 echo $data;
-exit;
+//exit;
 ?>

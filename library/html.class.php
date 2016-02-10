@@ -645,14 +645,15 @@ e range"><i class="fa fa-calendar"></i></button>
 	if($selection[0] == "TEXTBOX"){
 		$html.= 	'<div class="form-group">
 				<label>' .$title. '</label>
-				<textarea id="'.$title.'_val" type="text" class="form-control" rows="5" placeholder="..."></textarea>
+				<textarea id="'.$title.'_val" type="text" class="form-control" rows="5" placeholder="..." name="form_'.$title.'"></textarea>
 				</div>';
 	}
 	else if($selection[0] == "TEXT")
 	{
 		$html.= 	'<div class="col-md-6">
+				<div class="col-md-12 callout callout-danger margin" id="div_form_'.$title.'" style="display:none"><label id="form_'.$title.'"></label></div>
 				<label>' .$title. '</label>
-				<input id="'.$title.'_val" type="text" class="form-control" value="'.$selection[1].'" rows="5">
+				<input id="'.$title.'_val" type="text" class="form-control" value="'.$selection[1].'" rows="5" name="form_'.$title.'">
 				</div>';
 	}
 	else
@@ -687,9 +688,9 @@ e range"><i class="fa fa-calendar"></i></button>
 		$html.= '</div><!-- /.box-header -->
 				<div class="box-body">
 					<div class="input-group margin col-md-11">
-						<form role="form">';
+					<div class="callout callout-danger" id="div_form_'.$id.'" style="display:none"><label id="form_'.$id.'"></label></div>';
 	if ($selection == "TEXT"){
-		$html.= 						'<input type="text" class="form-control" id="'.$id.'">';
+		$html.= 						'<input type="text" name="form_'.$id.'" class="form-control" id="'.$id.'">';
 	}else if($selection == "TEXTBOX"){
 		if($id == 'input_files'){
 				$placeholder = "Paired End Example:\nlibrary_name_rep1 lib_rep1_R1.fastq.gz lib_rep1_R2.fastq.gz\nSingle End Example:\nlibrary_name_rep1 lib_rep1.fastq.gz";
@@ -704,8 +705,7 @@ e range"><i class="fa fa-calendar"></i></button>
 									'.$selection.'
 								</select>';
 	}	
-	$html.= 						'</form>
-					</div>
+	$html.= 		'</div>
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- /.col -->';
@@ -728,7 +728,7 @@ e range"><i class="fa fa-calendar"></i></button>
 				<div class="box-header with-border">
 					<h3 class="box-title">'.$title.'</h3>
 					<div class="box-tools margin pull-right">
-					<button class="btn btn-box-tool btn-primary" data-widget="collapse"><i id="'.$id.'_exp_btn" class="fa fa-plus"></i></button>
+						<button type="button" class="btn btn-box-tool btn-primary" data-widget="collapse"><i id="'.$id.'_exp_btn" class="fa fa-plus"></i></button>
 					</div><!-- /.box-tools -->';
 		$html.= $this->getInfoBox($id);
 		$html.= '</div><!-- /.box-header -->';
@@ -743,7 +743,6 @@ e range"><i class="fa fa-calendar"></i></button>
 	else
 	{
 		$html.= 	'<div id="'.$id.'_exp_body" class="box-body" style="display: none;" onchange="">
-				<form role="form">
 				<div class="margin">
 						yes
 					<input id="'.$id.'_yes" type="radio" name="'.$id.'" value="yes"></input>
@@ -757,8 +756,7 @@ e range"><i class="fa fa-calendar"></i></button>
 		}
 		$html.= 		'</div>';
 	}
-	$html.= 		'</form>
-				</div><!-- /.box-body -->
+	$html.= 		'</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
@@ -776,8 +774,7 @@ e range"><i class="fa fa-calendar"></i></button>
 		$html.= '</div><!-- /.box-header -->
 				<div id="'.$id.'_exp_body" class="box-body compact" style="display: none;" onchange="">';
 	
-	$html.= 			'<div class="input-group col-md-12">
-						<form role="form">';
+	$html.= 			'<div class="input-group col-md-12">';
 	for($y = 0; $y < $numFields; $y++){
 	$html.=					'<div class ="text-center btn-group-vertical margin">
 							<label value="'.$fieldTitles[$y].'">'.$fieldTitles[$y].'</label>
@@ -795,7 +792,6 @@ e range"><i class="fa fa-calendar"></i></button>
 								<input id="change_params_btn" class="btn btn-primary" type="button" value="Change Parameters" onclick="changeRNAParamsBtn()"/> 
 							</div>
 						</div>
-						</form>
 					</div>
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
@@ -865,11 +861,9 @@ e range"><i class="fa fa-calendar"></i></button>
 	$num = 0;
 	$html.=	'<div id= "pipeline_exp_body" class="box-body" style="display: none;">
 			<div class="input-group margin col-md-11">
-				<form role="form">
 					<div id="masterPipeline">
 					</div>
 					<input id="addPipe_'.$num.'" type="button" class="btn btn-primary" value="Add Pipeline" onClick="additionalPipes()"/>
-				</form>
 			</div>';
 	return $html;
 	}
@@ -877,11 +871,9 @@ e range"><i class="fa fa-calendar"></i></button>
 	$html = '';
 	$html.= '<div id= "custom_exp_body" class="box-body" style="display: none;">
 			<div class="input-group margin col-md-11">
-				<form role="form">
 					<div id="custom_seq_outer">
 					</div>
 					<input id="sequence_sets_btn" class="btn btn-primary" type="button" value="Add a Custom Sequence Set" onclick="sequenceSetsBtn()"/>
-				</form>
 			</div>';
 	return $html;
 	}
@@ -925,11 +917,9 @@ e range"><i class="fa fa-calendar"></i></button>
 		$html.= $this->getInfoBox($id);
 		$html.= '</div><!-- /.box-header -->
 				<div class="box-body">
-					<div class="input-group margin col-md-11">
-						<form role="form">';
+					<div class="input-group margin col-md-11">';
 		$html.= $selection;
-		$html.= 		'</form>
-						</div>
+		$html.= 		'</div>
 					</div><!-- /.box-body -->
 				</div><!-- /.box -->
 			</div><!-- /.col -->';

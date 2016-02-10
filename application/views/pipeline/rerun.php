@@ -53,9 +53,12 @@
 							}?>
 						</div><!-- /.col (RIGHT) -->
 					</div><!-- /.row -->
+					<form name="pipeline_form">
 					<div class="row">
 						<?php echo $html->getStaticSelectionBox("Name the Run", "run_name", "TEXT", 4)?>
 						<?php echo $html->getStaticSelectionBox("Run Description", "run_description", "TEXT", 8)?>
+					</div>	
+					<div class="row">
 						<?php echo $html->getStaticSelectionBox("Genome Build", "genomebuild", "<option>human,hg19</option>
 																				<option>hamster,cho-k1</option>
 																				<option>rat,rn5</option>
@@ -70,9 +73,13 @@
 																				<option>no</option>", 4)?>
 						<?php echo $html->getStaticSelectionBox("Resume Run", "resume", "<option>Fresh</option>
 																				<option>Resume</option>", 4)?>
+					</div>
+					<div class="row">
 						<?php echo $html->getStaticSelectionBox("Output Directory", "outdir", "TEXT", 8)?>
 						<?php echo $html->getStaticSelectionBox("FastQC", "fastqc", "<option>yes</option>
 																			<option>no</option>", 4)?>
+					</div>
+					<div class="row">
 						<?php echo $html->getStaticSelectionBox("Permissions", "perms", "<option value='3'>only me</option>
 																			<option value='15'>only my group</option>
 																			<option value='32'>everyone</option>", 4)?>
@@ -80,6 +87,8 @@
 						<?php echo $html->getStaticSelectionBox("Submission", "submission", "<option value='0'>None</option>
 																			<option value='1'>Encode</option>
 																			<option value='2'>Geo</option>", 4)?>
+					</div>
+					<div class="row">
 			<?php echo $html->startExpandingSelectionBox(6)?>
 						<?php echo $html->getExpandingSelectionBox("Split FastQ", "split", 1, 12, ["number of reads per file"], [["TEXT","5000000"]])?>
 						<?php echo $html->getExpandingSelectionBox("Adapter Removal", "adapters", 1, 12, ["adapters"], [["TEXTBOX"]])?>
@@ -96,9 +105,10 @@
 																	[["no","yes"],["no","yes"],["no","yes"],["no","yes"],["no","yes"],["no","yes"],["no","yes"],["no","yes"]])?>
 			<?php echo $html->endExpandingSelectionBox()?>
 
-			<div class="col-md-12">
-				<input type="button" id="submitPipeline" class="btn btn-primary" name="pipeline_send_button" value="Submit Pipeline" onClick="submitPipeline('selected');"/>
+						<div class="col-md-12">
+							<input type="submit" id="submitPipeline" class="submit btn btn-primary" name="pipeline_send_button" value="Submit Pipeline"/>
 						</div>
 					</div><!-- /.row -->
+					</form>
 				</section><!-- /.content -->
 

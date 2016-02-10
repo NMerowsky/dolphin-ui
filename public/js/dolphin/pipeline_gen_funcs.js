@@ -447,16 +447,28 @@ function pipelineSelect(num){
 		//ChipSeq Pipeline
 		divAdj.appendChild( createElement('label', ['class','TEXTNODE'], ['box-title', 'Chip Input Definitions:']));
 		divAdj.appendChild( createElement('textarea', ['id', 'class'], ['textarea_'+num, 'form-control']));
+		var divAdj_1 = createElement('div', ['id', 'class', 'style'], ['div_form_chipseq_multimapper', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_1.appendChild(createElement('label', ['id'], ['form_chipseq_multimapper']));
+		divAdj.appendChild(divAdj_1);
+		var divAdj_2 = createElement('div', ['id', 'class', 'style'], ['div_form_chipseq_tagsize', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_2.appendChild(createElement('label', ['id'], ['form_chipseq_tagsize']));
+		divAdj.appendChild(divAdj_2);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Multimapper:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_1_'+num, 'form-control', 'text', '1'])],
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_1_'+num, 'form-control', 'text', '1', 'form_chipseq_multimapper'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Tag size(bp) for MACS:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_2_'+num, 'form-control', 'text', '75'])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_2_'+num, 'form-control', 'text', '75', 'form_chipseq_tagsize'])] ]);
+		var divAdj_3 = createElement('div', ['id', 'class', 'style'], ['div_form_chipseq_bandwidth', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_3.appendChild(createElement('label', ['id'], ['form_chipseq_bandwidth']));
+		divAdj.appendChild(divAdj_3);
+		var divAdj_4 = createElement('div', ['id', 'class', 'style'], ['div_form_chipseq_genomesize', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_4.appendChild(createElement('label', ['id'], ['form_chipseq_genomesize']));
+		divAdj.appendChild(divAdj_4);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Band width(bp) for MACS:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['select_1_'+num, 'form-control', 'text', '230'])],
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['select_1_'+num, 'form-control', 'text', '230', 'form_chipseq_bandwidth'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Effective genome size(bp):']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['select_2_'+num, 'form-control', 'text', '2700000000'])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['select_2_'+num, 'form-control', 'text', '2700000000', 'form_chipseq_genomesize'])] ]);
 		divAdj = mergeTidy(divAdj, 12,
 				[ [createElement('label', ['class','TEXTNODE'], ['margin', 'Mark Duplicates:']),
 				createElement('input', ['id', 'type', 'class'], ['checkbox_2_'+num, 'checkbox', 'margin'])],
@@ -474,27 +486,33 @@ function pipelineSelect(num){
 		//DESEQ
 		divAdj = mergeTidy(divAdj, 12,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Name:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_1_'+num, 'form-control', 'text', ''])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_1_'+num, 'form-control', 'text', '', 'form_deseq_name'])] ]);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Condition 1']),
-				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange'],['multi_select_1_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(1, '+num+')'])],
+				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange', 'name'],['multi_select_1_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(1, '+num+')', 'form_deseq_cond1'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Condition 2']),
-				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange'],['multi_select_2_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(2, '+num+')'])] ]);
+				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange', 'name'],['multi_select_2_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(2, '+num+')', 'form_deseq_cond2'])] ]);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Fit Type:']),
 				createElement('select', ['id', 'class', 'OPTION', 'OPTION', 'OPTION'], ['select_3_'+num, 'form-control', 'parametric', 'local', 'mean'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Heatmap:']),
 				createElement('select', ['id', 'class', 'OPTION', 'OPTION'], ['select_4_'+num, 'form-control', 'Yes', 'No'])] ]);
+		var divAdj_1 = createElement('div', ['id', 'class', 'style'], ['div_form_deseq_padj', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_1.appendChild(createElement('label', ['id'], ['form_deseq_padj']));
+		divAdj.appendChild(divAdj_1);
+		var divAdj_2 = createElement('div', ['id', 'class', 'style'], ['div_form_deseq_fold', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_2.appendChild(createElement('label', ['id'], ['form_deseq_fold']));
+		divAdj.appendChild(divAdj_2);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'pAdj cutoff']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_2_'+num, 'form-control', 'text', '0.01'])],
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_2_'+num, 'form-control', 'text', '0.01', 'form_deseq_padj'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Fold Change cutoff']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_3_'+num, 'form-control', 'text', '2'])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_3_'+num, 'form-control', 'text', '2', 'form_deseq_fold'])] ]);
 		divAdj = mergeTidy(divAdj, 12,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Select Sequence']),
 				createElement('select', ['id', 'class'], ['select_5_'+num, 'form-control'])] ]);
 	}else if (pipeType == pipelineDict[4]) {
-		//MMap
+		//BisulphiteMapping
 		var labelDiv = createElement('div', ['class'], ['col-md-12 text-center']);
 		labelDiv.appendChild( createElement('label', ['class','TEXTNODE'], ['box-title margin', 'Run BSMap:']));
 		labelDiv.appendChild( createElement('input', ['id', 'type', 'class', 'checked', 'disabled'], ['checkbox_1_'+num, 'checkbox', 'margin']));
@@ -537,22 +555,34 @@ function pipelineSelect(num){
 		//DiffMeth
 		divAdj = mergeTidy(divAdj, 12,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Name:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_1_'+num, 'form-control', 'text', ''])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_1_'+num, 'form-control', 'text', '', 'form_diffmeth_name'])] ]);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Condition 1']),
-				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange'],['multi_select_1_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(1, '+num+')'])],
+				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange', 'name'],['multi_select_1_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(1, '+num+')', 'form_diffmeth_cond1'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Condition 2']),
-				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange'],['multi_select_2_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(2, '+num+')'])] ]);
+				createElement('select',['id', 'class', 'type', 'multiple', 'size', 'onchange', 'name'],['multi_select_2_'+num, 'form-control', 'select-multiple', 'multiple', '8', 'deselectCondition(2, '+num+')', 'form_diffmeth_cond2'])] ]);
+		var divAdj_1 = createElement('div', ['id', 'class', 'style'], ['div_form_diffmeth_tilesize', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_1.appendChild(createElement('label', ['id'], ['form_diffmeth_tilesize']));
+		divAdj.appendChild(divAdj_1);
+		var divAdj_2 = createElement('div', ['id', 'class', 'style'], ['div_form_diffmeth_stepsize', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_2.appendChild(createElement('label', ['id'], ['form_diffmeth_stepsize']));
+		divAdj.appendChild(divAdj_2);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Tile Size:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_2_'+num, 'form-control', 'text', '300'])],
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_2_'+num, 'form-control', 'text', '300', 'form_diffmeth_tilesize'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Step Size:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_3_'+num, 'form-control', 'text', '300'])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_3_'+num, 'form-control', 'text', '300', 'form_diffmeth_stepsize'])] ]);
+		var divAdj_3 = createElement('div', ['id', 'class', 'style'], ['div_form_diffmeth_mincov', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_3.appendChild(createElement('label', ['id'], ['form_diffmeth_mincov']));
+		divAdj.appendChild(divAdj_3);
+		var divAdj_4 = createElement('div', ['id', 'class', 'style'], ['div_form_diffmeth_topn', 'col-md-12 callout callout-danger margin', 'display:none']);
+		divAdj_4.appendChild(createElement('label', ['id'], ['form_diffmeth_topn']));
+		divAdj.appendChild(divAdj_4);
 		divAdj = mergeTidy(divAdj, 6,
 				[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Min Coverage:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_4_'+num, 'form-control', 'text', '5'])],
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_4_'+num, 'form-control', 'text', '5', 'form_diffmeth_mincov'])],
 				[createElement('label', ['class','TEXTNODE'], ['box-title', 'Top N Regions:']),
-				createElement('input', ['id', 'class', 'type', 'value'], ['text_5_'+num, 'form-control', 'text', '2000'])] ]);
+				createElement('input', ['id', 'class', 'type', 'value', 'name'], ['text_5_'+num, 'form-control', 'text', '2000', 'form_diffmeth_topn'])] ]);
 		labelDiv = createElement('div', ['class'], ['col-md-12 text-center']);
 		labelDiv.appendChild( createElement('label', ['class','TEXTNODE'], ['box-title margin', 'Strand Specific Information:']));
 		labelDiv.appendChild( createElement('input', ['id', 'type', 'class'], ['checkbox_1_'+num, 'checkbox', 'margin']));
@@ -696,11 +726,13 @@ function submitPipeline(type) {
 		//quality
 		var JSON_ARRAY_QUALITY = {};
 		if (doQuality == "yes") {
+			/*
 			for(var nc in quality){
 				if (isNaN(quality[nc].substring(0,1))) {
 					number_error = true;
 				}
 			}
+			*/
 			JSON_ARRAY_QUALITY['windowSize'] = quality[0];
 			JSON_ARRAY_QUALITY['requiredQuality'] = quality[1];
 			JSON_ARRAY_QUALITY['leading'] = quality[2];
@@ -1906,25 +1938,34 @@ function sequenceSetsBtn(){
 	var innerDiv = createElement('div', ['id', 'class'], ['custom_seq_inner_'+customSeqNum, 'callout callout-info margin']);
 
 	var babyDiv1 = createElement('div', [], []);
+	var babyDiv1_1 = createElement('div', ['id', 'class', 'style'], ['div_form_custom_index', 'col-md-12 callout callout-danger margin', 'display:none']);
+	babyDiv1_1.appendChild(createElement('label', ['id'], ['form_custom_index']));
+	babyDiv1.appendChild(babyDiv1_1);
 	var babyDiv2 = createElement('div', [], []);
+	var babyDiv2_1 = createElement('div', ['id', 'class', 'style'], ['div_form_custom_name', 'col-md-12 callout callout-danger margin', 'display:none']);
+	babyDiv2_1.appendChild(createElement('label', ['id'], ['form_custom_name']));
+	babyDiv2.appendChild(babyDiv2_1);
 	var babyDiv3 = createElement('div', [], []);
 	var babyDiv4 = createElement('div', [], []);
+	var babyDiv4_1 = createElement('div', ['id', 'class', 'style'], ['div_form_custom_desc', 'col-md-12 callout callout-danger margin', 'display:none']);
+	babyDiv4_1.appendChild(createElement('label', ['id'], ['form_custom_desc']));
+	babyDiv4.appendChild(babyDiv4_1);
 	var babyDiv5 = createElement('div', [], []);
-
+	
 	babyDiv1.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', 'Custom sequence index directory (full path)']));
-	babyDiv1.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['custom_1_'+customSeqNum, 'form-control', 'text', '']));
+	babyDiv1.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['custom_1_'+customSeqNum, 'form-control', 'text', '', 'form_custom_index']));
 	innerDiv.appendChild(babyDiv1);
 
 	babyDiv2.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', 'Name of the index file (prefix)']));
-	babyDiv2.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['custom_2_'+customSeqNum, 'form-control', 'text', '']));
+	babyDiv2.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['custom_2_'+customSeqNum, 'form-control', 'text', '', 'form_custom_name']));
 	innerDiv.appendChild(babyDiv2);
 
 	babyDiv3.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', 'Bowtie parameters']));
-	babyDiv3.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['custom_3_'+customSeqNum, 'form-control', 'text', '-N 1']));
+	babyDiv3.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['custom_3_'+customSeqNum, 'form-control', 'text', '-N 1', 'form_custom_bowtie']));
 	innerDiv.appendChild(babyDiv3);
 
 	babyDiv4.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', 'Description']));
-	babyDiv4.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['custom_4_'+customSeqNum, 'form-control', 'text', '']));
+	babyDiv4.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['custom_4_'+customSeqNum, 'form-control', 'text', '', 'form_custom_desc']));
 	innerDiv.appendChild(babyDiv4);
 
 	babyDiv5.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', 'Filter Out']));
@@ -2005,18 +2046,25 @@ function selectTrimming(select_id, five_num, three_num) {
 	if (trim_select.value == paired_option.value) {
 	var five_len = createElement('div', ['class'], ['col-md-6']);
 	var three_len = createElement('div', ['class'], ['col-md-6']);
-
+	var five_error_log = createElement('div', ['id', 'class', 'style'], ['div_form_5 length 2', 'col-md-12 callout callout-danger margin', 'display:none']);
+	five_error_log.appendChild(createElement('label', ['id'], ['form_5 length 2']));
+	var three_error_log = createElement('div', ['id', 'class', 'style'], ['div_form_3 length 2', 'col-md-12 callout callout-danger margin', 'display:none']);
+	three_error_log.appendChild(createElement('label', ['id'], ['form_3 length 2']));
+	
+	five_len.appendChild(five_error_log);
 	five_len.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', '5 length 2']));
-	five_len.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['5 length 2_val', 'form-control', 'text', five_num]));
+	five_len.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['5 length 2_val', 'form-control', 'text', five_num, 'form_5 length 2']));
 	trim_parent_parent.appendChild(five_len);
 
+	three_len.appendChild(three_error_log);
 	three_len.appendChild(createElement('label', ['class','TEXTNODE'], ['box-title', '3 length 2']));
-	three_len.appendChild(createElement('input', ['id', 'class', 'type', 'value'], ['3 length 2_val', 'form-control', 'text', three_num]));
+	three_len.appendChild(createElement('input', ['id', 'class', 'type', 'value', 'name'], ['3 length 2_val', 'form-control', 'text', three_num, 'form_3 length 2']));
 	trim_parent_parent.appendChild(three_len);
 	}else{
 	trim_parent_parent.removeChild(trim_parent_parent.childNodes[5]);
 	trim_parent_parent.removeChild(trim_parent_parent.childNodes[4]);
 	}
+	validator = validator;
 }
 
 function bisulphiteSelect(id, num){
@@ -2030,3 +2078,5 @@ function bisulphiteSelect(id, num){
 		dig_site.value = '';
 	}
 }
+
+

@@ -53,9 +53,12 @@
 							}?>
 						</div><!-- /.col (RIGHT) -->
 					</div><!-- /.row -->
+					<form name='pipeline_form'>
 					<div class="row">
 						<?php echo $html->getStaticSelectionBox("Name the Run", "run_name", "TEXT", 4)?>
 						<?php echo $html->getStaticSelectionBox("Run Description", "run_description", "TEXT", 8)?>
+					</div>	
+					<div class="row">	
 						<?php echo $html->getStaticSelectionBox("Genome Build", "genomebuild", "<option>human,hg19</option>
 																				<option>hamster,cho-k1</option>
 																				<option>rat,rn5</option>
@@ -97,9 +100,10 @@
 																	
 					<?php echo $html->endExpandingSelectionBox()?>
 
-			<div class="col-md-12">
-				<input type="button" id="submitPipeline" class="btn btn-primary" name="pipeline_send_button" value="Submit Pipeline" onClick="submitPipeline('selected');"/>
+						<div class="col-md-12">
+							<input type="button" id="submitPipeline" class="submit btn btn-primary" name="pipeline_send_button" value="Submit Pipeline"/>
 						</div>
 					</div><!-- /.row -->
+					</form>
 				</section><!-- /.content -->
 

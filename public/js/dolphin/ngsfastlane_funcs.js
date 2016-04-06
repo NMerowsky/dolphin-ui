@@ -34,12 +34,14 @@ function submitFastlaneButton() {
 	value_array.push("human,hg19");
 	for(var x = 0; x < id_array.length; x++){
 		if (document.getElementById(id_array[x]) != null) {
-			value_array.push((document.getElementById(id_array[x]).value).trim());
+			//	obtain value and trim and replace commas and tabs
+			var value_str = document.getElementById(id_array[x]).value.trim().replace(/[\t\,]+/g, " ");
+			//	push to array
+			value_array.push(value_str);
 		}
 		if (id_array[x] == "perms") {
 			var perms = $('.checked')[0].children[0].value
 			value_array.push(perms);
-			console.log(perms);
 		}
 	}
 	sendProcessData(value_array, 'fastlane_values');
@@ -50,6 +52,7 @@ function submitFastlaneButton() {
 	sendProcessData(barcode_array, 'barcode_array');
 	
 	var checked_values = checkFastlaneInput(value_array);
+	console.log(checked_values);
 	sendProcessData(checked_values, 'pass_fail_values');
 	var bad_samples = getBadSamples();
 	sendProcessData(bad_samples, 'bad_samples');

@@ -6,8 +6,14 @@
 
 var bad_samples = [];
 
+/*
+ *	Checks fastlane input
+ *	Returns database_checks on error
+ *	or true_sample_ids on success
+ *	
+ */
 function checkFastlaneInput(info_array){
-	//	Declair variables
+	//	Declare variables
 	var barcode_array = [];
 	var input_array = [];
 	var database_checks = [];
@@ -16,6 +22,7 @@ function checkFastlaneInput(info_array){
 	var true_sample_ids = [];
 	var username;
 	
+	//	Get cluster username for file checks
 	$.ajax({
 		type: 	'GET',
 		url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
@@ -32,21 +39,24 @@ function checkFastlaneInput(info_array){
 	console.log(info_array);
 	console.log(id_array);
 	for(var x = 0; x < (id_array.length); x ++){
+		//	Left a field blank that is not barcode definitions or amazon_bucket
 		if (info_array[x] == '' && id_array[x] != 'amazon_bucket' && id_array[x] != 'Barcode Definitions') {
-			//	Left a field blank
 			database_checks.push(false);
+		//	Check Barcode Separation if selected yes for barcode separation
 		}else if (id_array[x] == 'barcode_sep' && info_array[x] == 'yes') {
-			//	Check Barcode Separation
+			//	Split barcode submissioned on new lines
 			var split_barcodes = info_array[id_array.length - 3].split('\n');
+			//	remove blank new lines
 			split_barcodes = split_barcodes.filter(function(n){return n != ''});
 			var split_check = true;
 			for (var y = 0; y < split_barcodes.length; y++) {
-				split_barcodes[y].replace('\t', '');
-				if (!/^[a-zA-Z 0-9\_\.\-]*$/.test(split_barcodes[y])) {
+				//	If proper characters are not being used
+				if (!/^[a-zA-Z0-9\_\.\-\s\t\,]*$/.test(split_barcodes[y])) {
 					split_check = false;
 				}else{
-					var single_barcode_array = split_barcodes[y].split(' ');
+					var single_barcode_array = split_barcodes[y].split(/[\s\t\,]+/);
 					single_barcode_array = single_barcode_array.filter(function(n){return n != ''});
+					//	Check for proper barcode input length
 					if (single_barcode_array.length != 2) {
 						//	Not proper Barcode input
 						split_check = false;
@@ -55,26 +65,29 @@ function checkFastlaneInput(info_array){
 					}
 				}
 			}
+			//	If a barcode error exists
 			if (split_check) {
 				database_checks.push(true);
 			}else{
 				database_checks.push(false);
 			}
-			
+		//	Input File Checks
 		}else if (id_array[x] == 'input_files'){
 			//	Paired-end libraries
 			var bad_files = [];
 			var split_inputs = info_array[6].split('\n');
+			//	Check for blank lines and eliminate them
 			split_inputs = split_inputs.filter(function(n){return n != ''});
 			var input_bool_check = true;
 			for (var y = 0; y < split_inputs.length; y++) {
-				console.log(split_inputs);
-				if (!/^[a-zA-Z 0-9\_\.\-\s]*$/.test(split_inputs[y])) {
+				//	Check for proper characters
+				if (!/^[a-zA-Z 0-9\_\.\-\s\t\,]*$/.test(split_inputs[y])) {
 					bad_files.push("<font color=\"black\">incorrect file formatting: </font>" + split_inputs[y]);
 					input_bool_check = false;
 				}else{
-					var single_input_array = split_inputs[y].split(' ');
+					var single_input_array = split_inputs[y].split(/[\s\t\,]+/);
 					single_input_array = single_input_array.filter(function(n){return n != ''});
+					//	if barcode names specified
 					if (info_array[1] == 'yes') {
 						if (single_input_array.length != 2  && info_array[2] == 'yes') {
 							//	Not proper file input (paired end)
@@ -99,32 +112,39 @@ function checkFastlaneInput(info_array){
 					}
 				}
 			}
+			//	If character checks passed, check file perms
 			if (input_bool_check) {
-				console.log(input_array);
-				console.log(info_array);
+				var file_check = '';
+				//	Create the file check list
 				for(var z = 0; z < input_array.length; z++){
 					for(var y = input_array[z].length - 1; y > 0; y--){
-						console.log(info_array[x-1]+"/"+input_array[z][y]);
-						$.ajax({
-							type: 	'GET',
-							url: 	BASE_PATH+'/public/api/service.php?func=checkFile&username='+username.clusteruser+'&file='+info_array[x-1]+"/"+input_array[z][y],
-							async:	false,
-							success: function(s)
-							{
-								var file_check = JSON.parse(s);
-								console.log(file_check);
-								if (file_check.Result != 'Ok' ){
-									input_bool_check = false;
-									bad_files.push(file_check.ERROR);
-								}
-							}
-						});
+						if (file_check == '') {
+							file_check = info_array[x-1]+"/"+input_array[z][y]
+						}else{
+							file_check += ',' + info_array[x-1]+"/"+input_array[z][y]
+						}
+						
 					}
 				}
+				//	use file check list and check permissions
+				$.ajax({
+					type: 	'GET',
+					url: 	BASE_PATH+'/public/api/service.php?func=checkFile&username='+username.clusteruser+'&file='+file_check,
+					async:	false,
+					success: function(s)
+					{
+						var file_check = JSON.parse(s);
+						console.log(file_check);
+						if (file_check.Result != 'Ok' ){
+							input_bool_check = false;
+							bad_files.push("<font color=\"black\">One or more of your files either doesn't exist or you don't have permissions for.  Please make sure the correct files/permissions are given.</font>");
+						}
+					}
+				});
 			}
 			sendProcessData(bad_files, 'bad_files');
 			database_checks.push(input_bool_check);
-			
+		//	Directory Checks
 		}else if (id_array[x] == 'input_dir' || id_array[x] == 'backup_dir'){
 			//	Check inputs that should not contain whitespace
 			if ((!/^[a-zA-Z0-9\_\.\/\-]*$/.test(info_array[x])) || info_array[x].indexOf("/") != 0) {
@@ -144,6 +164,7 @@ function checkFastlaneInput(info_array){
 					}
 				});
 				var dir_check_2;
+				//	Check if root path was not specified
 				if (info_array[x].substring(0,1) != '/'  && info_array[x].indexOf('/') > -1) {
 					info_array[x] = '/' + info_array[x];
 				}
@@ -172,6 +193,7 @@ function checkFastlaneInput(info_array){
 					database_checks.push(true);
 				}
 			}
+		//	Series and import character checks
 		}else if(id_array[x] == 'series_name' || id_array[x] == 'lane_name'){
 			if (/^[a-zA-Z 0-9\_\-\s]*$/.test(info_array[x])) {
 				database_checks.push(true);
@@ -304,8 +326,7 @@ function checkFastlaneInput(info_array){
 				//	If separating barcodes
 				for (var a = 0; a < barcode_array.length; a++) {
 					if (sample_file_check.indexOf(barcode_array[a][0]) == -1) {
-						var true_id = insertSample(experiment_series_id, lane_id, barcode_array[a][0],
-										barcode_array[a][1], gid, perms);
+						var true_id = insertSample(experiment_series_id, lane_id, barcode_array[a][0], barcode_array[a][1], gid, perms);
 							true_sample_ids.push(true_id);
 							sample_ids.push(true_id);
 						sample_file_check.push(barcode_array[a][0]);
@@ -370,7 +391,7 @@ function obtainGroupFromName(name){
 			type: 	'GET',
 			url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
 			data:  	{ p: 'obtainGroupFromName', name: name },
-			async:	false,
+			async:	true,
 			success: function(s)
 			{
 				group_id = s;
@@ -548,7 +569,7 @@ function sendProcessData(info_array, post_name){
 			type: 	'GET',
 			url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
 			data:  	{ p: 'sendProcessData', info_array: info_array, post: post_name},
-			async:	false,
+			async:	true,
 			success: function(s)
 			{
 			}

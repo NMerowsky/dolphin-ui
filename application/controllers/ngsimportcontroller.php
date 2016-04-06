@@ -25,10 +25,7 @@ class NgsimportController extends VanillaController {
 
 			if($_FILES["excelFile"]["size"] > 0 && $_FILES["excelFile"]["size"]<500000)
 			{
-
-				//$target_file='tmp/files/'.$_FILES["excelFile"]["tmp_name"].'.xlsx';
-				//$target_file='../tmp/files/a.xlsx';
-                $target_file ='../tmp/files/'.$_SESSION['user']."_".date('Y-m-d-H-i-s').".xlsx";
+                $target_file ='../tmp/files/'.$_SESSION['user']."_".date('Y-m-d-H-i-s').".xls";
 				move_uploaded_file($_FILES["excelFile"]["tmp_name"], $target_file);
 				/** Include path **/
 				set_include_path('../includes/excel/Classes/');

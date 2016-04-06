@@ -9,19 +9,19 @@ function sendToPlot(id){
 	$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/sessionrequests.php",
 			data: { p: "setPlotToggle", type: 'normal', file: '' },
-			async: false,
+			async: true,
 			success : function(s)
 			{
+				window.location.href = BASE_PATH+'/plot';
 			}
 	});
-	window.location.href = BASE_PATH+'/plot';
 }
 
 function sendToAdvancedStatus(run_id){
 	$.ajax({ type: "GET",
 		url: BASE_PATH +"/ajax/sessionrequests.php",
 		data: { p: 'setAdvStatusRunID', adv_status_id: run_id },
-		async: false,
+		async: true,
 		success : function(s)
 		{
 			window.location.href = BASE_PATH+'/stat/advstatus';
@@ -49,7 +49,7 @@ function selectService(id, title, wkey){
 	var runparams = $('#jsontable_jobs').dataTable();
 	$.ajax({ type: "GET",
 			 url: BASE_PATH +"/ajax/datajobs.php?id=" + service_id,
-			 async: false,
+			 async: true,
 			 success : function(s)
 			 {
 				runparams.fnClearTable();
@@ -75,10 +75,11 @@ function selectService(id, title, wkey){
 					]);
 				} // End For
 				document.getElementById('service_jobs').style.display = 'inline';
+				runparams.fnSort( [ [4,'asc'] ] );
+				//runparams.fnAdjustColumnSizing(true);
 			}
 		});
-	runparams.fnSort( [ [4,'asc'] ] );
-	//runparams.fnAdjustColumnSizing(true);
+	
 }
 
 function selectJob(id){

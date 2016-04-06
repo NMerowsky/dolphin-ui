@@ -57,6 +57,17 @@ function sendBasketInfo(id){
 	});
 }
 
+function sendBasketInfoBulk(ids){
+	$.ajax({ type: "POST",
+		url: BASE_PATH+"/public/ajax/sessionrequests.php",
+		data: { p:"sendBasketInfoBulk", ids:ids.toString() },
+		async: false,
+		success : function(s)
+		{
+		}
+	});
+}
+
 function getBasketInfo() {
 	basket = "";
 	$.ajax({ type: "GET",
@@ -123,10 +134,20 @@ function getWKey() {
 }
 
 function removeBasketInfo(id){
-	console.log(id);
 	$.ajax({ type: "POST",
 		url: BASE_PATH+"/public/ajax/sessionrequests.php",
 		data: { p:"removeBasketInfo", id:id },
+		async: false,
+		success : function(s)
+		{
+		}
+	});
+}
+
+function removeBasketInfoBulk(ids){
+	$.ajax({ type: "POST",
+		url: BASE_PATH+"/public/ajax/sessionrequests.php",
+		data: { p:"removeBasketInfoBulk", ids:ids.toString() },
 		async: false,
 		success : function(s)
 		{

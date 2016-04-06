@@ -4,6 +4,11 @@
  *Ascription:
  */
 
+//	Variables
+var allCurrentSamples = [];
+var allCurrentLanes = [];
+var allCurrentSeries = [];
+
 function rerunSelected(runID, groupID){
 	var sample_ids = [];
 	$.ajax({ type: "GET",
@@ -147,8 +152,9 @@ function getLanesToSamples(lane_id){
 }
 
 function getAllSampleIds(){
-	samples_returned = [];
-	$.ajax({ type: "GET",
+	if (allCurrentSamples.length == 0) {
+		var samples_returned = [];
+		$.ajax({ type: "GET",
 		url: BASE_PATH+"/public/ajax/ngsquerydb.php",
 		data: { p: "getAllSampleIds" },
 		async: false,
@@ -158,41 +164,50 @@ function getAllSampleIds(){
 			for(var x = 0; x < s.length; x++){
 				samples_returned.push(s[x].id);
 			}
+			allCurrentSamples = samples_returned;
+			
 		}
-	});
-	return samples_returned;
+		});
+	}
+	return allCurrentSamples;
 }
 
 function getAllLaneIds(){
-	lanes_returned = [];
-	$.ajax({ type: "GET",
-		url: BASE_PATH+"/public/ajax/ngsquerydb.php",
-		data: { p: "getAllLaneIds" },
-		async: false,
-		success : function(s)
-		{
-			for(var x = 0; x < s.length; x++){
-				lanes_returned.push(s[x].id);
+	if (allCurrentLanes.length == 0) {
+		lanes_returned = [];
+		$.ajax({ type: "GET",
+			url: BASE_PATH+"/public/ajax/ngsquerydb.php",
+			data: { p: "getAllLaneIds" },
+			async: false,
+			success : function(s)
+			{
+				for(var x = 0; x < s.length; x++){
+					lanes_returned.push(s[x].id);
+				}
+				allCurrentLanes = lanes_returned;
 			}
-		}
-	});
-	return lanes_returned;
+		});
+	}
+	return allCurrentLanes;
 }
 
 function getAllExperimentIds(){
-	experiments_returned = [];
-	$.ajax({ type: "GET",
-		url: BASE_PATH+"/public/ajax/ngsquerydb.php",
-		data: { p: "getAllExperimentIds" },
-		async: false,
-		success : function(s)
-		{
-			for(var x = 0; x < s.length; x++){
-				experiments_returned.push(s[x].id);
+	if (allCurrentSeries.length == 0) {
+		experiments_returned = [];
+		$.ajax({ type: "GET",
+			url: BASE_PATH+"/public/ajax/ngsquerydb.php",
+			data: { p: "getAllExperimentIds" },
+			async: false,
+			success : function(s)
+			{
+				for(var x = 0; x < s.length; x++){
+					experiments_returned.push(s[x].id);
+				}
+				allCurrentSeries = experiments_returned;
 			}
-		}
-	});
-	return experiments_returned;
+		});
+	}
+	return allCurrentSeries;
 }
 
 function getSeriesIdFromLane(lane){

@@ -48,7 +48,7 @@ function manageCreateChecklists(id, tablerow){
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/tablegenerator.php",
 				data: { p: "getTableSamples", search: id },
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					for(var i = 0; i < s.length; i++){
@@ -69,10 +69,10 @@ function manageCreateChecklists(id, tablerow){
 						runHelper.push(s[i].id);
 						selectionHelper.push(0);
 					}
+					checklist_samples.push(id);
+					sendBasketInfo(id);
+					reportSelection();
 				}});
-		checklist_samples.push(id);
-		sendBasketInfo(id);
-		reportSelection();
 	}else{
 		//remove
 		removeTableSamples(id, document.getElementById('sample_removal_'+id));
@@ -265,7 +265,7 @@ function tableCreatorPage(){
 		$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/tablegenerator.php",
 			data: { p: 'createCustomTable', params: sendToTableGen() },
-			async: false,
+			async: true,
 			success : function(s)
 			{
 				window.location.href = BASE_PATH + '/tablecreator/table';
@@ -315,7 +315,6 @@ function saveTable() {
 	}else{
 		parameters = sendToTableGen();
 	}
-	var pass = false;
 	var file_name = '';
 	var beforeFormat = parameters.split('format=')[0];
 		
@@ -334,17 +333,13 @@ function saveTable() {
 	$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/tablegenerator.php",
 				data: { p: "createNewTable", search: parameters, name: name, file: file_name, group: group, perms: perms },
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					console.log('console true');
-					pass = true;
+					toTableListing();
 				}
 		});
-	console.log(pass);
-	if (pass == true) {
-		toTableListing();
-	}
 }
 
 function downloadGeneratedTSV(beforeFormat){
@@ -354,16 +349,16 @@ function downloadGeneratedTSV(beforeFormat){
 	$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/tablegenerator.php",
 			data: { p: "convertToTSV", url: url },
-			async: false,
+			async: true,
 			success : function(s)
 			{
 				file_name = s;
+				if (file_name != '') {
+					var URL = BASE_PATH + '/public/tmp/files/' + file_name; 
+					window.open(URL, '_blank');
+				}
 			}
 	});
-	if (file_name != '') {
-		var URL = BASE_PATH + '/public/tmp/files/' + file_name; 
-		window.open(URL, '_blank');
-	}
 }
 
 function optionSelection(args) {
@@ -374,24 +369,24 @@ function sendTableToPlot(file){
 	$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/sessionrequests.php",
 			data: { p: "setPlotToggle", type: 'generated', file: file + "2" },
-			async: false,
+			async: true,
 			success : function(s)
 			{
+				window.location.href = BASE_PATH + '/plot';
 			}
 	});
-	window.location.href = BASE_PATH + '/plot';
 }
 
 function sendTableToDebrowser(file){
 	$.ajax({ type: "GET",
                         url: BASE_PATH+"/public/ajax/sessionrequests.php",
                         data: { p: "sendToDebrowser", table: file },
-                        async: false,
+                        async: true,
                         success : function(s)
                         {
+							window.location.href = BASE_PATH + '/debrowser';
                         }
         });
-        window.location.href = BASE_PATH + '/debrowser';
 }
 
 function deleteTable(id){
@@ -548,7 +543,6 @@ function sendToSavedTable(id){
 
 $(function() {
 	"use strict";
-	
 	if(window.location.href.split("/").indexOf('table') < 0 && window.location.href.split("/").indexOf('tablereports') < 0){
 		//	If within tablecreator page, get basket info
 		var sample_ids = getBasketInfo();
@@ -590,7 +584,7 @@ $(function() {
 		$.ajax({ type: "GET",
 			url: BASE_PATH+"/public/ajax/tablegenerator.php",
 			data: { p: "getTableSamples", search: sample_ids },
-			async: false,
+			async: true,
 			success : function(s)
 			{
 				console.log(s);
@@ -622,10 +616,10 @@ $(function() {
 						]);
 					}
 				}
+				checkCheckedList();
+				reportSelection();
 			}
 		});
-		checkCheckedList();
-		reportSelection();
 	}else if (window.location.href.split("/").indexOf('table') > -1){
 		var table_params;
 		$.ajax({ type: "GET",
@@ -676,7 +670,7 @@ $(function() {
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/tablegenerator.php",
 				data: { p: "getCreatedTables", gids: phpGrab.gids},
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					console.log(s);

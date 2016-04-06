@@ -1,5 +1,6 @@
 <?php
 class Ngsimport extends VanillaModel {
+	//	Variable Storage
 	public $series_id;
 	public $sid;
 	public $gid;
@@ -222,6 +223,19 @@ class Ngsimport extends VanillaModel {
 		return $samplename;
 	}
 	
+	/*
+	* parseExcel
+	*
+	* Parses the Excel Spreadsheet for all values
+	* Also checks if values are valid for submission
+	*
+	* @param string $gid group id used
+	* @param string $sid security id
+	* @param worksheet $worksheet worksheet information passed from excel
+	* @param sheetData $sheetData data passed from excel
+	* @param bool $passed_final_check passing final_check for multiple iterations.
+	* @return [Bool, String]
+	*/
 	function parseExcel($gid, $sid, $worksheet, $sheetData, $passed_final_check) {
 		$this->worksheet=$worksheet;
 		$this->sheetData=$sheetData;
@@ -231,10 +245,6 @@ class Ngsimport extends VanillaModel {
 		$this->clustername = json_decode($this->query("SELECT clusteruser FROM users WHERE username = '".$_SESSION['user']."'"))[0]->clusteruser;
 		
 		$text = '<li>'.$this->worksheet['worksheetName'].'<br />';
-
-		//$text.='Rows: '.$this->worksheet['totalRows'].' Columns: '.$this->worksheet['totalColumns'].'<br />';
-		//$text.='Cell Range: A1:'.$this->worksheet['lastColumnLetter'].$this->worksheet['totalRows'];
-		//$text.='</li>';
 
 		$this->username=$_SESSION['user'];
 		$sql="select id from users where `username`='$this->username'";
@@ -268,6 +278,16 @@ class Ngsimport extends VanillaModel {
 		return $parseArray;
 	}
 	
+	/*
+	* finalizeExcel
+	*
+	* submits data passed in throught the excel sheet
+	* creates javascript variables for initial run submission.
+	*
+	* @param worksheet $worksheet worksheet information passed from excel
+	* @param sheetData $sheetData data passed from excel
+	* @return String
+	*/
 	function finalizeExcel($worksheet, $sheetData){
 		$this->worksheet=$worksheet;
 		$this->sheetData=$sheetData;
@@ -441,41 +461,41 @@ class Ngsimport extends VanillaModel {
 		return 'pass';
         }
 	
+	/*
+	 *	getMeta()
+	 *
+	 *	Obtains metadata information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getMeta() {
 		$meta_check = true;
 		$text = "";
-		/*
-		 *	Read data columns
-		 */
+		//	For the data within the metadata tab
 		for ($i=1;$i<=$this->worksheet['totalRows'];$i++)
 		{
-			if($this->sheetData[$i]["A"]=="title"){$this->experiment_name=trim($this->esc($this->sheetData[$i]["B"]));}
+			if($this->sheetData[$i]["A"]=="title"){
+				$this->experiment_name=trim($this->esc($this->sheetData[$i]["B"]));
+				array_push($this->initialSubmission, trim($this->esc($this->sheetData[$i]["B"])));
+			}
 			if($this->sheetData[$i]["A"]=="summary"){$this->summary=trim($this->esc($this->sheetData[$i]["B"]));}
 			if($this->sheetData[$i]["A"]=="overall design"){$this->design=trim($this->esc($this->sheetData[$i]["B"]));}
 			if($this->sheetData[$i]["A"]=="organization"){$this->organization=trim($this->esc($this->sheetData[$i]["B"]));}
 			if($this->sheetData[$i]["A"]=="lab"){$this->lab=trim($this->esc($this->sheetData[$i]["B"]));}
 			if($this->sheetData[$i]["A"]=="grant"){$this->grant=trim($this->esc($this->sheetData[$i]["B"]));}
 			if($this->sheetData[$i]["A"]=="contributor"){array_push($this->conts, trim($this->esc($this->sheetData[$i]["B"])));}
-			if($this->sheetData[$i]["A"]=="fastq directory"){
-				$this->fastq_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
-			}elseif($this->sheetData[$i]["A"]=="input directory"){
-				$this->fastq_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
-			}
-			if($this->sheetData[$i]["A"]=="backup directory"){
-				$this->backup_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
-			}elseif($this->sheetData[$i]["A"]=="processed directory"){
-				$this->backup_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
-			}elseif($this->sheetData[$i]["A"]=="process directory"){
-				$this->backup_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
-			}
-			if($this->sheetData[$i]["A"]=="amazon bucket"){$this->amazon_bucket=trim($this->esc($this->sheetData[$i]["B"]));}
 			
-			if($this->sheetData[$i]["A"]=="title"){
-				array_push($this->initialSubmission, trim($this->esc($this->sheetData[$i]["B"])));
+			//	Older versions or single/multiple directory versions might contain different names.
+			if($this->sheetData[$i]["A"]=="fastq directory" || $this->sheetData[$i]["A"]=="input directory"){
+				$this->fastq_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
 			}
 			if($this->sheetData[$i]["A"]=="backup directory" || $this->sheetData[$i]["A"]=="processed directory" || $this->sheetData[$i]["A"]=="process directory"){
+				$this->backup_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
 				array_push($this->initialSubmission, $this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"]))));
 			}
+			
+			if($this->sheetData[$i]["A"]=="amazon bucket"){$this->amazon_bucket=trim($this->esc($this->sheetData[$i]["B"]));}
 			
 			//	Fastq Directory
 			if($this->fastq_dir == null && $this->sheetData[$i]["A"]=="fastq directory"){
@@ -548,7 +568,6 @@ class Ngsimport extends VanillaModel {
 		}
 		
 		//	Organization
-		
 		if(!isset($this->organization)){
 			$this->organization = NULL;
 		}
@@ -569,6 +588,11 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processMeta()
+	 *
+	 *	Processes and submits the metadata to the database with the data obtained from getMeta()
+	 */
 	function processMeta(){
 		$text = "";
 		$new_series = new series($this, $this->experiment_name,$this->summary,$this->design,
@@ -577,6 +601,8 @@ class Ngsimport extends VanillaModel {
 		$text.="SERIES:".$new_series->getStat()."<BR>";
 		$new_conts = new contributors($this, $this->conts);
 		$text.= "CONT:".$new_conts->getStat()."<BR>";
+		
+		//	If single directory entry, create directory object and use.
 		if(isset($this->fastq_dir)){
 			$dir = new dir();
 			$dir->dir_tag="old_import_template";
@@ -585,7 +611,7 @@ class Ngsimport extends VanillaModel {
 			$dir->amazon_bucket=$this->amazon_bucket;
 			$this->dir_arr[$dir->dir_tag]=$dir;
 			
-			$new_dirs = new dirs($this, $this->dir_arr,  $dir->backup_dir, $dir->amazon_bucket);
+			$new_dirs = new dirs($this, $this->dir_arr, $dir->backup_dir, $dir->amazon_bucket);
 			$text="DIR:".$new_dirs->getStat()."<BR>";
 			$dir_id = json_decode($this->query("SELECT id FROM ngs_dirs
 											   WHERE fastq_dir = '".$this->fastq_dir."'
@@ -595,28 +621,28 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 
+	
+	/*
+	 *	getLanes()
+	 *
+	 *	Obtains lane/import information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getLanes(){
 		$lane_check = true;
 		$text = "";
-		/*
-		 *	For each row in the lanes worksheet
-		 */
+		//	For the data within the lane/import tab
 		for ($i=4;$i<=$this->worksheet['totalRows'];$i++)
 		{
-			/*
-			 *	Read data columns
-			 */
 			$lane = new lane();
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
-				if($this->sheetData[3][$j]=="Import name"){
-					$lane->name=trim($this->esc($this->sheetData[$i][$j]));
-				}elseif($this->sheetData[3][$j]=="Lane name"){
+				if($this->sheetData[3][$j]=="Import name" || $this->sheetData[3][$j]=="Lane name"){
 					$lane->name=trim($this->esc($this->sheetData[$i][$j]));
 				}
-				if($this->sheetData[3][$j]=="Sequencing id"){
-					$lane->lane_id=trim($this->esc($this->sheetData[$i][$j]));
-				}elseif($this->sheetData[3][$j]=="Lane id"){
+				if($this->sheetData[3][$j]=="Sequencing id" || $this->sheetData[3][$j]=="Lane id"){
 					$lane->lane_id=trim($this->esc($this->sheetData[$i][$j]));
 				}
 				if($this->sheetData[3][$j]=="Sequencing facility"){$lane->facility=trim($this->esc($this->sheetData[$i][$j]));}
@@ -631,9 +657,7 @@ class Ngsimport extends VanillaModel {
 				if($this->sheetData[3][$j]=="Total reads"){$lane->total_reads=trim($this->esc($this->sheetData[$i][$j]));}
 			}
 			
-			/*
-			 *	Check for proper data input
-			 */
+			//	Error Checks
 			//	Lane Name
 			if(isset($lane->name)){
 				if($this->checkAlphaNumWithAddChars('\s\_\-', $lane->name)){
@@ -662,6 +686,11 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processLanes()
+	 *
+	 *	Processes and submits the lanes/imports to the database with the data obtained from getLanes()
+	 */
 	function processLanes(){
 		$text = "";
 		//echo json_encode($this->lane_arr);
@@ -676,17 +705,20 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 
+	/*
+	 *	getProtocols()
+	 *
+	 *	Obtains protocols information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getProtocols(){
 		$prot_check = true;
 		$text = "";
-		/*
-		 *	For each row in the protocols worksheet
-		 */
+		//	For the data within the protocols tab
 		for ($i=4;$i<=$this->worksheet['totalRows'];$i++)
 		{
-			/*
-			 *	Read data columns
-			 */
 			$prot = new prot();
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
@@ -699,10 +731,8 @@ class Ngsimport extends VanillaModel {
 				if($this->sheetData[3][$j]=="strand-specific"){$prot->strand_specific= trim($this->esc($this->sheetData[$i][$j]));}
 				if($this->sheetData[3][$j]=="library strategy"){$prot->library_strategy= trim($this->esc($this->sheetData[$i][$j]));}
 			}
-			
-			/*
-			 *	Check for proper data input
-			 */
+
+			//	Check Protocols
 			//	Protocol Name
 			if(isset($prot->name)){
 				$this->prot_arr[$prot->name]=$prot;	
@@ -733,6 +763,11 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processProtocols()
+	 *
+	 *	Processes and submits the protocols to the database with the data obtained from getLanes()
+	 */
 	function processProtocols(){
 		$text = "";
 		//echo json_encode($this->prot_arr);
@@ -741,6 +776,14 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 
+	/*
+	 *	getSamples()
+	 *
+	 *	Obtains samples information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getSamples(){
 		$samp_check = true;
 		$text = "";
@@ -758,9 +801,7 @@ class Ngsimport extends VanillaModel {
 			{
 				$j = $this->num2alpha($k);
 				if($this->sheetData[3][$j]=="Sample name"){$samp->name= trim($this->esc($this->sheetData[$i][$j]));}
-				if($this->sheetData[3][$j]=="Lane name"){
-					$samp->lane_name= trim($this->esc($this->sheetData[$i][$j]));
-				}elseif($this->sheetData[3][$j]=="Import name"){
+				if($this->sheetData[3][$j]=="Lane name" || $this->sheetData[3][$j]=="Import name"){
 					$samp->lane_name= trim($this->esc($this->sheetData[$i][$j]));
 				}
 				if($this->sheetData[3][$j]=="Protocol name"){$samp->protocol_name= trim($this->esc($this->sheetData[$i][$j]));}
@@ -824,12 +865,8 @@ class Ngsimport extends VanillaModel {
 					}
 				}
 			}
-			
-			/*
-			 *	Check for proper data input
-			 */
+
 			//	Samplename
-			//$all_samplenames = json_decode($this->query("SELECT samplename FROM ngs_samples"));
 			if($this->experiment_name == 'Dendritic Cell Transcriptional Landscape'){
 				$samp->samplename = $this->createSampleName($samp);
 			}else{
@@ -837,7 +874,6 @@ class Ngsimport extends VanillaModel {
 			}
 			
 			$samplename_bool = true;
-			
 			if(isset($this->sample_arr)){
 				if($this->experiment_name == 'Dendritic Cell Transcriptional Landscape'){
 					foreach($this->sample_arr as $sa){
@@ -888,7 +924,6 @@ class Ngsimport extends VanillaModel {
 			}
 			
 			//	Lane Name
-			//	For now, it's just checking the Lane given in the excel file, possible to check the database later
 			if(isset($samp->lane_name)){
 				if(!isset($this->lane_arr[$samp->lane_name])){
 					$text.= $this->errorText("Import name does not match any import given in the excel file (row " . $i . ")");
@@ -1040,9 +1075,13 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processSamples()
+	 *
+	 *	Processes and submits the samples to the database with the data obtained from getLanes()
+	 */
 	function processSamples(){
 		$text = "";
-		//echo json_encode($this->sample_arr);
 		$this->samples=$this->sample_arr;
 		$new_samples = new samples($this, $this->sample_arr);
 		$text="SAMPLE:".$new_samples->getStat()."<BR>";
@@ -1057,31 +1096,30 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 		
+	/*
+	 *	getDirs()
+	 *
+	 *	Obtains directory information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getDirs(){
 		$dir_check = true;
 		$text = "";
-		/*
-		 *	For each row in the samples worksheet
-		 */
+		//	for each sample given
 		for ($i=4;$i<=$this->worksheet['totalRows'];$i++)
 		{
-			/*
-			 *	Read data columns
-			 */
 			$dir = new dir();
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
 				if($this->sheetData[3][$j]=="Directory ID"){$dir->dir_tag= trim($this->esc($this->sheetData[$i][$j]));}
-				if($this->sheetData[3][$j]=="Fastq directory"){
-					$dir->fastq_dir= $this->directoryCheck(trim($this->esc($this->sheetData[$i][$j])));
-				}elseif($this->sheetData[3][$j]=="Processed directory"){
-					$dir->fastq_dir= $this->directoryCheck(trim($this->esc($this->sheetData[$i][$j])));
-				}elseif($this->sheetData[3][$j]=="Process directory"){
-					$dir->fastq_dir= $this->directoryCheck(trim($this->esc($this->sheetData[$i][$j])));
-				}elseif($this->sheetData[3][$j]=="Input directory"){
+				if($this->sheetData[3][$j]=="Fastq directory" || $this->sheetData[3][$j]=="Processed directory" || $this->sheetData[3][$j]=="Process directory" || $this->sheetData[3][$j]=="Input directory"){
 					$dir->fastq_dir= $this->directoryCheck(trim($this->esc($this->sheetData[$i][$j])));
 				}
 			}
+			
+			//	Missing directory information
 			if(!isset($dir->dir_tag) || $dir->dir_tag == ''){
 				$text.= $this->errorText("Dir ID required for submission (row " . $i . ")");
 				$this->final_check = false;
@@ -1089,7 +1127,6 @@ class Ngsimport extends VanillaModel {
 			}else{
 				array_push($this->dir_tags, $dir->dir_tag);
 			}
-			
 			if(!isset($dir->fastq_dir) || $dir->fastq_dir == ''){
 				$text.= $this->errorText("Fastq directory required for submission (row " . $i . ")");
 				$this->final_check = false;
@@ -1097,6 +1134,7 @@ class Ngsimport extends VanillaModel {
 			}else{
 				array_push($this->dir_fastq, $dir->fastq_dir);
 			}
+			
 			//	Directory validity tests
 			if(isset($this->fastq_dir) && ( $this->sheetData[$i]["A"]=="fastq directory" || $this->sheetData[$i]["A"]=="input directory")){
 				$permCheck = $this->checkUserPermissions($this->clustername);
@@ -1106,7 +1144,6 @@ class Ngsimport extends VanillaModel {
 					$dir_check = false;
 				}
 			}
-			
 			if(isset($this->dir_arr[$dir->dir_tag])){
 				$text.= $this->errorText("Fastq Directory error.  Cannot have duplicate Directory IDs. (".$dir->fastq_dir.").");
 				$this->final_check = false;
@@ -1123,6 +1160,11 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processDirs()
+	 *
+	 *	Processes and submits the directories to the database with the data obtained from getLanes()
+	 */
 	function processDirs(){
 		$text = "";
 		$new_dirs = new dirs($this, $this->dir_arr, $this->backup_dir, $this->amazon_bucket);
@@ -1136,29 +1178,38 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	getFiles()
+	 *
+	 *	Obtains file information from the excel spreadsheet and checks the validity of the entries.
+	 *
+	 *	If an entry is not valid, a bool flag will switch.
+	 *	Checks will continue but actual database submission will halt.
+	 */
 	function getFiles(){
 		$file_check = true;
 		$text = "";
-		/*
-		 *	For each row in the samples worksheet
-		 */
+		//	for each file
 		for ($i=4;$i<=$this->worksheet['totalRows'];$i++)
 		{
-			/*
-			 *	Read data columns
-			 */
 			$file = new file();
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
-				if($this->sheetData[3][$j]=="Sample or Lane Name (Enter same name for multiple files)"){
+				if($this->sheetData[3][$j]=="Sample or Lane Name (Enter same name for multiple files)" || $this->sheetData[3][$j]=="Sample or Import Name (Enter same name for multiple files)"){
 					$file->name= trim($this->esc($this->sheetData[$i][$j]));
-				}elseif($this->sheetData[3][$j]=="Sample or Import Name (Enter same name for multiple files)"){
-					$file->name= trim($this->esc($this->sheetData[$i][$j]));
+					if(isset($this->lane_arr[$file->name]) && $this->laneArrayCheck == null){
+						array_push($this->initialSubmission, 'lane');
+						$this->laneArrayCheck = 'lane';
+					}else if(isset($this->sample_arr[$file->name]) && $this->laneArrayCheck == null){
+						array_push($this->initialSubmission, 'sample');
+						$this->laneArrayCheck = 'sample';
+					}
 				}
 				if($this->sheetData[3][$j]=="Directory ID"){$file->dir_tag= trim($this->esc($this->sheetData[$i][$j]));}
 				if($this->sheetData[3][$j]=="file name(comma separated for paired ends)"){
 					$file->file_name= trim($this->esc($this->sheetData[$i][$j]));
 					$file->file_name= preg_replace('/\s/', '', $file->file_name);
+					//	If user accidentally adds samples for multiple columns
 					if($j == 'B' && isset($this->sheetData[$i]['C'])){
 						$additional_files = trim($this->sheetData[$i]['C']);
 					}else if ($j == 'C' && isset($this->sheetData[$i]['D'])){
@@ -1176,24 +1227,12 @@ class Ngsimport extends VanillaModel {
 						unset($additional_files);
 						unset($comma_check);
 					}
-				}
-				if($this->sheetData[3][$j]=="file checksum"){$file->checksum= trim($this->esc($this->sheetData[$i][$j]));}
-				
-				if($this->sheetData[3][$j]=="Sample or Lane Name (Enter same name for multiple files)" || $this->sheetData[3][$j]=="Sample or Import Name (Enter same name for multiple files)"){
-					if(isset($this->lane_arr[$file->name]) && $this->laneArrayCheck == null){
-						array_push($this->initialSubmission, 'lane');
-						$this->laneArrayCheck = 'lane';
-					}else if(isset($this->sample_arr[$file->name]) && $this->laneArrayCheck == null){
-						array_push($this->initialSubmission, 'sample');
-						$this->laneArrayCheck = 'sample';
-					}
-				}
-				if($this->sheetData[3][$j]=="file name(comma separated for paired ends)" && $this->pairedEndCheck == null){
 					if (strpos($file->file_name, ',') !== false){
 						array_push($this->initialSubmission, 'paired');
 						$this->pairedEndCheck = 'paired';
 					}
 				}
+				if($this->sheetData[3][$j]=="file checksum"){$file->checksum= trim($this->esc($this->sheetData[$i][$j]));}
 				if($this->sheetData[3][$j]=="Directory ID"){
 					if(in_array($file->dir_tag, $this->dir_tags) && isset($this->dir_fastq[array_search($file->dir_tag, $this->dir_tags)])){
 						$file->fastq_dir = $this->dir_fastq[array_search($file->dir_tag, $this->dir_tags)];
@@ -1202,10 +1241,7 @@ class Ngsimport extends VanillaModel {
 				}
 			}
 			
-			/*
-			 *	Check for proper data input
-			 */
-			//	Sample/Lane Name
+			//	Sample/Lane Name checks
 			if(isset($file->name)){
 				if($this->checkAlphaNumWithAddChars('\_\-', $file->name)){
 					if(!(isset($this->sample_arr[$file->name])) & !(isset($this->lane_arr[$file->name]))){
@@ -1224,7 +1260,7 @@ class Ngsimport extends VanillaModel {
 				$file_check = false;
 			}
 			
-			//	File Name
+			//	File Name checks
 			if(isset($file->file_name)){
 				$this->file_arr[$file->file_name]=$file;
 			}else{
@@ -1233,7 +1269,7 @@ class Ngsimport extends VanillaModel {
 				$file_check = false;
 			}
 			
-			//	File Directory
+			//	File Directory checks
 			if(!isset($file->fastq_dir) && isset($file->dir_tag)){
 				$text.= $this->errorText("Directory information is incorrect (row " . $i . ")");
 				$this->final_check = false;
@@ -1268,6 +1304,11 @@ class Ngsimport extends VanillaModel {
 		return $text;
 	}
 	
+	/*
+	 *	processFiles()
+	 *
+	 *	Processes and submits the files to the database with the data obtained from getLanes()
+	 */
 	function processFiles(){
 		$text = "";
 		//echo json_encode($this->file_arr);
@@ -1581,17 +1622,17 @@ class lanes extends main{
 	function insert($lane)
 	{
 		$sql="insert into `ngs_lanes`(`series_id`, `name`, `lane_id`,`cost`,
-					`date_submitted`, `date_received`, `phix_requested`,
-					`phix_in_lane`, `total_samples`, `resequenced`, `notes`,
+			`date_submitted`, `date_received`, `phix_requested`,
+			`phix_in_lane`, `total_samples`, `resequenced`, `notes`,
 			`owner_id`, `group_id`, `perms`, `date_created`,
-					`date_modified`, `last_modified_user`)
+			`date_modified`, `last_modified_user`)
 			values('".$this->model->series_id."','$lane->name','$lane->lane_id','$lane->cost',
-					".$this->correct_date($lane->date_submitted).",".$this->correct_date($lane->date_received).",
+			".$this->correct_date($lane->date_submitted).",".$this->correct_date($lane->date_received).",
 			'$lane->phix_requested',
-					'$lane->phix_in_lane','$lane->total_samples',
+			'$lane->phix_in_lane','$lane->total_samples',
 			".$this->correct_bool($lane->resequenced).",'$lane->notes',
 			'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
-					now(), now(), '".$this->model->uid."');";
+			now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		
 		$returned_sql = $this->model->query($sql);
@@ -1606,22 +1647,22 @@ class lanes extends main{
 	function update($lane)
 	{
 		$sql="UPDATE `ngs_lanes`
-				SET
-				`series_id` = '".$this->model->series_id."',
-				`lane_id` = '$lane->lane_id',
-				`cost` = '$lane->cost',
-				`date_submitted` = ".$this->correct_date($lane->date_submitted).",
-				`date_received` = ".$this->correct_date($lane->date_received).",
-				`phix_requested` = '$lane->phix_requested',
-				`phix_in_lane` = '$lane->phix_in_lane',
-				`total_samples` = '$lane->total_samples',
-				`resequenced` = ".$this->correct_bool($lane->resequenced).",
-				`notes` = '$lane->notes',
+		SET
+		`series_id` = '".$this->model->series_id."',
+		`lane_id` = '$lane->lane_id',
+		`cost` = '$lane->cost',
+		`date_submitted` = ".$this->correct_date($lane->date_submitted).",
+		`date_received` = ".$this->correct_date($lane->date_received).",
+		`phix_requested` = '$lane->phix_requested',
+		`phix_in_lane` = '$lane->phix_in_lane',
+		`total_samples` = '$lane->total_samples',
+		`resequenced` = ".$this->correct_bool($lane->resequenced).",
+		`notes` = '$lane->notes',
 		`group_id`='".$this->model->gid."',
 		`perms`='".$this->model->sid."',
 		`date_modified`=now(),
 		`last_modified_user`='".$this->model->uid."'
-				where `id` = ".$this->getId($lane);
+		where `id` = ".$this->getId($lane);
 		$this->update++;
 		
 		$returned_sql = $this->model->query($sql);
@@ -1663,8 +1704,8 @@ class protocols extends main{
 	{
 		if($prot->$php_name != NULL || $prot->$php_name != ''){
 			$check = "SELECT `id`, `$database_name`
-						FROM ngs_$database_name
-						WHERE `$database_name` = '".$prot->$php_name."'";
+				FROM ngs_$database_name
+				WHERE `$database_name` = '".$prot->$php_name."'";
 			$check_result = json_decode($this->model->query($check));
 			if($check_result == array()){
 				//	Empty
@@ -1681,17 +1722,17 @@ class protocols extends main{
 	function insert($prot)
 	{
 		$sql="insert into ngs_protocols(
-				`name`, `growth`,
-				`extraction`, `library_construction`, `crosslinking_method`,
-				`fragmentation_method`, `strand_specific`,
-				`owner_id`, `group_id`, `perms`,
-				`date_created`, `date_modified`, `last_modified_user`)
-				values
-				('$prot->name', '$prot->growth',
-				'$prot->extraction', '$prot->library_construction', '$prot->crosslinking_method',
-				'$prot->fragmentation_method', '$prot->strand_specific',
-				'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
-				now(), now(), '".$this->model->uid."');";
+		`name`, `growth`,
+		`extraction`, `library_construction`, `crosslinking_method`,
+		`fragmentation_method`, `strand_specific`,
+		`owner_id`, `group_id`, `perms`,
+		`date_created`, `date_modified`, `last_modified_user`)
+		values
+		('$prot->name', '$prot->growth',
+		'$prot->extraction', '$prot->library_construction', '$prot->crosslinking_method',
+		'$prot->fragmentation_method', '$prot->strand_specific',
+		'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
+		now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		$returned_sql = $this->model->query($sql);
 		$prot_id = json_decode($this->getId($prot));
@@ -1705,20 +1746,20 @@ class protocols extends main{
 	function update($prot)
 	{
 		$sql="update ngs_protocols set
-			`growth`='$prot->growth',
-			`extraction`='$prot->extraction',
-			`library_construction`='$prot->library_construction',
-			`crosslinking_method`='$prot->crosslinking_method',
-			`fragmentation_method`='$prot->fragmentation_method',
-			`strand_specific`='$prot->strand_specific',
-			`owner_id`='".$this->model->uid."',
-			`group_id`='".$this->model->gid."',
-			`perms`='".$this->model->sid."',
-			`group_id`='".$this->model->gid."',
-			`perms`='".$this->model->sid."',
-			`date_modified`=now(),
-			`last_modified_user`='".$this->model->uid."'
-			where `id` = ".$this->getId($prot);
+		`growth`='$prot->growth',
+		`extraction`='$prot->extraction',
+		`library_construction`='$prot->library_construction',
+		`crosslinking_method`='$prot->crosslinking_method',
+		`fragmentation_method`='$prot->fragmentation_method',
+		`strand_specific`='$prot->strand_specific',
+		`owner_id`='".$this->model->uid."',
+		`group_id`='".$this->model->gid."',
+		`perms`='".$this->model->sid."',
+		`group_id`='".$this->model->gid."',
+		`perms`='".$this->model->sid."',
+		`date_modified`=now(),
+		`last_modified_user`='".$this->model->uid."'
+		where `id` = ".$this->getId($prot);
 		$this->update++;
 		
 		$prot_id = json_decode($this->getId($prot));
@@ -1781,8 +1822,8 @@ class samples extends main{
 	{
 		if($sample->$php_name != NULL && $sample->$php_name != '' && $sample->$php_name != null && $sample->$php_name != 'null' && $sample->$php_name != 'NULL'){
 			$check = "SELECT `id`, `$database_name`
-						FROM ngs_$database_name
-						WHERE `$database_name` = '".$sample->$php_name."'";
+				FROM ngs_$database_name
+				WHERE `$database_name` = '".$sample->$php_name."'";
 			$check_result = json_decode($this->model->query($check));
 			if($check_result == array()){
 				//	Empty
@@ -1802,31 +1843,31 @@ class samples extends main{
 		$protocol_id=$this->getProtocolId($sample->protocol_name);
 		
 		$sql="INSERT INTO `ngs_samples`
-			(`series_id`, `protocol_id`, `lane_id`,
-			`name`, `barcode`, `title`, `batch_id`,
-			`concentration`,
-			`description`,
-			`avg_insert_size`, `read_length`,
-			`adapter`,
-			`time`, `biological_replica`,
-			`spike_ins`,
-			`technical_replica`, `notebook_ref`, `notes`,
-			`owner_id`, `group_id`, `perms`, `date_created`,
-			`date_modified`, `last_modified_user`)
-			VALUES
-			(
-			'".$this->model->series_id."', '$protocol_id', '$lane_id',
-			'$sample->name', '$sample->barcode', '$sample->title',
-			'$sample->batch',
-			'$sample->concentration',
-			'$sample->description',
-			'$sample->avg_insert_size', '$sample->read_length',
-			'$sample->adapter',
-			'$sample->time', '$sample->biological_replica',
-			'$sample->spikeins',
-			'$sample->technical_replica', '$sample->notebook_ref', '$sample->notes',
-			'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
-			now(), now(), '".$this->model->uid."');";
+		(`series_id`, `protocol_id`, `lane_id`,
+		`name`, `barcode`, `title`, `batch_id`,
+		`concentration`,
+		`description`,
+		`avg_insert_size`, `read_length`,
+		`adapter`,
+		`time`, `biological_replica`,
+		`spike_ins`,
+		`technical_replica`, `notebook_ref`, `notes`,
+		`owner_id`, `group_id`, `perms`, `date_created`,
+		`date_modified`, `last_modified_user`)
+		VALUES
+		(
+		'".$this->model->series_id."', '$protocol_id', '$lane_id',
+		'$sample->name', '$sample->barcode', '$sample->title',
+		'$sample->batch',
+		'$sample->concentration',
+		'$sample->description',
+		'$sample->avg_insert_size', '$sample->read_length',
+		'$sample->adapter',
+		'$sample->time', '$sample->biological_replica',
+		'$sample->spikeins',
+		'$sample->technical_replica', '$sample->notebook_ref', '$sample->notes',
+		'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
+		now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		
 		$returned_sql = $this->model->query($sql);
@@ -1840,8 +1881,8 @@ class samples extends main{
 			$returned_cond = array();
 			
 			$cond_check="SELECT `id`,`condition`
-						FROM ngs_conds
-						WHERE `condition` in (";
+				FROM ngs_conds
+				WHERE `condition` in (";
 			foreach($conds as $c){
 				if($c == end($conds)){
 					$cond_check.="'".trim($c)."'";
@@ -1886,8 +1927,8 @@ class samples extends main{
 		//	Source
 		if($sample->source != NULL && $sample->source != '' && $sample->source != null && $sample->source != 'null'){
 			$source_check="SELECT `id`,`source`
-						FROM ngs_source
-						WHERE `source` = '" . $sample->source . "'";
+				FROM ngs_source
+				WHERE `source` = '" . $sample->source . "'";
 			$source_check_result = json_decode($this->model->query($source_check));
 			if($source_check_result == array()){
 				//	Empty
@@ -1903,8 +1944,8 @@ class samples extends main{
 		//	Source
 		if($sample->source != NULL && $sample->source != '' && $sample->source != null && $sample->source != 'null'){
 			$source_check="SELECT `id`,`source`
-						FROM ngs_source
-						WHERE `source` = '" . $sample->source . "'";
+				FROM ngs_source
+				WHERE `source` = '" . $sample->source . "'";
 			$source_check_result = $this->model->query($source_check);
 			
 			if($source_check_result == "[]"){
@@ -1947,8 +1988,8 @@ class samples extends main{
 		if($sample->target != NULL){
 			if($sample->target != NULL && $sample->target != '' && $sample->target != null && $sample->target != 'null'){
 				$check = "SELECT `id`, `target`
-							FROM ngs_antibody_target
-							WHERE `target` = '".$sample->target."'";
+					FROM ngs_antibody_target
+					WHERE `target` = '".$sample->target."'";
 				$check_result = json_decode($this->model->query($check));
 				if($check_result == array()){
 					//	Empty
@@ -1981,30 +2022,30 @@ class samples extends main{
 		$protocol_id=$this->getProtocolId($sample->protocol_name);
 
 		$sql="UPDATE `ngs_samples`
-			SET
-			`series_id` = '".$this->model->series_id."',
-			`protocol_id` = '$protocol_id',
-			`lane_id` = '$lane_id',
-			`name` = '$sample->name',
-			`barcode` = '$sample->barcode',
-			`title` = '$sample->title',
-			`batch_id` = '$sample->batch',
-			`concentration` = '$sample->concentration',
-			`description` = '$sample->description',
-			`avg_insert_size` = '$sample->avg_insert_size',
-			`read_length` = '$sample->read_length',
-			`adapter` = '$sample->adapter',
-			`time` = '$sample->time',
-			`biological_replica` = '$sample->biological_replica',
-			`spike_ins` = '$sample->spikeins',
-			`technical_replica` = '$sample->technical_replica',
-			`notebook_ref` = '$sample->notebook_ref',
-			`notes` = '$sample->notes',
-			`group_id`='".$this->model->gid."',
-			`perms`='".$this->model->sid."',
-			`date_modified`=now(),
-			`last_modified_user`='".$this->model->uid."'
-			where `id` = ".$this->getId($sample);
+		SET
+		`series_id` = '".$this->model->series_id."',
+		`protocol_id` = '$protocol_id',
+		`lane_id` = '$lane_id',
+		`name` = '$sample->name',
+		`barcode` = '$sample->barcode',
+		`title` = '$sample->title',
+		`batch_id` = '$sample->batch',
+		`concentration` = '$sample->concentration',
+		`description` = '$sample->description',
+		`avg_insert_size` = '$sample->avg_insert_size',
+		`read_length` = '$sample->read_length',
+		`adapter` = '$sample->adapter',
+		`time` = '$sample->time',
+		`biological_replica` = '$sample->biological_replica',
+		`spike_ins` = '$sample->spikeins',
+		`technical_replica` = '$sample->technical_replica',
+		`notebook_ref` = '$sample->notebook_ref',
+		`notes` = '$sample->notes',
+		`group_id`='".$this->model->gid."',
+		`perms`='".$this->model->sid."',
+		`date_modified`=now(),
+		`last_modified_user`='".$this->model->uid."'
+		where `id` = ".$this->getId($sample);
 		$this->update++;
 		
 		$returned_sql = $this->model->query($sql);
@@ -2018,8 +2059,8 @@ class samples extends main{
 			$returned_cond = array();
 			
 			$cond_check="SELECT `id`,`condition`
-						FROM ngs_conds
-						WHERE `condition` in (";
+				FROM ngs_conds
+				WHERE `condition` in (";
 			foreach($conds as $c){
 				if($c == end($conds)){
 					$cond_check.="'".trim($c)."'";
@@ -2064,8 +2105,8 @@ class samples extends main{
 		//	Source
 		if($sample->source != NULL && $sample->source != '' && $sample->source != null && $sample->source != 'null'){
 			$source_check="SELECT `id`,`source`
-						FROM ngs_source
-						WHERE `source` = '" . $sample->source . "'";
+				FROM ngs_source
+				WHERE `source` = '" . $sample->source . "'";
 			$source_check_result = json_decode($this->model->query($source_check));
 			if($source_check_result == array()){
 				//	Empty
@@ -2106,8 +2147,8 @@ class samples extends main{
 		if($sample->target != NULL){
 			if($sample->target != NULL && $sample->target != '' && $sample->target != null && $sample->target != 'null'){
 				$check = "SELECT `id`, `target`
-							FROM ngs_antibody_target
-							WHERE `target` = '".$sample->target."'";
+					FROM ngs_antibody_target
+					WHERE `target` = '".$sample->target."'";
 				$check_result = json_decode($this->model->query($check));
 				if($check_result == array()){
 					//	Empty
@@ -2173,9 +2214,9 @@ class characteristics extends main{
 		$sample_id = $this->getSampleId($tag->sample_name);
 		$sql=" INSERT INTO `ngs_characteristics`(`sample_id`, `tag`,`value`,
 		`owner_id`, `group_id`, `perms`, `date_created`, `date_modified`, `last_modified_user`)
-				 VALUES('$sample_id','$tag->tag', '$tag->value',
-		 '".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
-		 now(), now(), '".$this->model->uid."');";
+		VALUES('$sample_id','$tag->tag', '$tag->value',
+		'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
+		now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		//return $sql;
 		return $this->model->query($sql);
@@ -2186,7 +2227,7 @@ class characteristics extends main{
 		$sql="update `ngs_characteristics` set `value`='$tag->value',
 		`group_id`='".$this->model->gid."', `perms`='".$this->model->sid."',
 		`date_modified`=now(), `last_modified_user`='".$this->model->uid."'
-			where `id` = ".$this->getId($tag);
+		where `id` = ".$this->getId($tag);
 		$this->update++;
 
 		return $this->model->query($sql);
@@ -2276,13 +2317,13 @@ class files extends main{
 	function insert($file)
 	{
 		$sql="INSERT INTO `$this->tablename`
-			(`file_name`,
-			`$this->fieldname`, `dir_id`,
+		(`file_name`,
+		`$this->fieldname`, `dir_id`,
 		`owner_id`, `group_id`, `perms`,
-			`date_created`, `date_modified`,`last_modified_user`)
-			VALUES
-			('$file->file_name', '$this->value',
-			'$this->dir_id', '".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
+		`date_created`, `date_modified`,`last_modified_user`)
+		VALUES
+		('$file->file_name', '$this->value',
+		'$this->dir_id', '".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
 		now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		//return $sql;
@@ -2293,12 +2334,12 @@ class files extends main{
 	function update($file)
 	{
 		$original_file_name = $this->model->query("SELECT `file_name` FROM `$this->tablename` WHERE
-												  `$this->fieldname` = `$this->value` and `file_name` = `$file->file_name`");
+												`$this->fieldname` = `$this->value` and `file_name` = `$file->file_name`");
 		$sql="update `$this->tablename` set
-			`$this->fieldname`='$this->value', `dir_id`='$this->dir_id',
-			`group_id`='".$this->model->gid."', `perms`='".$this->model->sid."',
+		`$this->fieldname`='$this->value', `dir_id`='$this->dir_id',
+		`group_id`='".$this->model->gid."', `perms`='".$this->model->sid."',
 		`date_modified`=now(), `last_modified_user`='".$this->model->uid."'
-			where `id` = ".$this->getId($file);
+		where `id` = ".$this->getId($file);
 		$this->update++;
 
 		return $this->model->query($sql);
@@ -2340,9 +2381,9 @@ class dirs extends main{
 		$sql=" INSERT INTO `ngs_dirs`(`fastq_dir`,`backup_dir`, `amazon_bucket`,
 		`owner_id`, `group_id`, `perms`,
 		`date_created`, `date_modified`, `last_modified_user`)
-				 VALUES('".$dir->fastq_dir."', '".$this->backup_dir."', '".$this->amazon_bucket."',
-		 '".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
-		 now(), now(), '".$this->model->uid."');";
+		VALUES('".$dir->fastq_dir."', '".$this->backup_dir."', '".$this->amazon_bucket."',
+		'".$this->model->uid."', '".$this->model->gid."', '".$this->model->sid."',
+		now(), now(), '".$this->model->uid."');";
 		$this->insert++;
 		
 		return $this->model->query($sql);
@@ -2354,7 +2395,7 @@ class dirs extends main{
 		`backup_dir`='".$this->backup_dir."', `amazon_bucket`='".$this->amazon_bucket."',
 		`group_id`='".$this->model->gid."', `perms`='".$this->model->sid."',
 		`date_modified`=now(), `last_modified_user`='".$this->model->uid."'
-				where `id` = ".$this->getId($dir);
+		where `id` = ".$this->getId($dir);
 		$this->update++;
 		return $this->model->query($sql);
 	}

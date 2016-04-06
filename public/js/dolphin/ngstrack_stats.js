@@ -420,7 +420,7 @@ function exportExcel(){
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/export_excel.php",
 				data: { p: "checkExperimentSeries", samples: checklist_samples },
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					var ES = JSON.parse(s);
@@ -478,7 +478,7 @@ function exportGeo() {
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/export_excel.php",
 				data: { p: "checkExperimentSeries", samples: checklist_samples },
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					var ES = JSON.parse(s);
@@ -651,7 +651,7 @@ $(function() {
 				//	Generate JSON data manually
 				$.ajax({ type: "GET",
 					url: API_PATH +"/public/api/getsamplevals.php?" + table_params.parameters,
-					async: false,
+					async: true,
 					success : function(s)
 					{
 						console.log(s);
@@ -664,7 +664,7 @@ $(function() {
 				$.ajax({ type: "GET",
 					url: BASE_PATH +"/public/ajax/tablegenerator.php",
 					data: { p: "updateTableFile", url: API_PATH +"/public/api/getsamplevals.php?" + table_params.parameters, id: table_params.id},
-					async: false,
+					async: true,
 					success : function(s)
 					{
 						console.log(s);
@@ -679,7 +679,7 @@ $(function() {
 			//	Generate JSON data manually
 			$.ajax({ type: "GET",
 				url: API_PATH +"/public/api/getsamplevals.php?" + table_params.parameters,
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					console.log(s);
@@ -692,7 +692,7 @@ $(function() {
 			$.ajax({ type: "GET",
 				url: BASE_PATH +"/public/ajax/tablegenerator.php",
 				data: { p: "updateTableFile", url: API_PATH +"/public/api/getsamplevals.php?" + table_params.parameters, id: table_params.id},
-				async: false,
+				async: true,
 				success : function(s)
 				{
 					console.log(s);
@@ -805,8 +805,6 @@ $(function() {
 			console.log(experiment_series_data);
 			console.log(lane_data);
 			console.log(sample_data);
-			checkOffAllSamples();
-			checkOffAllLanes();
 			generateIDDictionary(experiment_series_data, lane_data, sample_data);
 			reloadBasket();
 		}

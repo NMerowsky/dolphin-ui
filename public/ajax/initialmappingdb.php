@@ -58,42 +58,77 @@ else if ($p == 'getCounts')
 }
 else if ($p == 'checkRunList')
 {
-	if (isset($_GET['sample_ids'])){$sample_ids = $_GET['sample_ids'];}
-	if (isset($_GET['run_id'])){$run_id = $_GET['run_id'];}
-	$data=$query->queryTable("
-	SELECT DISTINCT run_id
-	FROM ngs_runlist
-	WHERE sample_id in ( $sample_ids )
-	");
-}
-else if($p == 'checkRunParams')
-{
-	if (isset($_GET['run_ids'])){$run_ids = $_GET['run_ids'];}
-	$data=$query->queryTable("
-	SELECT id
+	//	Submission variables
+	$added_samples_final = array();
+	$outdirs_final = array();
+	$run_ids_final = array();
+	//	Gather information about samples
+	if (isset($_GET['names'])){$names = $_GET['names'];}
+    if (isset($_GET['lane'])){$lane = $_GET['lane'];}
+    if (isset($_GET['experiment'])){$experiment = $_GET['experiment'];}
+    //	Merge sample names for sql query
+	$names = explode(",", $names);
+    $sqlnames = "";
+    foreach($names as $n){
+        if($n != end($names)){
+            $sqlnames.= "'".$n."',";
+        }else{
+            $sqlnames.= "'".$n."'";    
+        }
+    }
+	//	Query for sample ids
+    $sample_id_json=json_decode($query->queryTable("
+    SELECT DISTINCT ns.id
+    FROM ngs_samples ns, ngs_lanes nl, ngs_experiment_series ne 
+    WHERE ns.name in ($sqlnames)
+    AND ns.lane_id IN (SELECT id from ngs_lanes where name in ($lane))
+    AND ns.series_id IN (SELECT id from ngs_experiment_series where experiment_name = '$experiment');
+    "));
+	//	Create in array form
+	$sample_ids = array();
+	foreach($sample_id_json as $sij){
+		array_push($sample_ids, $sij->id);
+	}
+	//	Obtain initial runs
+	$initial_runs=json_decode($query->queryTable("
+	SELECT id, outdir
 	FROM ngs_runparams
-	WHERE id IN ($run_ids)
+	WHERE id IN
+		(SELECT DISTINCT run_id
+		FROM ngs_runlist
+		WHERE sample_id in ( ".implode(",",$sample_ids)." ))
 	AND (run_name = 'Fastlane Initial Run' OR run_name = 'Import Initial Run')
-	");
-}
-else if ($p == 'checkRunToSamples')
-{
-	if (isset($_GET['run_id'])){$run_id = $_GET['run_id'];}
-	$data=$query->queryTable("
-	SELECT distinct sample_id
-	FROM ngs_runlist
-	WHERE run_id = '$run_id'
-	");
-}
-else if ($p == 'checkFileToSamples')
-{
-	if (isset($_GET['run_id'])){$run_id = $_GET['run_id'];}
-	if (isset($_GET['file_name'])){$file_name = $_GET['file_name'];}
-	$data=$query->queryTable("
-	SELECT distinct file_name
-	FROM ngs_fastq_files
-	WHERE file_name = '$file_name'
-	");
+	"));
+	//	If initial run found
+	if(count($initial_runs) > 0){
+		foreach($initial_runs as $ir){
+			array_push($outdirs_final, $ir->outdir);
+			array_push($run_ids_final, $ir->id);
+			//	get samples from runlist
+			$samples_initial=json_decode($query->queryTable("
+			SELECT distinct sample_id
+			FROM ngs_runlist
+			WHERE run_id = ".$ir->id
+			));
+			//	Array formatting
+			$old_samples = array();
+			foreach($samples_initial as $si){
+				array_push($old_samples, $si->sample_id);
+			}
+			//	Find added samples if any.
+			$new_samples = array();
+			foreach($sample_ids as $si){
+				if(array_search($si, $old_samples) != -1){
+					array_push($new_samples, $si);
+				}
+			}
+			array_push($added_samples_final, $new_samples);
+		}
+		$data = json_encode(array($added_samples_final, $outdirs_final, $run_ids_final, $sample_ids));
+	}else{
+		$data = json_encode(array(array(), array(), array(), $sample_ids));
+	}
+	//test
 }
 else if ($p == 'removeRunlistSamples')
 {
@@ -123,15 +158,7 @@ else if ($p == 'removeRunlistSamples')
 		}
 	}
 }
-else if ($p == 'getOldOutdir')
-{
-	if (isset($_GET['run_id'])){$run_id = $_GET['run_id'];}
-	$data=$query->queryAVal("
-	SELECT outdir
-	FROM ngs_runparams
-	WHERE id = $run_id
-	");
-}
+
 
 if (!headers_sent()) {
    header('Cache-Control: no-cache, must-revalidate');

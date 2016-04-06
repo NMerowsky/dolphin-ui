@@ -38,10 +38,10 @@ class FastlaneController extends VanillaController {
 				$fastlane_values = str_replace("\n", ":", $fastlane_values);
 				$fastlane_array = explode(",",$fastlane_values);
 			}
-			if(isset($barcode_array)){
+			if(isset($pass_fail_values)){
 				$pass_fail_array = explode(",",$pass_fail_values);
 			}
-			if(isset($pass_fail_values)){
+			if(isset($bad_samples)){
 				$bad_samples_array = explode(",",$bad_samples);
 			}
 			if(isset($bad_files)){

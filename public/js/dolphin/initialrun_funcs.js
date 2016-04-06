@@ -99,7 +99,6 @@ $(function() {
 			JSON_OBJECT['submission'] = '0';
 			
 			var names_list = initialNameList.split(",");
-			console.log(initial_split);
 			for(var y = 5; y < initial_split.length; y++ ){
 				if (y == 5){
 					sample_lane = "'" + initial_split[y] + "'";
@@ -110,124 +109,79 @@ $(function() {
 			group = initial_split[initial_split.length - 2];
 			perms = initial_split[initial_split.length - 1];
 		}
+		console.log(initial_split);
+		console.log(names_list);
 		
+		//	If json object, outdir, runname, and rundesc are not undefined
 		if (JSON_OBJECT != undefined && outdir != undefined && runname != undefined && rundesc != undefined) {
 			//	Check to see if runparams has already launched
-			var run_ids = [];
-			var initial_run_ids = [];
-			var names_to_ids = [];
-			console.log(names_list);
-			console.log(sample_lane);
-			console.log(experiment_series);
-			$.ajax({
-				type: 	'GET',
-				url: 	BASE_PATH+'/public/ajax/ngsquerydb.php',
-				data:  	{ p: 'getSamplesFromName', names: names_list.toString(), lane: sample_lane, experiment: experiment_series },
-				async:	false,
-				success: function(s)
-				{
-					for(var x = 0; x < s.length; x++){
-						names_to_ids.push(s[x].id);
-					}
-				}
-			});
-			console.log(names_to_ids.toString())
+			var returned_info = [];
+			//	Gather up information about the run
 			$.ajax({
 				type: 	'GET',
 				url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-				data:  	{ p: 'checkRunList', sample_ids: names_to_ids.toString()},
+				data:  	{ p: 'checkRunList', names: names_list.toString(), lane: sample_lane, experiment: experiment_series },
 				async:	false,
 				success: function(s)
 				{
-					for(var x = 0; x < s.length; x++){
-						run_ids.push(s[x].run_id);
-					}
-				}
-			});
-			console.log(run_ids);
-			if (run_ids.length > 0) {
-				$.ajax({
-					type: 	'GET',
-					url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-					data:  	{ p: 'checkRunParams', run_ids: run_ids.toString()},
-					async:	false,
-					success: function(s)
-					{
-						for(var x = 0; x < s.length; x++){
-							initial_run_ids.push(s[x].id);
-						}
-					}
-				});
-				console.log(initial_run_ids);
-				if (initial_run_ids.length > 0){
-					for(var x = 0; x < initial_run_ids.length; x++){
-						var added_samples = [];
-						var samples_returned = [];
-						$.ajax({
-							type: 	'GET',
-							url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-							data:  	{ p: 'getOldOutdir', run_id: initial_run_ids[x]},
-							async:	false,
-							success: function(s)
-							{
-								outdir = s;
-							}
-						});
-						$.ajax({
-							type: 	'GET',
-							url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-							data:  	{ p: 'checkRunToSamples', run_id: initial_run_ids[x]},
-							async:	false,
-							success: function(s)
-							{
-								for(var z = 0; z < s.length; z++){
-									samples_returned.push(s[z].sample_id);
-								}
-								for(var z = 0; z < names_to_ids.length; z++){
-									if (samples_returned.indexOf(names_to_ids[z]) < 0) {
-										added_samples.push(names_to_ids[z]);
-									}
-								}
-							}
-						});
-						console.log(added_samples);
-						if (added_samples.length > 0) {
-							var submitted = postInsertRunlist('insertRunlist', added_samples, initial_run_ids[x]);
+					//	returned array of arrays
+					//	previous run:
+					// 	[
+					//		[ [ ], [ ], added samples per initial run ]
+					//		[ outdirs ]
+					//		[ run ids ]
+					//		[ sample ids]
+					//	]
+					//	else if new run:
+					//	[ [], [], [], [sample ids]]
+					
+					returned_info = s;
+					console.log(s);
+					if (returned_info[1][0] != undefined) {
+						for(var k = 0; 0 < returned_info[1].length; k++){
+							//	get variables for previoius run
+							var added_samples = returned_info[0][k];
+							console.log(added_samples);
+							var init_run_id = returned_info[2][k];
+							console.log(init_run_id);
+							
+							//	insert into runlist
+							var submitted = postInsertRunlist('insertRunlist', added_samples, init_run_id);
 							console.log(submitted);
+							
+							//	Remove samples not in runlist
 							$.ajax({
 								type: 	'GET',
 								url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-								data:  	{ p: 'removeRunlistSamples', run_id: initial_run_ids[x], sample_ids: names_to_ids.toString()},
-								async:	false,
+								data:  	{ p: 'removeRunlistSamples', run_id: init_run_id, sample_ids: returned_info[3].toString()},
+								async:	true,
+								success: function(s)
+								{
+								}
+							});
+							//	Insert into run params
+							var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group, '');
+						}
+					}else{
+						//insert new values into ngs_runparams
+						var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group, '');
+						if (window.location.href.split("/").indexOf('fastlane') == -1) {
+							$.ajax({
+								type: 	'GET',
+								url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
+								data:  	{ p: 'removeRunlistSamples', run_id: runparamsInsert[1], sample_ids: returned_info[3].toString()},
+								async:	true,
 								success: function(s)
 								{
 								}
 							});
 						}
-							var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group, '');
-							console.log(runparamsInsert);
+						//insert new values into ngs_runlist
+						var submitted = postInsertRunlist(runparamsInsert[0], returned_info[3], runparamsInsert[1]);
+						console.log(submitted);
 					}
 				}
-			}else{
-				//insert new values into ngs_runparams
-				var runparamsInsert = postInsertRunparams(JSON_OBJECT, outdir, runname, rundesc, perms, group, '');
-				console.log(runparamsInsert);
-				console.log(names_to_ids);
-				if (window.location.href.split("/").indexOf('fastlane') == -1) {
-					$.ajax({
-						type: 	'GET',
-						url: 	BASE_PATH+'/public/ajax/initialmappingdb.php',
-						data:  	{ p: 'removeRunlistSamples', run_id: runparamsInsert[1], sample_ids: names_to_ids.toString()},
-						async:	false,
-						success: function(s)
-						{
-						}
-					});
-				}
-				//insert new values into ngs_runlist
-				var submitted = postInsertRunlist(runparamsInsert[0], names_to_ids, runparamsInsert[1]);
-				console.log(submitted);
-			}
+			});
 		}
 	}
 	

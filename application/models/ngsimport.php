@@ -494,7 +494,6 @@ class Ngsimport extends VanillaModel {
 				$this->backup_dir=$this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"])));
 				array_push($this->initialSubmission, $this->directoryCheck(trim($this->esc($this->sheetData[$i]["B"]))));
 			}
-			
 			if($this->sheetData[$i]["A"]=="amazon bucket"){$this->amazon_bucket=trim($this->esc($this->sheetData[$i]["B"]));}
 			
 			//	Fastq Directory

@@ -59,8 +59,16 @@ function postInsertRunparams(JSON_OBJECT, outputdir, name, description, perms, g
 		barcode = 0;
 	 }
 	 json = JSON.stringify(JSON_OBJECT);
+	 console.log(json);
+	 console.log(name);
+	 console.log(description);
 	 console.log(runGroupID);
-	  $.ajax({
+	 console.log(barcode);
+	 console.log(uid);
+	 console.log(group);
+	 console.log(perms);
+	 console.log(id);
+	 $.ajax({
 		  type: 	'POST',
 		  url: 	BASE_PATH+'/public/ajax/ngsalterdb.php',
 		  data:  	{ p: "submitPipeline", json: json, outdir: outputdir, name: name, desc: description, runGroupID: runGroupID, barcode: barcode, uid: uid, group: group, perms: perms, ids: ids},

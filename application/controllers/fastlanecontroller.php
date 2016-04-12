@@ -100,10 +100,10 @@ class FastlaneController extends VanillaController {
 							$text.="Process Directory either contains improper white space or you do not have permissions to access it:<br>";
 							$text.="<font color=\"red\">".$fastlane_array[8]."<br>Please make sure to list the full path.  Please use alpha-numerics, underscores, dashes, backslashes and periods only.</font><br><br>";
 						}
-					}else if($key == 13){
+					}else if($key == 12){
 						$text.="<h3>Process Directory</h3>";
 						$text.="<font color=\"red\">Process Directory is already being used by another import.  Either remove this import or select a different Process Directory</font><br><br>";
-					}else if($key > 13){
+					}else if($key >= 13){
 						$database_sample_bool = true;
 					}
 					$failed_test = true;

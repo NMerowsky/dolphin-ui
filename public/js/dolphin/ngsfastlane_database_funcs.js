@@ -210,7 +210,7 @@ function checkFastlaneInput(info_array){
 				success: function(s)
 				{
 					console.log(s);
-					if (s.toString() != '') {
+					if (s.toString() != "") {
 						database_checks.push(false);
 					}else{
 						database_checks.push(true);

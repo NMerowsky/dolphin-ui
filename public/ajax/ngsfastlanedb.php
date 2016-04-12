@@ -135,6 +135,7 @@ if ($p == 'experimentSeriesCheck'){
 	WHERE username = '".$_SESSION['user']."'
 	");
 }else if ($p == 'checkOutdir'){
+	if (isset($_GET['outdir'])){$outdir = $_GET['outdir'];}
 	$data=$query->queryTable("
 	SELECT outdir
 	FROM ngs_runparams

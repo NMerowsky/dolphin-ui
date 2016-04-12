@@ -134,6 +134,13 @@ if ($p == 'experimentSeriesCheck'){
 	FROM users
 	WHERE username = '".$_SESSION['user']."'
 	");
+}else if ($p == 'checkOutdir'){
+	$data=$query->queryTable("
+	SELECT outdir
+	FROM ngs_runparams
+	WHERE outdir = '".$outdir."//initial_run'
+	OR outdir = '".$outdir."/initial_run'
+	");
 }
 
 if (!headers_sent()) {

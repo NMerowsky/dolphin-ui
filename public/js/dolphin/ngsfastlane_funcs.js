@@ -5,7 +5,7 @@
  */
 
 var id_array = ['genomebuild', 'barcode_sep', 'spaired', 'series_name', 'lane_name', 'input_dir', 'input_files', 'backup_dir', 'amazon_bucket',
-				'Barcode Definitions', 'groups', 'perms'];
+				'Barcode Definitions', 'groups', 'perms', 'outdir_check'];
 var formatInfo = ['Barcode is in 5\' end of read 1', 'Barcode is in 3\' end of read 2 or Single end where tag is on 3\' end',
 					'Barcode is in Header record using Illumina Casava (pre V1.8) pipeline format', 'There is no barcode on Read 1 of a pair, in this case read 2 must have barcode on 5\' end',
 					'Paired end with tag on 5\' end of both reads'];
@@ -42,6 +42,9 @@ function submitFastlaneButton() {
 		if (id_array[x] == "perms") {
 			var perms = $('.checked')[0].children[0].value
 			value_array.push(perms);
+		}
+		if (id_array[x] == "outdir_check") {
+			value_array.push('check_output');
 		}
 	}
 	sendProcessData(value_array, 'fastlane_values');

@@ -201,6 +201,22 @@ function checkFastlaneInput(info_array){
 			}else{
 				database_checks.push(false);
 			}
+		}else if(id_array[x] == 'outdir_check'){
+			$.ajax({
+				type: 	'GET',
+				url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
+				data:  	{ p: 'checkOutdir', outdir:info_array[7] },
+				async:	false,
+				success: function(s)
+				{
+					console.log(s);
+					if (s != '') {
+						database_checks.push(false);
+					}else{
+						database_checks.push(true);
+					}
+				}
+	});
 		}else{
 			//	No errors
 			database_checks.push(true);

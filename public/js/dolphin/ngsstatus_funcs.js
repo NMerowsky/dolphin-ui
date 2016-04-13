@@ -75,6 +75,7 @@ function selectService(id, title, wkey){
 					]);
 				} // End For
 				document.getElementById('service_jobs').style.display = 'inline';
+				document.getElementById('jsontable_jobs').style.width = '100%';
 				runparams.fnSort( [ [4,'asc'] ] );
 				//runparams.fnAdjustColumnSizing(true);
 			}

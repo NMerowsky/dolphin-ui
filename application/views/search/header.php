@@ -80,9 +80,6 @@
 				<div class="modal fade in" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="false" displayed="" style="padding-top: 15%; overflow-y: visible; display: block;">
 					<div class="modal-dialog modal-m">
 						<div class="modal-content">
-							<div class="modal-header">
-								<h3 style="margin:0;">Loading</h3>
-							</div>
 							<div class="modal-body">
 								<div class="progress progress-striped active" style="margin-bottom:0;">
 									<div class="progress-bar" style="width: 100%">

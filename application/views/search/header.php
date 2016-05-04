@@ -76,7 +76,7 @@
 			</aside>
 			<!-- Right side column. Contains the navbar and content of the page -->
 			<aside class="right-side">
-				<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 15%; overflow-y: visible; display: none;">
+				<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" displayed style="padding-top: 15%; overflow-y: visible; display: none;">
 					<div class="modal-dialog modal-m">
 						<div class="modal-content">
 							<div class="modal-header">

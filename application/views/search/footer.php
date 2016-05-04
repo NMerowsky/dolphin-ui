@@ -28,6 +28,5 @@
         <script src="<?php echo BASE_PATH?>/js/dolphin/browse_edit.js" type="text/javascript"></script>
         <script src="<?php echo BASE_PATH?>/js/streamTable/stream_table.js" type="text/javascript"></script>
         <script src="<?php echo BASE_PATH?>/js/streamTable/vendors/mustache.js" type="text/javascript"></script>
-		<script src='<?php echo BASE_PATH?>/js/dolphin/en.js' type="text/javascript"></script>
 	</body>
 </html>

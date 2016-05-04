@@ -3,7 +3,12 @@ function toggleLoadingModal(command){
 }
 
 $(function() {
+	console.log('test');
+	$('#pleaseWaitDialog').modal('show');
+	
+	console.log('test');
+	
 	$(window).load(function(){
-		toggleLoadingModal('hide');
+		$('#pleaseWaitDialog').modal('hide');
 	})
 });

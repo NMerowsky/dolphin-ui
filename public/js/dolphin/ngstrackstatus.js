@@ -10,7 +10,6 @@ var clusteruser;
 
 $(function() {
 	"use strict";
-	
 	//The Calender
 	$("#calendar").datepicker();
 	

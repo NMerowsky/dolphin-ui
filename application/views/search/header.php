@@ -65,16 +65,6 @@
 				</div>
 			</nav>
 		</header>
-		<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
-			<div class="modal-header">
-				<h1>Processing...</h1>
-			</div>
-			<div class="modal-body">
-				<div class="progress progress-striped active">
-					<div class="bar" style="width: 100%;"></div>
-				</div>
-			</div>
-		</div>
 		<div class="wrapper row-offcanvas row-offcanvas-left">
 			<!-- Left side column. contains the logo and sidebar -->
 			<aside class="left-side sidebar-offcanvas">
@@ -84,6 +74,21 @@
 					<?php require_once("../includes/search.php");?>
 					<?php require_once("../includes/sidebarmenu.php");?>
 			</aside>
-
 			<!-- Right side column. Contains the navbar and content of the page -->
 			<aside class="right-side">
+				<div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 15%; overflow-y: visible; display: none;">
+					<div class="modal-dialog modal-m">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 style="margin:0;">Loading</h3>
+							</div>
+						<div class="modal-body">
+							<div class="progress progress-striped active" style="margin-bottom:0;">
+								<div class="progress-bar" style="width: 100%">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>

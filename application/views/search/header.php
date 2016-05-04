@@ -77,14 +77,11 @@
 			<!-- Right side column. Contains the navbar and content of the page -->
 			<aside class="right-side">
 				<div id="backdrop" class="modal-backdrop in"></div>
-				<div class="modal fade in" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="false" displayed="" style="padding-top: 15%; overflow-y: visible; display: block;">
+				<div class="modal fade in" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="false" displayed="" style="padding-top: 15%; display: block;">
 					<div class="modal-dialog modal-m">
 						<div class="modal-content">
-							<div class="modal-body">
-								<div class="progress progress-striped active" style="margin-bottom:0;">
-									<div class="progress-bar" style="width: 100%">
-									</div>
-								</div>
+							<div class="modal-body text-center">
+								<img src="<?php echo BASE_PATH;?>/public/img/ajax-loader1.gif">
 							</div>
 						</div>
 					</div>

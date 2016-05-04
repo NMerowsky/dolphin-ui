@@ -125,6 +125,3 @@
 						</div><!-- /.col (RIGHT) -->
 					</div><!-- /.row -->
 				</section><!-- /.content -->
-
-
-

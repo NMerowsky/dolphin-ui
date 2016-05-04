@@ -58,7 +58,3 @@ function mergeTidy(headDiv, size, elementList){
 	}
 	return headDiv;
 }
-
-function toggleLoadingModal(command){
-	$('#pleaseWaitDialog').modal(command);
-}

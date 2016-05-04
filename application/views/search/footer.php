@@ -1,9 +1,9 @@
 			</aside><!-- /.right-side -->
 		</div><!-- ./wrapper -->
 		<script src="<?php echo BASE_PATH?>/js/bootstrap/jquery.min.js" type="text/javascript"></script>
-		<script src='<?php echo BASE_PATH?>/js/dolphin/loading.js' type="text/javascript"></script>
         <script src="<?php echo BASE_PATH?>/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo BASE_PATH?>/js/bootstrap/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="<?php echo BASE_PATH?>/js/dolphin/loading.js" type="text/javascript"></script>
 		<script src="<?php echo BASE_PATH?>/js/Datatables/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
         <script src="<?php echo BASE_PATH?>/js/Datatables/DataTables-1.10.11/js/dataTables.bootstrap.js"></script>
         <script src="<?php echo BASE_PATH?>/js/Datatables/DataTables-1.10.11/js/dataTables.tableTools.min.js"></script>

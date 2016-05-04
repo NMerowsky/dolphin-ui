@@ -82,13 +82,12 @@
 							<div class="modal-header">
 								<h3 style="margin:0;">Loading</h3>
 							</div>
-						<div class="modal-body">
-							<div class="progress progress-striped active" style="margin-bottom:0;">
-								<div class="progress-bar" style="width: 100%">
-									
+							<div class="modal-body">
+								<div class="progress progress-striped active" style="margin-bottom:0;">
+									<div class="progress-bar" style="width: 100%">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 				</div>

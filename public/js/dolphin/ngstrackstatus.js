@@ -10,6 +10,7 @@ var clusteruser;
 
 $(function() {
 	"use strict";
+	toggleLoadingModal('show');
 	
 	//The Calender
 	$("#calendar").datepicker();
@@ -347,4 +348,5 @@ $(function() {
 			}
 		}
 	}, 60000 );
+	toggleLoadingModal('hide');
 });

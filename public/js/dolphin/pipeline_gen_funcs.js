@@ -773,7 +773,7 @@ function submitPipeline(type) {
 		});
 		
 		//Grab sample ids
-		var ids = getSampleIDs(phpGrab.theSearch);
+		var ids = getSampleIDs(phpGrab.theSearch, phpGrab.gids, phpGrab.uid);
 		var previous = 'none';
 		//start json construction
 		

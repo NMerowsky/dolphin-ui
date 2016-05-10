@@ -50,16 +50,17 @@ function reportSelected(runID, groupID){
 	});
 }
 
-function getSampleIDs(search){
+function getSampleIDs(search, gids, uid){
 	var ids= [];
 	$.ajax({ type: "GET",
 		url: BASE_PATH+"/public/ajax/ngs_tables.php",
-		data: { p: "getSelectedSamples", search: search },
+		data: { p: "getSelectedSamples", search: search, gids: gids, uid: uid },
 		async: false,
 		success : function(s)
 		{
+			console.log(s);
 			for(var i = 0; i < s.length; i++) {
-			ids.push(s[i].id);
+				ids.push(s[i].id);
 			}
 		}
 	});

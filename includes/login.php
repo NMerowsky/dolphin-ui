@@ -71,7 +71,7 @@ if(isset($_GET['p']) && $_GET['p'] == "verify"){
 	  $res=1;
 	}else if (LDAP_SERVER != 'none' || LDAP_SERVER != ''){
 	  //	LDAP check
-	  $res=checkLDAP($_POST['username'], $_POST['password']);
+	  $res=checkLDAP(strtolower($_POST['username']), $_POST['password']);
 	}else{
 	  //	Database password
 	  $pass_hash = $query->queryAVal("SELECT pass_hash FROM users WHERE username = " . $_POST['username']);
@@ -89,13 +89,13 @@ if(isset($_GET['p']) && $_GET['p'] == "verify"){
   
 	if($login_ok){ 
 	  $s="Succefull";
-	  $_SESSION['user'] = $_POST['username'];
+	  $_SESSION['user'] = strtolower($_POST['username']);
 	  $uid_check = $query->getUserID($_SESSION['user']);
 	  if($uid_check != "0"){
 		$group_check = $query->queryAVal("SELECT id FROM user_group WHERE u_id = $uid_check");
 		if($group_check != "0"){
 		  $_SESSION['uid'] = $uid_check;
-		  if ($_POST['username'] == "kucukura" || $_POST['username']=="garberm"){
+		  if (strtolower($_POST['username']) == "kucukura" || strtolower($_POST['username']) == "garberm"){
 			$_SESSION['admin'] = "admin";
 		  }
 		}else{

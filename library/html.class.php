@@ -616,8 +616,10 @@ e range"><i class="fa fa-calendar"></i></button>
 						</div>'; // END RUNS PANEL
 			$html.= 	'<div class="box-body tab-pane" id="tables">
 							<div class="box-body margin" style="overflow-y:scroll">';
-			foreach($sample_tables as $st){
-				$html.=				'<a href="#" id="'.$st->id.'" onclick="sendToSavedTable(this.id)">'.$st->id.' -- '.$st->name.'</a><br>';
+			if(isset($sample_tables)){
+				foreach($sample_tables as $st){
+					$html.=				'<a href="#" id="'.$st->id.'" onclick="sendToSavedTable(this.id)">'.$st->id.' -- '.$st->name.'</a><br>';
+				}
 			}
 			$html.=			'</div>
 						</div>'; // END TABLES PANEL

@@ -59,7 +59,6 @@ function getSampleIDs(search, gids, uid){
 		success : function(s)
 		{
 			console.log(s);
-	
 			for(var i = 0; i < s.length; i++) {
 				ids.push(s[i].id);
 			}

@@ -458,6 +458,7 @@ class Dolphin:
     def writeWorkflow(self,  file, gettotalreads, amazonupload, backupS3, runparamsid, runparams ):
       try:
         commonind=''
+        mergeall='';
         if ('commonind' in runparams and  runparams['commonind'].lower() != "none"):
           commonind = re.sub('test', '', runparams['commonind'])
           gb=runparams['genomebuild'].split(',')

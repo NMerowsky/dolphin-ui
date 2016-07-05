@@ -37,8 +37,10 @@ before_script:
   - mkdir /home/vagrant/dir1
   - pwd
   - ls -lash
-  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/
-  - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build
+  - mkdir /home/travis/build/dolphin-tools
+  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin-tools
+  - /home/travis/build/dolphin-bin
+  - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - ls -lash /home/travis/build
   #- touch /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_002.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_002.fastq.gz
   #- touch /home/vagrant/dir1/EXAMPLE_CCCCCC_R1_001.fastq.gz /home/vagrant/dir1/EXAMPLE_CCCCCC_R2_001.fastq.gz /home/vagrant/dir1/EXAMPLE_CCCCCC_R1_002.fastq.gz /home/vagrant/dir1/EXAMPLE_CCCCCC_R2_002.fastq.gz

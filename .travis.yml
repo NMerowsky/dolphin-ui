@@ -38,9 +38,9 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin-tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMmS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - git clone https://github.com/rmccue/Requests.git /usr/local/share/Requests
-  - wget http://hgwdev.cse.ucsc.edu/~galt/encode3/validatePackage/validateEncode3-latest.tgz -P /usr/local/share/validateEncode
-  - tar -xvzf /usr/local/share/validateEncode/validateEncode3-latest.tgz -C /usr/local/share/validateEncode
+  - git clone https://github.com/rmccue/Requests.git /home/travis/build/Requests
+  - wget http://hgwdev.cse.ucsc.edu/~galt/encode3/validatePackage/validateEncode3-latest.tgz -P /home/travis/build/validateEncode
+  - tar -xvzf /usr/local/share/validateEncode/validateEncode3-latest.tgz -C /home/travis/build/validateEncode
   -
   - mkdir /home/vagrant/dir1
   - touch /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_002.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_002.fastq.gz

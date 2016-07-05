@@ -802,7 +802,7 @@ e range"><i class="fa fa-calendar"></i></button>
 		</div><!-- /.col -->';
 	return $html;
 	}
-	function getStaticTabbedSelectionBox($title, $id, $tabs, $tab_data, $width){
+	function getStaticTabbedSelectionBox($title, $id, $tabs, $tab_data){
 	$html = "";
 	$html = '<div class="col-md-'.$width.'">
 			<div class="box box-default">
@@ -844,6 +844,41 @@ e range"><i class="fa fa-calendar"></i></button>
 			</div><!-- /.box -->
 		</div><!-- /.col -->';
 	return $html;
+	}
+	function encodeDetailsBox($title, $table, $fields, $tableKeys){
+		$html = "";
+		$html.= '<div class="margin">
+					<div class="box box-default">
+						<div class="box-header with-border">
+							<h3 class="box-title">'.$title.'</h3>';
+		$html.= $this->getInfoBox($table);
+		$html.= '		</div><!-- /.box-header -->
+						<div class="box-body">
+							<div id="table_div_'.$table.'" class="box-body table-responsive">
+								<table id="jsontable_'.$table.'" class="table table-hover table-striped table-condensed table-scrollable">
+									<thead>
+									<tr>';
+		for($x = 0; $x < count($tableKeys); $x++){
+			$html.=						'<th data-sort="'.$tableKeys[$x].'::string" onclick="shiftColumns(this)">'
+										.$fields[$x].'<i id="'.$tableKeys[$x].'" class="pull-right fa fa-unsorted"></i></th>';
+		}
+		$html.=							'</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+		$html.= 			'</div><!-- /.table -->
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+				</div><!-- /.col -->';
+		return $html;
+	}
+	function resubmitEncodeBtn($id, $width){
+		$html = "";
+		$html.= '<div class="col-md-'.$width.' margin">
+					<button id="'.$id.'" type="button" class="btn btn-primary" onclick="">Resubmit to Encode</button>
+				</div>';
+		return $html;
 	}
 	function fastlaneManualFileInput(){
 		$html ='<div class="box-body">

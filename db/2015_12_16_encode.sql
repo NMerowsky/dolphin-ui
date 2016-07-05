@@ -23,7 +23,8 @@ CREATE TABLE `biocore`.`ngs_antibody_target` (
   `isotype` VARCHAR(45) NULL DEFAULT NULL,
   `purifications` VARCHAR(45) NULL DEFAULT NULL,
   `url` VARCHAR(255) NULL DEFAULT NULL,
-  `uuid` VARCHAR(100) NULL DEFAULT NULL,
+  `antibody_lot_acc` VARCHAR(100) NULL DEFAULT NULL,
+  `antibody_lot_uuid` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id`));
   
 CREATE TABLE `biocore`.`ngs_biosample_term` (
@@ -35,14 +36,14 @@ PRIMARY KEY (`id`));
 
 ALTER TABLE `biocore`.`ngs_donor` 
 ADD COLUMN `donor_acc` VARCHAR(45) NULL DEFAULT NULL AFTER `donor`,
-ADD COLUMN `donor_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `donot_acc`;
+ADD COLUMN `donor_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `donor_acc`;
 
 ALTER TABLE `biocore`.`ngs_samples` 
 ADD COLUMN `biosample_acc` VARCHAR(45) NULL DEFAULT NULL AFTER `notes`,
 ADD COLUMN `biosample_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `biosample_acc`,
 ADD COLUMN `library_acc` VARCHAR(45) NULL DEFAULT NULL AFTER `biosample_uuid`,
 ADD COLUMN `library_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `library_acc`,
-ADD COLUMN `experiment_acc` VARCHAR(45) NULL DEFAULT NULL AFTER `library_uuid `,
+ADD COLUMN `experiment_acc` VARCHAR(45) NULL DEFAULT NULL AFTER `library_uuid`,
 ADD COLUMN `experiment_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `experiment_acc`,
 ADD COLUMN `replicate_uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `experiment_uuid`,
 ADD COLUMN `treatment_id` INT NULL DEFAULT NULL AFTER `replicate_uuid`,

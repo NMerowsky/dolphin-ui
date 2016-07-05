@@ -42,6 +42,8 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin-tools
   - mkdir /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
+  - mkdir /home/travis/build/dolphin-genome-data
+  -git clone https://github.com/UMmS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - ls -lash /home/travis/build
   #- mkdir /home/vagrant/dir1
   #- touch /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_001.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R1_002.fastq.gz /home/vagrant/dir1/EXAMPLE_AAAAAA_R2_002.fastq.gz

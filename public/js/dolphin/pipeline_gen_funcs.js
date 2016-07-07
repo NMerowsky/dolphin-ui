@@ -1462,8 +1462,8 @@ function reloadBasket(){
 function addToDolphinBasket(sampleID){
 	var sample_info = storedSampleSearch(sampleID);
 	var table = $('#dolphin_basket').dataTable();
-	
-	if (table != null) {
+	console.log(sample_info.samplename)
+	if (table != null && sample_info.samplename != undefined) {
 		table.fnAddData([
 			sampleID,
 			sample_info.samplename,

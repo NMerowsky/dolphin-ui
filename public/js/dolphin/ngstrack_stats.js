@@ -557,11 +557,6 @@ function exportGeo() {
 $(function() {
 	"use strict";
 	
-	//Rerun Check
-	if (window.location.href.split("/").indexOf('selected') > -1 || window.location.href.split("/").indexOf('rerun') > -1) {
-		rerunLoad();
-	}
-	
 	//The Calender
 	$("#calendar").datepicker();
 	$('input').on('ifChanged', function(event){
@@ -895,4 +890,8 @@ $(function() {
 	console.log(rvar);
 	console.log(segment);
 	console.log(theSearch);
+	//Rerun Check
+	if (window.location.href.split("/").indexOf('selected') > -1 || window.location.href.split("/").indexOf('rerun') > -1) {
+		rerunLoad();
+	}
 });

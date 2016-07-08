@@ -18,7 +18,7 @@ if($p == "getFileList")
      FROM ngs_fastq_files f, ngs_dirs d, group_amazon ga, amazon_credentials ac
      where d.id=f.dir_id and d.amazon_bucket!='' and
      d.amazon_bucket != 'none' and ga.group_id=d.group_id and ac.id=ga.amazon_id and
-    (f.backup_checksum='' or isnull(f.backup_checksum))
+     (f.backup_checksum='' or isnull(f.backup_checksum) or DATE(f.date_modified) <= DATE(NOW() - INTERVAL 2 MONTH))
     ");
 }
 else if($p == "updateHashBackup")

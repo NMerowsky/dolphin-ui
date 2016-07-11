@@ -205,6 +205,25 @@ function checkDataTableContentsIDRegex(table_string, content_num, regex_string){
 	return check;
 }
 
+function checkIfFileExists(input, username){
+	var check = false;
+	var value = document.getElementById(input).value;
+	$.ajax({
+		type: 	'GET',
+		url: 	BASE_PATH+'/public/api/service.php?func=checkFile&username='+username.clusteruser+'&file='+value,
+		async:	false,
+		success: function(s)
+		{
+			console.log(s);
+			jsonCheck = JSON.parse(s);
+			if (jsonCheck.Result != 'Ok') {
+				check = true;
+			}
+		}
+	});
+	return check;
+}
+
 //	END GENERIC FUNCTIONS
 //	************************************************************************
 //	START GROUPED FUNCTIONS
@@ -276,8 +295,8 @@ function pipelineSelectCheck(num, type){
 		}else{
 			var tophat_check = checkPipelineDoesNotExist(num, 'Tophat') || checkPipelineDownstream(num, 'Tophat') || checkPipelineReplacing(num, 'Tophat');
 			var chipseq_check = checkPipelineDoesNotExist(num, 'ChipSeq') || checkPipelineDownstream(num, 'ChipSeq') || checkPipelineReplacing(num, 'ChipSeq');
-			if (chipseq_check) {
-				displayErrorModal('#errorModal', 'You must run a ChipSeq pipeline before you can run HaplotypeCaller');
+			if (chipseq_check && tophat_check) {
+				displayErrorModal('#errorModal', 'You must run a Tophat/ChipSeq pipeline before you can run HaplotypeCaller');
 				return true;
 			}
 		}
@@ -285,7 +304,7 @@ function pipelineSelectCheck(num, type){
 	return false;
 }
 
-function pipelineSubmitCheck(non_pipeline, non_pipeline_values, pipeline, pipeline_index, chipseq, chipseq_values){
+function pipelineSubmitCheck(non_pipeline, non_pipeline_values, pipeline, pipeline_index, chipseq, chipseq_values, username){
 	//	Non-pipeline checks empty
 	var non_pipeline_dictionary = ['adapters', 'quality', 'trim', 'rna', 'split'];
 	//	Run name
@@ -551,6 +570,9 @@ function pipelineSubmitCheck(non_pipeline, non_pipeline_values, pipeline, pipeli
 			//	Max Reads In Region Per Sample
 			}else if (checkFieldIsNotInt('text_5_'+pipeline_index[x]) || checkFieldsEmpty('text_5_'+pipeline_index[x])) {
 				displayErrorModal('#errorModal', 'Max Reads In Region Per Sample field must be of type int for HaplotypeCaller');
+				return true;
+			}else if (!checkFieldsEmpty('text_6_'+pipeline_index[x]) && checkIfFileExists('text_6_'+pipeline_index[x], username)) {
+				displayErrorModal('#errorModal', 'You do not have access to this file, or the file does not exist (Haplotype Custom Bed File)');
 				return true;
 			}
 		}

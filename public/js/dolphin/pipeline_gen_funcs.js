@@ -391,6 +391,7 @@ function rerunLoad() {
 								document.getElementById('text_3_'+i).value = splt1[i].min_base_quality_score;
 								document.getElementById('text_4_'+i).value = splt1[i].minReadsPerAlignmentStart;
 								document.getElementById('text_5_'+i).value = splt1[i].maxReadsInRegionPerSample;
+								document.getElementById('text_6_'+i).value = splt1[i].custombed;
 								if (splt1[i].common == 'yes' || splt1[i].common == '1') {
 									document.getElementById('checkbox_1_'+i).checked = true;
 								}
@@ -683,6 +684,9 @@ function pipelineSelect(num){
 					[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Max Reads In Region Per Sample: ']),
 					createElement('input', ['id', 'class', 'type', 'value'], ['text_5_'+num, 'form-control', 'text', '10000'])] ]);
 			divAdj = mergeTidy(divAdj, 12,
+					[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Compare Custom Bed (Full Path):']),
+					createElement('input', ['id', 'class', 'type', 'value'], ['text_6_'+num, 'form-control', 'text', ''])] ]);
+			divAdj = mergeTidy(divAdj, 12,
 					[ [createElement('label', ['class','TEXTNODE'], ['box-title', 'Use Chip Peaks: ']),
 					createElement('input', ['id', 'type', 'class'], ['checkbox_7_'+num, 'checkbox', 'margin'])] ]);
 		}
@@ -728,6 +732,18 @@ function pipelineSelect(num){
 
 /*##### SUBMIT PIPELINE RUN #####*/
 function submitPipeline(type) {
+	//	get Username
+	$.ajax({
+		type: 	'GET',
+		url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
+		data:  	{ p: 'getClusterName' },
+		async:	false,
+		success: function(s)
+		{
+			username = s[0];
+		}
+	});
+	
 	//Static
 	var genome = document.getElementById("genomebuild").value;
 	var matepair = document.getElementById("spaired").value;
@@ -763,19 +779,7 @@ function submitPipeline(type) {
 	var non_pipeline = [doAdapter, doQuality, doTrimming, doRNA, doSplit];
 	var non_pipeline_values = [adapterValType, qualityValType, trimValType, rnaList, splitValType];
 	
-	if (!pipelineSubmitCheck(non_pipeline, non_pipeline_values, currentPipelineVal, currentPipelineID, currentChipInputID, currentChipInputVal)) {
-		//	get Username
-		$.ajax({
-			type: 	'GET',
-			url: 	BASE_PATH+'/public/ajax/ngsfastlanedb.php',
-			data:  	{ p: 'getClusterName' },
-			async:	false,
-			success: function(s)
-			{
-				username = s[0];
-			}
-		});
-		
+	if (!pipelineSubmitCheck(non_pipeline, non_pipeline_values, currentPipelineVal, currentPipelineID, currentChipInputID, currentChipInputVal, username)) {
 		//Grab sample ids
 		var ids = selected_samples
 		var previous = 'none';
@@ -1899,10 +1903,13 @@ function findPipelineValues(){
 	var TOPHAT_JSON_DICT = ['Params', 'MarkDuplicates', 'RSeQC', 'CollectRnaSeqMetrics', 'CollectMultipleMetrics', 'IGVTDF', 'BAM2BW', 'ExtFactor', 'Custom', 'CustomGenomeIndex', 'CustomGenomeAnnotation'];
 	var BISULPHITE_JSON_DICT = ['BSMapStep', 'BisulphiteType', 'Digestion', 'BSMapParams', 'CollectMultipleMetrics', 'IGVTDF', 'MarkDuplicates', 'BAM2BW', 'ExtFactor', 'MCallStep', 'MCallParams', 'MethylKit', 'TileSize', 'StepSize', 'MinCoverage', 'TopN', 'StrandSpecific'];
 	var DIFFMETH_JSON_DICT = [ 'Name', 'Columns', 'Conditions'];
-	var HAPLOTYPE_CALLER_DICT = ['common', 'clinical', 'enhancers', 'promoters', 'motifs', 'merge', 'peaks', 'standard_min_confidence_threshold_for_calling', 'standard_min_confidence_threshold_for_emitting', 'min_base_quality_score', 'minReadsPerAlignmentStart', 'maxReadsInRegionPerSample'];
+	var HAPLOTYPE_CALLER_DICT = ['common', 'clinical', 'enhancers', 'promoters', 'motifs', 'merge', 'standard_min_confidence_threshold_for_calling', 'standard_min_confidence_threshold_for_emitting', 'min_base_quality_score', 'minReadsPerAlignmentStart', 'maxReadsInRegionPerSample', 'custombed', 'peaks'];
 	
 	var JSON_ARRAY =  [];
+	console.log(currentPipelineID);
+	console.log(currentPipelineID.length);
 	for (var y = 0; y < currentPipelineID.length; y++) {
+		console.log(y);
 		var JSON_OBJECT = {};
 		var USED_DICT;
 		if (currentPipelineVal[y] == 'RNASeqRSEM') {
@@ -1929,6 +1936,7 @@ function findPipelineValues(){
 		var conditions_type_array = [];
 		var chip_bool = true;
 		var multireset = false;
+		console.log(masterDiv);
 		for (var x = 0; x < masterDiv.length; x++) {
 			if (multireset == true) {
 				conditions_array = [];
@@ -1944,11 +1952,11 @@ function findPipelineValues(){
 						var table_nodes = chip_table.fnGetNodes();
 						var value_str = "";
 						//      For every selected entry
-						for(var y = 0; y < table_data.length; y++){
+						for(var z = 0; z < table_data.length; z++){
 							chip_object = {};
-							chip_object['name'] = table_nodes[y].children[0].children[0].id
-							chip_object['samples'] = table_data[y][1].split(", ").toString();
-							chip_object['input'] = table_data[y][2].split(", ").toString();
+							chip_object['name'] = table_nodes[z].children[0].children[0].id
+							chip_object['samples'] = table_data[z][1].split(", ").toString();
+							chip_object['input'] = table_data[z][2].split(", ").toString();
 							if (JSON_OBJECT[USED_DICT[dict_counter]] == undefined) {
 								JSON_OBJECT[USED_DICT[dict_counter]] = [];
 							}

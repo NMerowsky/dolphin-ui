@@ -771,12 +771,11 @@ function populateTable(summary_files, samplenames, libraries, read_counts) {
 			}else if(table_data[samplenames[0]].hasOwnProperty('chip_unique')){
 				document.getElementById('Reads Aligned (Chip)').remove();
 			}
-			
 			//Initial Mapping Results
 			var reports_table = $('#jsontable_initial_mapping').dataTable();
 			reports_table.fnClearTable();
 			document.getElementById('jsontable_initial_mapping').setAttribute('style','overflow-x:scroll');
-			
+
 			for (key in table_data) {
 				sample_data = table_data[key];
 				row_array = [key];
@@ -1212,7 +1211,7 @@ $(function() {
 		
 		//	Gather/organize sample data
 		populateTable(summary_files, samplenames, libraries, read_counts);
-		
+
 		//	set up UI
 		document.getElementById('jsontable_initial_mapping').appendChild(createElement('button', ['id', 'class', 'onclick'], ['initial_download_button', 'btn btn-primary margin', 'downloadInitialMapping()']))
 		document.getElementById('initial_download_button').innerHTML = 'Download Initial Table';

@@ -1,5 +1,6 @@
 var selectionHelper = [];
 var runHelper = [];
+var runIDHelper = {};
 
 function removeTableSamples(id, button){
 	var table = $('#jsontable_selected_samples').dataTable();
@@ -157,15 +158,13 @@ function sendToTableGen(){
 		ids = getBasketInfo().split(",");
 	}
 	for(var y = 0; y < ids.length; y++){
-		var element = document.getElementById(ids[y] + '_run_select');
-		var option_selected = element.selectedOptions;
-		for (var x = 0; x < option_selected.length; x++) {
-			if (run_array[option_selected[x].id.split("_")[0]] == undefined) {
-				run_array[option_selected[x].id.split("_")[0]] = ids[y];
+		var keys = Object.keys(runIDHelper);
+		for (var x = 0; x < keys.length; x++) {
+			if (run_array[runIDHelper[keys[x]]] == undefined) {
+				run_array[runIDHelper[keys[x]]] = ids[y];
 			}else{
-				run_array[option_selected[x].id.split("_")[0]] += "," + ids[y];
+				run_array[runIDHelper[keys[x]]] += "," + ids[y];
 			}
-			
 		}
 	}
 	
@@ -234,8 +233,9 @@ function tableCreatorPage(){
 	var empty_ids = [];
 	if (getBasketInfo() != undefined) {
 		ids = getBasketInfo().split(",");
+		var runparams = $('#jsontable_selected_samples')	
 		for (var x = 0; x < ids.length; x++) {
-			if (document.getElementById(ids[x]+'_run_select').selectedIndex == -1) {
+			if (runIDHelper[ids[x]] == undefined) {
 				empty_ids.push(ids[x]);
 			}
 		}
@@ -346,15 +346,15 @@ function saveTable() {
 		});
 }
 
-function downloadTSV(file_name){
+function downloadCreatedTSV(file_name){
 	if (file_name != '') {
 		var URL = BASE_PATH + '/public/tmp/files/' + file_name; 
 		window.open(URL, '_blank');
 	}
 }
 
-function downloadGeneratedTSV(beforeFormat){
-	var url = API_PATH +"/public/api/getsamplevals.php?" + beforeFormat + 'format=json'
+function downloadGeneratedTSV(format){
+	var url = API_PATH +"/public/api/getsamplevals.php?" + format + "format=json"
 	var file_name = '';
 	console.log(url);
 	$.ajax({ type: "GET",
@@ -421,6 +421,8 @@ function optionChange(selector){
 			}
 		}
 	}
+	var selectedOptions = selector.selectedOptions;
+	runIDHelper[selector.id.split("_")[0]] = selectedOptions[0].id.split("_")[0];
 	selectionHelper[runHelper.indexOf(selector.id.split('_')[0])] = options_array;
 	console.log(selector.selectedIndex);
 	reportSelection();
@@ -666,11 +668,7 @@ $(function() {
 		li += '<li><a onclick="changeTableType(\'XML\', \''+beforeFormat+'\')" style="cursor:pointer">XML link</a></li>';
 		li += debrowser_string;
 		li += '<li class="divider"></li>';
-		if (table_params.file != null && table_params.file != '') {
-			li += '<li><a value="Download TSV" onclick="downloadTSV(\''+table_params.file+'\')" style="cursor:pointer">Download TSV</a></li>';
-		}else{
-			li += '<li><a value="Download TSV" onclick="downloadGeneratedTSV(\''+beforeFormat+'\')" style="cursor:pointer">Download TSV</a></li>';
-		}
+		li += '<li><a value="Download TSV" onclick="downloadGeneratedTSV(\''+beforeFormat+'\')" style="cursor:pointer">Download TSV</a></li>';
 		
 		ul.innerHTML = li;
 		export_table.appendChild(ul);
@@ -715,12 +713,7 @@ $(function() {
 										'<li class="divider"></li>';
 								}
 							}
-							var file_str = ""
-							if (s[x].file != '' && s[x].file != undefined) {
-								file_str = '<li><a value="Download TSV" onclick="downloadTSV(\''+s[x].file+'\')">Download TSV</a></li>';
-							}else{
-								file_str = '<li><a value="Download TSV" onclick="downloadGeneratedTSV(\''+s[x].parameters+'\')">Download TSV</a></li>';
-							}
+							var file_str = '<li><a value="Download TSV" onclick="downloadGeneratedTSV(\''+s[x].parameters+'\')">Download TSV</a></li>';
 							runparams.fnAddData([
 								s[x].id,
 								s[x].name,

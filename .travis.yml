@@ -71,58 +71,56 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - ls -lash
-  - python scripts/dolphin_wrapper.py -r 1 -c Travis
-  
-  
  
 script:
   - phpunit --version
-  #- phpunit unitTesting/ngsimport_unittest.php
+  - phpunit unitTesting/ngsimport_unittest.php
   #	ajax
-  #- phpunit unitTesting/ajax/tablegenerator_unittest.php
-  #- phpunit unitTesting/ajax/statquerydb_unittest.php
-  #- phpunit unitTesting/ajax/sessionrequests_unittest.php
-  #- phpunit unitTesting/ajax/profiledb_unittest.php
-  #- phpunit unitTesting/ajax/ngsquerydb_unittest.php
-  #- phpunit unitTesting/ajax/ngsfastlanedb_unittest.php
-  #- phpunit unitTesting/ajax/ngsalterdb_unittest.php
-  #- phpunit unitTesting/ajax/ngs_tables_unittest.php
-  #- phpunit unitTesting/ajax/kill_pid_unittest.php
-  #- phpunit unitTesting/ajax/initialmappingdb_unittest.php
-  #- phpunit unitTesting/ajax/dolphinfuncs_unittest.php
-  #- phpunit unitTesting/ajax/dataservice_unittest.php
-  #- phpunit unitTesting/ajax/datajobs_unittest.php
-  #- phpunit unitTesting/ajax/dataerrorlogs_unittest.php
-  #- phpunit unitTesting/ajax/dashboardquerydb_unittest.php
-  #- phpunit unitTesting/ajax/browse_edit_unittest.php
-  #- phpunit unitTesting/ajax/admindashboardquerydb_unittest.php
-  #- phpunit unitTesting/ajax/adminstatquerydb_unittest.php
+  - phpunit unitTesting/ajax/tablegenerator_unittest.php
+  - phpunit unitTesting/ajax/statquerydb_unittest.php
+  - phpunit unitTesting/ajax/sessionrequests_unittest.php
+  - phpunit unitTesting/ajax/profiledb_unittest.php
+  - phpunit unitTesting/ajax/ngsquerydb_unittest.php
+  - phpunit unitTesting/ajax/ngsfastlanedb_unittest.php
+  - phpunit unitTesting/ajax/ngsalterdb_unittest.php
+  - phpunit unitTesting/ajax/ngs_tables_unittest.php
+  - phpunit unitTesting/ajax/kill_pid_unittest.php
+  - phpunit unitTesting/ajax/initialmappingdb_unittest.php
+  - phpunit unitTesting/ajax/dolphinfuncs_unittest.php
+  - phpunit unitTesting/ajax/dataservice_unittest.php
+  - phpunit unitTesting/ajax/datajobs_unittest.php
+  - phpunit unitTesting/ajax/dataerrorlogs_unittest.php
+  - phpunit unitTesting/ajax/dashboardquerydb_unittest.php
+  - phpunit unitTesting/ajax/browse_edit_unittest.php
+  - phpunit unitTesting/ajax/admindashboardquerydb_unittest.php
+  - phpunit unitTesting/ajax/adminstatquerydb_unittest.php
   #	api
-  #- phpunit unitTesting/api/funcs_unittest.php
+  - phpunit unitTesting/api/funcs_unittest.php
 
 after_script:
-  #- mysql -e "show databases;" -uroot
-  #- mysql -e "use biocore; show tables;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_lanes;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_experiment_series;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_dirs;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_runlist;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM report_list;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_createdtables;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM amazon_credentials;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM groups;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM user_group_requests;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_wkeylist;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_organism;" -uroot
-  #- mysql -e "use biocore; SELECT * FROM ngs_fastq_files" -uroot
-  #- mysql -e "use biocore; SELECT * FROM galaxy_runs" -uroot
-  #- mysql -e "use biocore; SELECT * FROM users" -uroot
-  #- mysql -e "use biocore; SELECT * FROM jobs" -uroot
-  #- mysql -e "use biocore; SELECT * FROM services" -uroot
-  #- mysql -e "use biocore; SELECT * FROM jobstats" -uroot
-  #- mysql -e "use biocore; SELECT * FROM workflows" -uroot
-  #- mysql -e "use biocore; SELECT * FROM service_run" -uroot
-  #- mysql -e "use biocore; SELECT * FROM jobstats" -uroot
-  
+  - mysql -e "show databases;" -uroot
+  - mysql -e "use biocore; show tables;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_samples;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_lanes;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_experiment_series;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_dirs;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_runlist;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
+  - mysql -e "use biocore; SELECT * FROM report_list;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_createdtables;" -uroot
+  - mysql -e "use biocore; SELECT * FROM amazon_credentials;" -uroot
+  - mysql -e "use biocore; SELECT * FROM groups;" -uroot
+  - mysql -e "use biocore; SELECT * FROM user_group_requests;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_wkeylist;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_organism;" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_fastq_files" -uroot
+  - mysql -e "use biocore; SELECT * FROM galaxy_runs" -uroot
+  - mysql -e "use biocore; SELECT * FROM users" -uroot
+  - mysql -e "use biocore; SELECT * FROM jobs" -uroot
+  - mysql -e "use biocore; SELECT * FROM services" -uroot
+  - mysql -e "use biocore; SELECT * FROM jobstats" -uroot
+  - mysql -e "use biocore; SELECT * FROM workflows" -uroot
+  - mysql -e "use biocore; SELECT * FROM service_run" -uroot
+  - mysql -e "use biocore; SELECT * FROM jobstats" -uroot
+  # script testing
+  - python scripts/dolphin_wrapper.py -r 1 -c Travis

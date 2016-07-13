@@ -126,4 +126,4 @@ after_script:
   # script testing
   - mkdir -p tmp/logs/run1
   - ls -lash tmp/logs/run1
-  - python scripts/dolphin_wrapper.py -r 1 -c Travis
+  - sudo python scripts/dolphin_wrapper.py -r 1 -c Travis

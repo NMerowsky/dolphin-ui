@@ -70,7 +70,9 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin-tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - ls -lash /home/travis/build/dolphin-tools
+  - ls -lash
+  - python scripts/dolphin_wrapper.py -r 1 -c Travis
+  
   
  
 script:

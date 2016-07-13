@@ -297,7 +297,7 @@ class Dolphin:
             filter_out=vals['Filter Out']
     
             print >>fp, '@PARAM%s=%s,%s,%s,%s,%s,%s'%(name,index,name,bowtie_params,description,filter_out,previous)
-            if (str(filter_out)=="1"):
+            if (str(filter_out)=="yes"):
                previous=name
        previoussplit=previous
        previous=self.writeInputParamLine(fp, runparams, "@SPLIT", 'split', "SPLIT", previous )

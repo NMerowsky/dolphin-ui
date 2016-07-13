@@ -71,7 +71,8 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin-tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - ls -lash
+  - mkdir /home/travis/build/pub
+  - mkdir /home/travis/build/logs
  
 script:
   - phpunit --version
@@ -126,4 +127,5 @@ after_script:
   # script testing
   - pwd
   - mkdir -p tmp/logs/run4
+  - cd scripts
   - sudo python scripts/dolphin_wrapper.py -r 4 -c Travis

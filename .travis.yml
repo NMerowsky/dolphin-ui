@@ -124,5 +124,6 @@ after_script:
   - mysql -e "use biocore; SELECT * FROM service_run" -uroot
   - mysql -e "use biocore; SELECT * FROM jobstats" -uroot
   # script testing
+  - pwd
   - mkdir -p tmp/logs/run4
   - sudo python scripts/dolphin_wrapper.py -r 4 -c Travis

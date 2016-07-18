@@ -32,7 +32,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['outdir'] = '/test/outdir';
 		$_POST['name'] = 'test insertPipeline update';
 		$_POST['desc'] = 'unittesting insertPipeline update';
-		$_POST['runGroupID'] = '4';
+		$_POST['runGroupID'] = '1';
 		$_POST['barcode'] = 'none';
 		$_POST['uid'] = '1';
 		$_POST['group'] = '1';
@@ -47,14 +47,14 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_POST['p'] = 'insertRunlist';
 		$_POST['sampID'] = '7';
-		$_POST['runID'] = '3';
+		$_POST['runID'] = '4';
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),'7');
 		$_POST['p'] = 'insertRunlist';
 		$_POST['sampID'] = '8';
-		$_POST['runID'] = '3';
+		$_POST['runID'] = '4';
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
@@ -74,7 +74,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testDeleteRunparams(){
 		ob_start();
 		$_POST['p'] = 'deleteRunparams';
-		$_POST['run_id'] = '3';
+		$_POST['run_id'] = '4';
 		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),null);
 		ob_end_clean();

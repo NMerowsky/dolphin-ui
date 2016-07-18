@@ -651,7 +651,6 @@ class Ngsimport extends VanillaModel {
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
 				if($this->sheetData[3][$j]=="Import name" || $this->sheetData[3][$j]=="Lane name"){
-					var_dump($this->sheetData);
 					$lane->name=trim($this->esc($this->sheetData[$i][$j]));
 				}
 				if($this->sheetData[3][$j]=="Sequencing id" || $this->sheetData[3][$j]=="Lane id"){
@@ -691,7 +690,6 @@ class Ngsimport extends VanillaModel {
 				$lane->total_reads = NULL;
 			}
 		}
-		var_dump($text);
 		
 		if($lane_check){
 			$text.= $this->successText('Formatting passed inspection!<BR>');

@@ -51,7 +51,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'7');
+		$this->assertEquals(json_decode($data),[7,8]);
 		ob_end_clean();
 	}
 	

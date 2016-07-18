@@ -67,7 +67,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 	public function testDeleteRunparams(){
 		ob_start();
 		$_POST['p'] = 'deleteRunparams';
-		$_POST['run_id'] = '4';
+		$_POST['run_id'] = '3';
 		include("ngsalterdb.php");
 		$this->assertEquals(json_decode($data),null);
 		ob_end_clean();

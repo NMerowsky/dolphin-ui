@@ -651,6 +651,9 @@ class Ngsimport extends VanillaModel {
 			for ($j='A';$j<=$this->worksheet['lastColumnLetter'];$j++)
 			{
 				if($this->sheetData[3][$j]=="Import name" || $this->sheetData[3][$j]=="Lane name"){
+					var_dump($this->sheetData);
+					var_dump($i);
+					var_dump($j);
 					$lane->name=trim($this->esc($this->sheetData[$i][$j]));
 				}
 				if($this->sheetData[3][$j]=="Sequencing id" || $this->sheetData[3][$j]=="Lane id"){

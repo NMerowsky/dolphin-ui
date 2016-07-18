@@ -103,8 +103,10 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$gid = 1;
 		$uid = 1;
 		$inputFileType = 'Excel5';
+		print getcwd();
 		$inputFileName = 'public/downloads/example_template_multi_dirs_travis.xls';
 		$worksheetData = $this->worksheetTestGenerator();
+		print $worksheetData;
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
 		$objPHPExcel = $objReader->load($inputFileName);
 		$passed_final_check = true;

@@ -98,7 +98,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 	*	description:	tests the parseExcel function and the finalizeExcel function for submission
 	*/
 	public function testParseExcelFinalizeExcel(){
-		ob_start();
+		#ob_start();
 		$out_string = '';
 		$gid = 1;
 		$uid = 1;
@@ -126,7 +126,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 			$this->assertEquals(strpos($out_string, "color='red'"), false);
 		}
 		chdir('../');
-		ob_end_clean();
+		#ob_end_clean();
 	}
 	
 	/*

@@ -667,7 +667,6 @@ class Ngsimport extends VanillaModel {
 				if($this->sheetData[3][$j]=="Notes"){$lane->notes=trim($this->esc($this->sheetData[$i][$j]));}
 				if($this->sheetData[3][$j]=="Total reads"){$lane->total_reads=trim($this->esc($this->sheetData[$i][$j]));}
 			}
-			var_dump($lane);
 			
 			//	Error Checks
 			//	Lane Name
@@ -691,6 +690,7 @@ class Ngsimport extends VanillaModel {
 				$lane->total_reads = NULL;
 			}
 		}
+		var_dump($text);
 		
 		if($lane_check){
 			$text.= $this->successText('Formatting passed inspection!<BR>');

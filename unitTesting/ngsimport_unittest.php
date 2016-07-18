@@ -103,10 +103,9 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$gid = 1;
 		$uid = 1;
 		$inputFileType = 'Excel5';
-		print getcwd();
 		$inputFileName = 'public/downloads/example_template_multi_dirs_travis.xls';
 		$worksheetData = $this->worksheetTestGenerator();
-		print $worksheetData;
+		var_dump($worksheetData);
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
 		$objPHPExcel = $objReader->load($inputFileName);
 		$passed_final_check = true;
@@ -114,6 +113,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$ngsimport = new Ngsimport();
 		chdir('public');
 		foreach ($worksheetData as $worksheet) {
+			var_dump($worksheet);
 			$objPHPExcel->setActiveSheetIndexByName($worksheet['worksheetName']);
 			$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 			$parseArray = $ngsimport->parseExcel($gid, $uid, $worksheet, $sheetData, $passed_final_check);

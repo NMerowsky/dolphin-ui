@@ -39,7 +39,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['perms'] = '32';
 		$_POST['ids'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'4');
+		$this->assertEquals(json_decode($data), 0);
 		ob_end_clean();
 	}
 	
@@ -51,14 +51,14 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'1');
+		$this->assertEquals(json_decode($data),'7');
 		$_POST['p'] = 'insertRunlist';
 		$_POST['sampID'] = '8';
 		$_POST['runID'] = '3';
 		$_POST['uid'] = '1';
 		$_POST['gids'] = '1';
 		include("ngsalterdb.php");
-		$this->assertEquals(json_decode($data),'1');
+		$this->assertEquals(json_decode($data),'8');
 		ob_end_clean();
 	}
 	

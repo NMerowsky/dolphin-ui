@@ -31,6 +31,7 @@ class Dolphin:
         self.params_section = params_section
         
     def runSQL(self, sql):
+      print self.params_section
       try:
         db = MySQLdb.connect(
           host = self.config.get(self.params_section, "db_host"),

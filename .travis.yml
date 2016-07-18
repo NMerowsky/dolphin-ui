@@ -69,7 +69,7 @@ script:
   #	Run workflow
   - cd scripts
   - mkdir -p ../tmp/logs/run4
-  - python scripts/dolphin_wrapper.py -r 4 Travis >> ../tmp/logs/run4/run.4.wrapper.std
+  - python dolphin_wrapper.py -r 4 Travis >> ../tmp/logs/run4/run.4.wrapper.std
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

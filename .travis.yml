@@ -56,7 +56,7 @@ before_script:
   - sudo pip install --upgrade pycrypto
   - sudo pip install simple-crypt
   - sudo pip install MySQL-python
-  #- sudo apt-get install python-mysqldb 
+  - sudo apt-get install python-mysqldb 
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot

@@ -29,6 +29,7 @@ before_script:
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - ls -lash /etc/apache2/
   - ls -lash /etc/apache2/conf.d
+  - ls -lash /etc/httpd/conf/
   #- grep -i 'DocumentRoot' /etc/apache2/conf.d/httpd.conf
   #- ln -s $(pwd) /var/www/html/dolphin
   - sudo service apache2 restart

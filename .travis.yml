@@ -36,8 +36,7 @@ before_script:
   - sudo pip install --upgrade pip
   - sudo pip install --upgrade pycrypto
   - sudo pip install simple-crypt
-  - sudo pip install json
-  - sudo apt-get install python-mysqldb
+  - sudo apt-get install python-mysqldb 
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -65,6 +64,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
+  - sed -i 's/URL       \= http\:\/\/localhost\/dolphin\/api\/service.php/URL\=file\:\/\/\/var\/www\/dolphin\/api\/service.php/g' /home/travis/build/dolphin_tools/default_params/config.ini
  
 script:
   #	ajax - initial mapping

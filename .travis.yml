@@ -37,7 +37,6 @@ before_script:
   - sudo pip install --upgrade pycrypto
   - sudo pip install simple-crypt
   - sudo apt-get install python-mysqldb
-  - sudo pip install urllib
   - sudo pip install urllib2
   # update database
   - gzip -d db/biocoredb.sql.gz

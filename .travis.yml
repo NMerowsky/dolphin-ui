@@ -21,21 +21,46 @@ before_script:
   - pwd
   # initial set-up
   - sudo apt-get update
-  - sudo apt-get install apache2
+    # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+  - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mcrypt\
+                    php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server \
+                    libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev \
+                    libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev \
+                    libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
   - sudo a2enmod actions
   - sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo ln -s $(pwd) /var/www/dolphin
-  - ls -lash /var/www/
-  - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
-  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
+  - sudo service apache2 restart
+  # updates
+  - sudo apt-get update
+  - sudo apt-get -y upgrade
+  - sudo apt-get dist-upgrade
+  - sudo add-apt-repository ppa:marutter/rrutter
+  - sudo apt-get update
+  - sudo apt-get -y upgrade
+  # Enable apache mods.
+  - sudo a2enmod php5
+  - sudo a2enmod rewrite
+  # Update the PHP.ini file, enable <? ?> tags and quieten logging.
+  - sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
+  - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
+  # Manually set up the apache environment variables
+  - PATH=$PATH:/usr/local/bin/dolphin-bin
+  - APACHE_RUN_USER="www-data"
+  - APACHE_RUN_GROUP="www-data"
+  - APACHE_LOG_DIR="/var/log/apache2"
+  - APACHE_LOCK_DIR="/var/lock/apache2"
+  - APACHE_PID_FILE="/var/run/apache2.pid"
+  - DOLPHIN_PARAMS_SECTION=Travis
   # pip
   - sudo pip install --upgrade pip
   - sudo pip install --upgrade pycrypto
   - sudo pip install simple-crypt
-  - sudo apt-get install python-mysqldb 
+  - sudo pip install MySQL-python
+  #- sudo apt-get install python-mysqldb 
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -63,7 +88,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
-  - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
+  - cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   - service --status-all
  

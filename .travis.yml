@@ -21,7 +21,14 @@ before_script:
   - pwd
   # initial set-up
   - sudo apt-get update
-    # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+  # dolphin repos
+  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
+  - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
+  - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
+  - mkdir /home/travis/build/pub
+  - mkdir /home/travis/build/logs
+  - cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
+  # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo apt-get -y install apache2 libapache2-mod-php5 python python-dev software-properties-common libcurl4-gnutls-dev gdebi-core
   - sudo a2enmod actions
   - sudo a2enmod rewrite
@@ -35,8 +42,6 @@ before_script:
   - sudo apt-get -y upgrade
   - sudo apt-get dist-upgrade
   - sudo add-apt-repository ppa:marutter/rrutter
-  - sudo apt-get update
-  - sudo apt-get -y upgrade
   # Enable apache mods.
   - sudo a2enmod php5
   - sudo a2enmod rewrite
@@ -78,13 +83,6 @@ before_script:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
-  # dolphin repos
-  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
-  - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
-  - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - mkdir /home/travis/build/pub
-  - mkdir /home/travis/build/logs
-  - cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   - service --status-all
  

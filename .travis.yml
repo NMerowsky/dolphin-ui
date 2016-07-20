@@ -27,8 +27,6 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
-  - sudo ln -s $(pwd) /var/www/dolphin
-  - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo apt-get -y install apache2 libapache2-mod-php5 python python-dev software-properties-common libcurl4-gnutls-dev gdebi-core
   - sudo a2enmod actions
@@ -56,6 +54,8 @@ before_script:
   - APACHE_LOCK_DIR="/var/lock/apache2"
   - APACHE_PID_FILE="/var/run/apache2.pid"
   - DOLPHIN_PARAMS_SECTION=Travis
+  - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   # pip
   - sudo pip install --upgrade pip
   - sudo pip install --upgrade pycrypto

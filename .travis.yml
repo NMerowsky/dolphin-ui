@@ -22,11 +22,8 @@ before_script:
   # initial set-up
   - sudo apt-get update
     # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mcrypt\
-                    php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server \
-                    libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev \
-                    libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev \
-                    libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
+  - sudo apt-get -y install apache2 libapache2-mod-php5 python python-dev \
+                    libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core
   - sudo a2enmod actions
   - sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null

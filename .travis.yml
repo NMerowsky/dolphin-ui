@@ -37,7 +37,6 @@ before_script:
   - sudo service apache2 restart
   # updates
   - sudo apt-get -y update
-  - sudo apt-get -y dist-upgrade
   - sudo add-apt-repository ppa:marutter/rrutter
   # Enable apache mods.
   - sudo a2enmod php5

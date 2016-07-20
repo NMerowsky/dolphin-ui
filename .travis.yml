@@ -63,7 +63,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
-  - cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
+  - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   - service --status-all
  

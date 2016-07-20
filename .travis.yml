@@ -65,7 +65,7 @@ before_script:
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
   - sed -i 's/URL       \= http\:\/\/localhost\/dolphin\/api\/service.php/URL\=file\:\/\/\/var\/www\/dolphin\/api\/service.php/g' /home/travis/build/dolphin_tools/default_params/config.ini
-  - cat /home/travis/build/dolphin_tools/default_params/config.ini
+  - ls -lash /var/www/dolphin/public/ajax
  
 script:
   #	ajax - initial mapping

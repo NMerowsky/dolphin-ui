@@ -46,7 +46,8 @@ before_script:
   - APACHE_LOCK_DIR="/var/lock/apache2"
   - APACHE_PID_FILE="/var/run/apache2.pid"
   - DOLPHIN_PARAMS_SECTION=Travis
-  - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo mkdir -p /var/www/html
+  - sudo ln -s $(pwd) /var/www/html/dolphin
   - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   # pip
@@ -77,7 +78,7 @@ before_script:
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
-  - sudo mv phpinfo.php /var/www/
+  - sudo mv phpinfo.php /var/www/html/
   - sudo echo "$(curl -fsSL https://localhost/phpinfo.php)"
   - service --status-all
   - ifconfig

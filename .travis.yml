@@ -28,7 +28,7 @@ before_script:
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo apt-get -y install nginx
+  - sudo apt-get -y install wget
   - sudo apt-get -y install apache2
   - sudo a2enmod actions
   #- sudo a2enmod php5
@@ -76,9 +76,8 @@ before_script:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
-  - sudo service apache2 restart
-  - sed -i 's/localhost/10\.128\.0\.36/g' /home/travis/build/dolphin_tools/default_params/config.ini
-  - cat /home/travis/build/dolphin_tools/default_params/config.ini
+  - echo "<?php echo phpinfo()?>" > /var/www/phpinfo.php
+  - echo "$(curl -fsSL https://localhost/phpinfo.php)" 
   - service --status-all
   - ifconfig
  

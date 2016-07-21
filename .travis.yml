@@ -76,8 +76,9 @@ before_script:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
-  - sudo echo "<?php echo phpinfo()?>" > /var/www/phpinfo.php
-  - sudo echo "$(curl -fsSL https://localhost/phpinfo.php)"
+  - php -i
+  #- sudo echo "<?php echo phpinfo()?>" > /var/www/phpinfo.php
+  #- sudo echo "$(curl -fsSL https://localhost/phpinfo.php)"
   - service --status-all
   - ifconfig
  

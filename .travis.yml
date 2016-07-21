@@ -28,6 +28,7 @@ before_script:
   - mkdir /home/travis/build/pub
   - mkdir /home/travis/build/logs
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+  - sudo apt-get -y install nginx
   - sudo apt-get -y install apache2
   - sudo a2enmod actions
   #- sudo a2enmod php5

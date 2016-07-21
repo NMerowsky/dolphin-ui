@@ -78,6 +78,7 @@ before_script:
   - cat config/.salt
   - sudo service apache2 restart
   - service --status-all
+  - ifconfig
  
 script:
   #	ajax - initial mapping

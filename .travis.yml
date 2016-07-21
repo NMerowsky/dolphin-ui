@@ -48,7 +48,7 @@ before_script:
   - DOLPHIN_PARAMS_SECTION=Travis
   - sudo mkdir -p /var/www/html
   - sudo ln -s $(pwd) /var/www/html/dolphin
-  - sudo cp /var/www/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
+  - sudo cp /var/www/html/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   # pip
   - sudo pip install --upgrade pip

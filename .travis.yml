@@ -77,6 +77,7 @@ before_script:
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
   - sudo service apache2 restart
+  - sed -i 's/localhost/127.0.0.1/g' /home/travis/build/dolphin-tools/default_params/config.ini
   - service --status-all
   - ifconfig
  

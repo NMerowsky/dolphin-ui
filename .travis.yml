@@ -79,7 +79,7 @@ before_script:
   - cat config/.salt
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
   - sudo mv phpinfo.php /var/www/html/
-  - sudo echo "$(curl -fsSL https://localhost/phpinfo.php)"
+  - sudo echo "$(curl https://localhost/phpinfo.php)"
   - service --status-all
   - ifconfig
  

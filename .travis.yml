@@ -77,10 +77,13 @@ before_script:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
+  - sudo service apache2 start
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
   - sudo mv phpinfo.php /var/www/html/
   - sudo echo "$(curl https://localhost/phpinfo.php)"
-  - sudo echo "$(curl https://google.com)"
+  - sudo echo "$(curl https://precise64/phpinfo.php)"
+  - sudo echo "$(curl https://travis/phpinfo.php)"
+  - sudo echo "$(curl https://vagrant/phpinfo.php)"
   - sudo cat /etc/hosts
   - service --status-all
   - ifconfig

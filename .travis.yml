@@ -80,6 +80,8 @@ before_script:
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
   - sudo mv phpinfo.php /var/www/html/
   - sudo echo "$(curl https://localhost/phpinfo.php)"
+  - sudo echo "$(curl https://google.com)"
+  - sudo cat /etc/hosts
   - service --status-all
   - ifconfig
  

@@ -17,36 +17,48 @@ env:
 services:
   - mysql
 
-before_script:
-  - pwd
-  # initial set-up
+before_install:
+  - sudo apt-key adv --keyserver keys.gnupg.net --recv 6DA70622
+  - sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a /etc/apt/sources.list.d/commandbox.list
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  - sudo echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.2.list
+ 
+install:
+  # MongoDB Manual Install
   - sudo apt-get update
+  - sudo apt-get --assume-yes install zip unzip commandbox apache2 wget
+  #Commandbox setup
+  - box install
+  - box server start port=49616 rewritesEnable=false openBrowser=false
+  # pip
+  - sudo pip install --upgrade pip
+  - sudo pip install --upgrade pycrypto
+  - sudo pip install simple-crypt
+  - sudo pip install MySQL-python
+  - sudo apt-get install python-mysqldb
+  # other dependencies
+  - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
+  - cat config/.salt
+
+before_script:
+  - curl http://localhost:49616/
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - mkdir /home/travis/build/pub /home/travis/build/logs
+  - mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo apt-get -y install wget apache2 commandbox
   #- sudo a2enmod actions
   #- sudo a2enmod php5
   #- sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   #- echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   #- echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-  - sudo apt-get -y update
   # Manually set up the apache environment variables
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis
-  - sudo mkdir -p /var/www/html
   - sudo ln -s $(pwd) /var/www/html/dolphin
   - sudo service apache2 restart
-  # pip
-  - sudo pip install --upgrade pip
-  - sudo pip install --upgrade pycrypto
-  - sudo pip install simple-crypt
-  - sudo pip install MySQL-python
-  - sudo apt-get install python-mysqldb 
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -66,8 +78,6 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   # other dependencies
-  - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
-  - cat config/.salt
   - sudo service apache2 start
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
   - sudo mv phpinfo.php /var/www/html/

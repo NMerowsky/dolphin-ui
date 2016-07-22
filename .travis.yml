@@ -25,30 +25,21 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - mkdir /home/travis/build/pub
-  - mkdir /home/travis/build/logs
+  - mkdir /home/travis/build/pub /home/travis/build/logs
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo apt-get -y install wget
-  - sudo apt-get -y install apache2
-  - sudo a2enmod actions
+  - sudo apt-get -y install wget apache2 commandbox
+  #- sudo a2enmod actions
   #- sudo a2enmod php5
-  - sudo a2enmod rewrite
+  #- sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
-  - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
-  - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-  # updates
+  #- echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
+  #- echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo apt-get -y update
   # Manually set up the apache environment variables
   - PATH=$PATH:/home/travis/build/dolphin-bin
-  - APACHE_RUN_USER="www-data"
-  - APACHE_RUN_GROUP="www-data"
-  - APACHE_LOG_DIR="/var/log/apache2"
-  - APACHE_LOCK_DIR="/var/lock/apache2"
-  - APACHE_PID_FILE="/var/run/apache2.pid"
   - DOLPHIN_PARAMS_SECTION=Travis
   - sudo mkdir -p /var/www/html
   - sudo ln -s $(pwd) /var/www/html/dolphin
-  - sudo cp /var/www/html/dolphin/unitTesting/000-default.conf /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   # pip
   - sudo pip install --upgrade pip
@@ -81,12 +72,7 @@ before_script:
   - sudo echo "<?php echo phpinfo()?>" > phpinfo.php
   - sudo mv phpinfo.php /var/www/html/
   - sudo echo "$(curl https://localhost/phpinfo.php)"
-  - sudo echo "$(curl https://precise64/phpinfo.php)"
-  - sudo echo "$(curl https://travis/phpinfo.php)"
-  - sudo echo "$(curl https://vagrant/phpinfo.php)"
-  - sudo cat /etc/hosts
-  - service --status-all
-  - ifconfig
+  - sudo apt-get 
  
 script:
   #	ajax - initial mapping

@@ -41,7 +41,6 @@ install:
   - cat config/.salt
 
 before_script:
-  - curl http://localhost:49616/
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
@@ -76,6 +75,8 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo service apache2 restart
+  - sudo sed -i s/localhost/localhost\:49616/g /home/travis/build/dolphin_tools/default_params/config.ini
+  - curl http://localhost:49616/
  
 script:
   #	ajax - initial mapping

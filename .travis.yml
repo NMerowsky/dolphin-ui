@@ -27,7 +27,6 @@ install:
   # MongoDB Manual Install
   - sudo apt-get update
   - sudo apt-get --assume-yes install zip unzip commandbox apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
-  - sudo apt-get --assume-yes upgrade
   #Commandbox setup
   - box install
   - box server start port=49616 rewritesEnable=false openBrowser=false

@@ -35,6 +35,8 @@ install:
   - sudo pip install --upgrade pycrypto
   - sudo pip install simple-crypt
   - sudo pip install MySQL-python
+  - sudo pip install urllib
+  - sudo pip install urllib2
   - sudo apt-get install python-mysqldb
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt

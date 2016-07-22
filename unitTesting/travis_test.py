@@ -18,5 +18,11 @@ def main():
     ret=str(json.loads(mesg))
     ret = re.sub (r'u\'', '\'', ret)
     ret = re.sub (r'\'', '\"', ret)
+    
+    print url
+    print data
+    print opener
+    print mesg
+    print ret
 
 main()

@@ -81,6 +81,7 @@ script:
   - phpunit unitTesting/ngsimport_unittest.php
   - phpunit unitTesting/ajax/ngsalterdb_unittest.php
   #	Run workflow
+  - python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
   - python dolphin_wrapper.py -r 4 -c Travis

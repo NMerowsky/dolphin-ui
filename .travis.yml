@@ -42,7 +42,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - mkdir -p /home/travis/build/pub /home/travis/build/logs
+  - mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo a2enmod actions
   - sudo a2enmod rewrite
@@ -52,7 +52,7 @@ before_script:
   # Manually set up the apache environment variables
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis
-  - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo ln -s $(pwd) /var/www/html/dolphin
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -74,8 +74,7 @@ before_script:
   - sudo service apache2 restart
   - sudo sed -i 's/localhost/localhost\:49616/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
-  - sudo mv /var/www/dolphin/phpinfo.php /var/www/phpinfo.php
-  - curl http://localhost:49616/phpinfo.php
+  - curl http://localhost:49616/dolphin/phpinfo.php
   - curl http://localhost:49616/dolphin/public/api/service.php
  
 script:

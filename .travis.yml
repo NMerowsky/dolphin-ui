@@ -72,9 +72,9 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo service apache2 restart
-  - sudo sed -i 's/localhost/localhost\:49616\/dolphin/g' /home/travis/build/dolphin_tools/default_params/config.ini
+  - sudo sed -i 's/localhost/localhost\:49616/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
-  - curl http://localhost:49616/dolphin/phpinfo.php
+  - curl http://localhost:49616/phpinfo.php
   - curl http://localhost:49616/dolphin/public/api/service.php
  
 script:

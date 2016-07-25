@@ -74,6 +74,7 @@ before_script:
   - sudo service apache2 restart
   - sudo sed -i 's/localhost/localhost\:49616/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
+  - sudo mv /var/www/dolphin/phpinfo.php /var/www/phpinfo.php
   - curl http://localhost:49616/phpinfo.php
   - curl http://localhost:49616/dolphin/public/api/service.php
  

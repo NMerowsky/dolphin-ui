@@ -11,7 +11,7 @@ import sys
 import time
 
 def main():
-    url = "http://localhost:49616/public/api/service.php"
+    url = "http://localhost:8080/dolphin/public/api/service.php"
     data = "wkey=&runparamsid=4&func=updateRunParams"
     opener = urllib2.build_opener(urllib2.HTTPHandler())
     mesg = opener.open(url, data=data).read()

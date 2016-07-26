@@ -39,6 +39,7 @@ install:
 
 before_script:
   - ls -lash
+  - ls -lash /var/www
   - cat server.json
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools

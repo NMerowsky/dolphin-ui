@@ -38,7 +38,7 @@ install:
   - cat config/.salt
 
 before_script:
-  - ls -lash /opt/var/sites
+  - sudo mkdir -p /opt/var/sites
   - ls -lash /opt/var/
   - sudo ln -s $(pwd) /opt/var/sites/dolphin
   - cat server.json

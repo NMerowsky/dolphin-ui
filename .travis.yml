@@ -26,7 +26,7 @@ before_install:
 install:
   # Manual Install
   - sudo apt-get update
-  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils
+  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils iptables
   # Commandbox setup
   - box install
   - box server start port=8080 rewritesEnable=true openBrowser=false
@@ -36,6 +36,9 @@ install:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt
+  - /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+  - /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
+  - /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 8080 -j ACCEPT
 
 before_script:
   # dolphin repos

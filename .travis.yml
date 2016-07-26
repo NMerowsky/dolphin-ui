@@ -33,7 +33,7 @@ install:
 
 before_script:
   - sudo cat /etc/apache2/apache2.conf
-  - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018
+  - sudo ls -lash /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
@@ -70,7 +70,6 @@ before_script:
   - sudo service apache2 restart
   - sudo sed -i 's/localhost/localhost\:8080/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - box server status --verbose
-  - server status --verbose
   - curl http://localhost:8080/
   - curl http://localhost:8080/phpinfo.php
   - curl http://localhost:8080/public/api/service.php

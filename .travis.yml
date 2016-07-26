@@ -26,13 +26,13 @@ before_install:
 install:
   # Manual Install
   - sudo apt-get update
-  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python-mysqldb
+  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils
   # Commandbox setup
   - box install
   - box server start port=8080 rewritesEnable=true openBrowser=false
   # pip
   - sudo pip install --upgrade pip pycrypto
-  - sudo pip install simple-crypt MySQL-python
+  - sudo pip install simple-crypt MySQL-python pjson
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   - cat config/.salt

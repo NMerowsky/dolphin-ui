@@ -26,6 +26,7 @@ install:
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
 
 before_script:
+  - sudo service apache2 start
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
@@ -80,7 +81,7 @@ before_script:
   - curl http://localhost/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
-  - sudo service apache2 start
+  - sudo service apache2 restart
  
 script:
   #	ajax - initial mapping

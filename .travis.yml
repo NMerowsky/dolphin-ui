@@ -11,20 +11,14 @@ env:
 
 services:
   - mysql
-
-before_install:
-  - sudo apt-key adv --keyserver keys.gnupg.net --recv 6DA70622
-  - sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a /etc/apt/sources.list.d/commandbox.list
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-  - sudo echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.2.list
  
 install:
   # Manual Install
   - sudo apt-get update
-  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils iptables tree sendmail
-  # Commandbox setup
-  - box install
-  - box server start port=8080 rewritesEnable=true openBrowser=false
+  - sudo apt-get --assume-yes upgrade
+  - sudo apt-get --assume-yes dist-upgrade
+  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
+  - sudo add-apt-repository ppa:marutter/rrutter
   # pip
   - sudo pip install --upgrade pip pycrypto
   - sudo pip install simple-crypt MySQL-python pjson

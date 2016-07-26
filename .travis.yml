@@ -35,9 +35,6 @@ install:
   - sudo pip install simple-crypt MySQL-python pjson
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
-  - sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
-  - sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
-  - sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 8080 -j ACCEPT
 
 before_script:
   # dolphin repos
@@ -78,8 +75,8 @@ before_script:
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
   - sudo ls /var/www
   - curl http://localhost:8080/
-  - curl http://localhost:8080/dolphin/phpinfo.php
-  - curl http://localhost:8080/dolphin/public/api/service.php
+  - curl http://localhost:8080/phpinfo.php
+  - curl http://localhost:8080/public/api/service.php
  
 script:
   #	ajax - initial mapping

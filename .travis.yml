@@ -21,7 +21,7 @@ before_install:
 install:
   # Manual Install
   - sudo apt-get update
-  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils iptables tree
+  - sudo apt-get --assume-yes install zip unzip commandbox apache2 python python-mysqldb libxml2-utils iptables tree sendmail
   # Commandbox setup
   - box install
   - box server start port=8080 rewritesEnable=true openBrowser=false
@@ -87,7 +87,7 @@ script:
   - python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
-  - python dolphin_wrapper.py -r 4 -c Travis
+  - sudo python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

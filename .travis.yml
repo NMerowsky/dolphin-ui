@@ -18,7 +18,7 @@ install:
   #- sudo apt-get --assume-yes --install-suggests upgrade
   #- sudo apt-get --assume-yes --install-suggests dist-upgrade
   - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
-  - sudo add-apt-repository --assume-yes --install-suggests ppa:marutter/rrutter
+  #- sudo add-apt-repository ppa:marutter/rrutter
   # pip
   - sudo pip install --upgrade pip pycrypto
   - sudo pip install simple-crypt MySQL-python pjson

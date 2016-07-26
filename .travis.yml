@@ -34,13 +34,9 @@ install:
 before_script:
   - sudo cat /etc/apache2/apache2.conf
   - sudo tree /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/
-  - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
-  - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/components/org/lucee/cfml/Http.cfc
-  - sudo head -n 2 /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess > /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/temp.htaccess
-  - sudo mv /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/temp.htaccess /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
+  - sudo cp .htaccess /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
   - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
   - box server restart
-  - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin

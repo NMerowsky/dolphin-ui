@@ -43,14 +43,14 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo a2enmod actions
-  - sudo a2enmod rewrite
-  - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
-  - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
-  - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
+  #- sudo a2enmod actions
+  #- sudo a2enmod rewrite
+  #- echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
+  #- echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
+  #- echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   # Manually set up the apache environment variables
-  - PATH=$PATH:/home/travis/build/dolphin-bin
-  - DOLPHIN_PARAMS_SECTION=Travis
+  #- PATH=$PATH:/home/travis/build/dolphin-bin
+  #- DOLPHIN_PARAMS_SECTION=Travis
   - sudo ln -s $(pwd) /var/www/html/dolphin
   # update database
   - gzip -d db/biocoredb.sql.gz
@@ -72,12 +72,13 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
-  - sudo service apache2 restart
+  #- sudo service apache2 restart
   - sudo sed -i 's/localhost\/dolphin/localhost\:8080/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - box server status --verbose
   - curl http://localhost:8080/
   - curl http://localhost:8080/phpinfo.php
   - curl http://localhost:8080/public/api/service.php
+  - ps -ef
  
 script:
   #	ajax - initial mapping

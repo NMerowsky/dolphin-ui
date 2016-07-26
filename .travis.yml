@@ -4,6 +4,7 @@ language: php
 # list any PHP version you want to test against
 php:
   # using major version aliases
+  - 5.2
   # aliased to a recent 5.4.x version
   - 5.4
   # aliased to a recent 5.5.x version
@@ -72,8 +73,8 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo service apache2 restart
   - sudo sed -i 's/localhost/localhost\:8080/g' /home/travis/build/dolphin_tools/default_params/config.ini
-  - cat /home/travis/build/dolphin_tools/default_params/config.ini
-  - sudo ls /var/www
+  - box server status --verbose
+  - server status --verbose
   - curl http://localhost:8080/
   - curl http://localhost:8080/phpinfo.php
   - curl http://localhost:8080/public/api/service.php

@@ -38,9 +38,8 @@ install:
   - cat config/.salt
 
 before_script:
-  - sudo mkdir -p /opt/var/sites
-  - ls -lash /opt/var/
-  - sudo ln -s $(pwd) /opt/var/sites/dolphin
+  - box server cd
+  - ls -lash
   - cat server.json
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools

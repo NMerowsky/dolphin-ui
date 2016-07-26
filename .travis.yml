@@ -35,7 +35,7 @@ before_script:
   - sudo cat /etc/apache2/apache2.conf
   - sudo tree /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/
   - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/.htaccess
-  - sudo cat /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/lucee-web.xml.cfm
+  - sudo head -2 /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/lucee-web.xml.cfm > /home/travis/.CommandBox/server/EA993591DACEFA7F6B8E6DF5AF2383B1-dolphin-ui/lucee-4.5.2.018/lucee-web.xml.cfm 
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
@@ -70,7 +70,7 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo service apache2 restart
-  - sudo sed -i 's/localhost/localhost\:8080/g' /home/travis/build/dolphin_tools/default_params/config.ini
+  - sudo sed -i 's/localhost\/dolphin/localhost\:8080/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - box server status --verbose
   - curl http://localhost:8080/
   - curl http://localhost:8080/phpinfo.php

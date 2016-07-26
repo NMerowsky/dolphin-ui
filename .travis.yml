@@ -46,7 +46,7 @@ before_script:
   - APACHE_LOG_DIR=/var/log/apache2
   - APACHE_LOCK_DIR=/var/lock/apache2
   - APACHE_PID_FILE=/var/run/apache2.pid
-  - sudo apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+  - sudo touch apache-config.conf /etc/apache2/sites-enabled/000-default.conf
   - sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
   - sudo a2enconf fqdn
   - sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars

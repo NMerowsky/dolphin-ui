@@ -66,6 +66,8 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_16_ngs_createtables.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql
+  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_16_newuser.sql
+  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_02_08_email_update.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_07_delete_runs.sql
   - mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
   - mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot

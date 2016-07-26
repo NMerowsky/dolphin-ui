@@ -46,6 +46,15 @@ before_script:
   - APACHE_LOG_DIR=/var/log/apache2
   - APACHE_LOCK_DIR=/var/lock/apache2
   - APACHE_PID_FILE=/var/run/apache2.pid
+  - sudo apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+  - sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
+  - sudo a2enconf fqdn
+  - sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars
+  - sudo mkdir -p /var/www/.java/.systemPrefs
+  - sudo mkdir /var/www/.java/.userPrefs
+  - sudo chmod -R 755 /var/www/.java
+  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
+  - sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -71,6 +80,7 @@ before_script:
   - curl http://localhost/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
+  - sudo service apache2 start
  
 script:
   #	ajax - initial mapping

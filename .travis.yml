@@ -56,7 +56,10 @@ before_script:
   #- sudo chmod -R 755 /var/www/.java
   #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
   #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
-  - sudo service apache2 restart
+  #- sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
+  - sudo service apache2 stop
+  - sudo service apache2 start
+  - sleep 10
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -82,9 +85,6 @@ before_script:
   - curl http://localhost/dolphin/public/api/service.php
   - curl http://localhost/dolphin/public/api/service.php?func=checkPermissions&username=ak97w
   - ps -ef
-  - sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
-  - cat /home/travis/build/dolphin_tools/default_params/config.ini
-  - sleep 10
  
 script:
   #	ajax - initial mapping

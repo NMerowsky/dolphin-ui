@@ -39,6 +39,8 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs
   - sudo ln -s $(pwd) /var/www/dolphin
+  - ls -lash /var/www
+  - cat /var/www/index.php
   # Manually set up the apache environment variables
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"

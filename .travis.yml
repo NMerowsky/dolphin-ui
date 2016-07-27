@@ -45,11 +45,11 @@ before_script:
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis
-  #- APACHE_RUN_USER=www-data
-  #- APACHE_RUN_GROUP=www-data
-  #- APACHE_LOG_DIR=/var/log/apache2
-  #- APACHE_LOCK_DIR=/var/lock/apache2
-  #- APACHE_PID_FILE=/var/run/apache2.pid
+  - APACHE_RUN_USER=www-data
+  - APACHE_RUN_GROUP=www-data
+  - APACHE_LOG_DIR=/var/log/apache2
+  - APACHE_LOCK_DIR=/var/lock/apache2
+  - APACHE_PID_FILE=/var/run/apache2.pid
   #- sudo touch apache-config.conf /etc/apache2/sites-enabled/000-default.conf
   #- sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
   #- sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars
@@ -86,6 +86,8 @@ before_script:
   - ps -ef
   - sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
+  - sudo service apache2 restart
+  - sleep 10
  
 script:
   #	ajax - initial mapping

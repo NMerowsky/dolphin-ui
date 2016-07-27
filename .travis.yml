@@ -33,10 +33,10 @@ before_script:
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-  - sudo tree /etc/php5/apache2
+  - cat /etc/php5/apache2/php.ini
+  - cat /etc/php5/apache2/conf.d
   - sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
-  - sudo service apache2 start
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
@@ -61,6 +61,7 @@ before_script:
   #- sudo chmod -R 755 /var/www/.java
   #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
   #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
+  - sudo service apache2 start
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -81,7 +82,6 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
-  - sudo service apache2 restart
   - curl http://localhost/
   - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php

@@ -82,6 +82,7 @@ before_script:
   - curl http://localhost/
   - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
+  - curl http://localhost/dolphin/api/service.php?func=checkPermissions&username=ak97w
   - ps -ef
   - sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
  

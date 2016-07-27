@@ -38,8 +38,10 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
-  - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo ln -s $(pwd) /var/www/html/dolphin
   # Manually set up the apache environment variables
+  - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis
   - APACHE_RUN_USER=www-data
@@ -50,10 +52,10 @@ before_script:
   - sudo touch apache-config.conf /etc/apache2/sites-enabled/000-default.conf
   #- sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
   #- sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars
-  - sudo mkdir -p /var/www/.java/.systemPrefs
-  - sudo mkdir /var/www/.java/.userPrefs
-  - sudo chmod -R 755 /var/www/.java
-  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
+  #- sudo mkdir -p /var/www/.java/.systemPrefs
+  #- sudo mkdir /var/www/.java/.userPrefs
+  #- sudo chmod -R 755 /var/www/.java
+  #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
   #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
   # update database
   - gzip -d db/biocoredb.sql.gz
@@ -75,12 +77,11 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
-  #- sudo service apache2 restart
+  - sudo service apache2 restart
   - curl http://localhost/
   - curl http://localhost/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
-  - sudo service apache2 restart
  
 script:
   #	ajax - initial mapping

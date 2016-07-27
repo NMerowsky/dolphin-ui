@@ -83,6 +83,7 @@ before_script:
   - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
+  - sed -i s/dolphin/dolphin\/public/g /home/travs/build/dolphin_tools
  
 script:
   #	ajax - initial mapping

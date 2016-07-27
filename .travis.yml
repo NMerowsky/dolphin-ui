@@ -36,7 +36,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs
+  - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo ln -s $(pwd) /var/www/dolphin
   # Manually set up the apache environment variables
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
@@ -56,7 +56,10 @@ before_script:
   #- sudo chmod -R 755 /var/www/.java
   #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
   #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
-  #- sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
+  #- sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini 
+  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/dolphin
+  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /home/travis/build/dolphin_tools
+  - apt-get -y autoremove
   - sudo service apache2 stop
   - sudo service apache2 start
   - sleep 10

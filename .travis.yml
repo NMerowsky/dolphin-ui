@@ -83,7 +83,7 @@ before_script:
   - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
-  - sed -i 's/dolphin/dolphin\/public/g' /home/travs/build/dolphin_tools/default_params/config.ini
+  - sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
  
 script:
   #	ajax - initial mapping

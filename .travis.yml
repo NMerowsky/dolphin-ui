@@ -49,7 +49,6 @@ before_script:
   - APACHE_PID_FILE=/var/run/apache2.pid
   - sudo touch apache-config.conf /etc/apache2/sites-enabled/000-default.conf
   #- sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
-  - sudo a2enmod fqdn
   - sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars
   - sudo mkdir -p /var/www/.java/.systemPrefs
   - sudo mkdir /var/www/.java/.userPrefs

@@ -26,6 +26,12 @@ install:
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
 
 before_script:
+  # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+  - sudo a2enmod actions
+  - sudo a2enmod rewrite
+  - sudo echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
+  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
+  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 start
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
@@ -33,12 +39,6 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
   - sudo ln -s $(pwd) /var/www/html/dolphin
-  # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-  - sudo a2enmod actions
-  - sudo a2enmod rewrite
-  - sudo echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
-  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
-  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   # Manually set up the apache environment variables
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis

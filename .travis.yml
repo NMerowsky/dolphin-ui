@@ -59,10 +59,6 @@ before_script:
   #- sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini 
   - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/dolphin
   - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /home/travis/build/dolphin_tools
-  - sudo apt-get -y autoremove
-  - sudo service apache2 stop
-  - sudo service apache2 start
-  - sleep 10
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot

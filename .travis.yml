@@ -79,7 +79,7 @@ before_script:
   - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo service apache2 restart
   - curl http://localhost/
-  - curl http://localhost/phpinfo.php
+  - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef
  

@@ -11,7 +11,7 @@ import sys
 import time
 
 def main():
-    url = "http://localhost/dolphin/public/api/service.php"
+    url = "http://localhost/dolphin/api/service.php"
     print url
     data = "wkey=&runparamsid=4&func=updateRunParams"
     print data

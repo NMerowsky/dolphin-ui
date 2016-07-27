@@ -14,7 +14,7 @@ services:
  
 install:
   # Manual Install
-  - sudo apt-get --assume-yes --install-suggests update
+  - sudo apt-get --assume-yes update
   #- sudo apt-get --assume-yes --install-suggests upgrade
   #- sudo apt-get --assume-yes --install-suggests dist-upgrade
   - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget
@@ -29,16 +29,16 @@ before_script:
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo a2enmod actions
   - sudo a2enmod rewrite
-  - sudo echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
-  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
-  - sudo echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
+  - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
+  - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
+  - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   - sudo service apache2 start
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs /var/www/html
-  - sudo ln -s $(pwd) /var/www/html/dolphin
+  - sudo ln -s $(pwd) /var/www/dolphin
   # Manually set up the apache environment variables
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis

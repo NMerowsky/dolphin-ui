@@ -15,7 +15,7 @@ services:
 install:
   # Manual Install
   - sudo apt-get --assume-yes update
-  - sudo apt-get --assume-yes install libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree
+  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree
   # pip
   - sudo pip install --upgrade pip pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson
@@ -56,7 +56,7 @@ before_script:
   #- sudo chmod -R 755 /var/www/.java
   #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
   #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
-  #- sudo service apache2 start
+  - sudo service apache2 restart
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot
@@ -84,7 +84,6 @@ before_script:
   - ps -ef
   - sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - cat /home/travis/build/dolphin_tools/default_params/config.ini
-  - sudo service apache2 restart
   - sleep 10
  
 script:

@@ -398,11 +398,9 @@ class Ngsimport extends VanillaModel {
 	* @return string
 	*/
 	function checkUserPermissions($clustername){
-		$request = API_PATH.'/api/service.php?func=checkPermissions&username='.$clustername;
-		$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
-		$context = stream_context_create($opts);
-		$header = file_get_contents($request,false,$context);
-		$valid_fastq = json_decode('['.json_decode($header).']');
+		
+		$request = '/var/www/dolphin/public'.'/api/service.php?func=checkPermissions&username='.$clustername;
+		$valid_fastq = json_decode('['.json_decode(file_get_contents($request)).']');
 		if(isset($valid_fastq[0]->ERROR)){
 			$this->final_check = false;
 			return $valid_fastq[0]->ERROR;

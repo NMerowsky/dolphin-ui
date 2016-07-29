@@ -16,7 +16,7 @@ before_script:
   # Manual Install
   - sudo apt-get --assume-yes update
   - sudo apt-get --assume-yes install libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip git expect default-jre r-base r-base-dev libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree
-  - sudo echo "ak94w\nak94\n" | sudo adduser ak94w
+  - sudo adduser --disabled-password ak94w 
   # pip
   - sudo pip install --upgrade pip pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson
@@ -35,16 +35,11 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo sed -i 's/dolphin\/api/dolphin\/public\/api/g' /home/travis/build/dolphin_tools/default_params/config.ini
   # Manually set up the apache environment variables
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
   - PATH=$PATH:/home/travis/build/dolphin-bin
-  - DOLPHIN_PARAMS_SECTION=Travis
-  #- APACHE_RUN_USER=www-data
-  #- APACHE_RUN_GROUP=www-data
-  #- APACHE_LOG_DIR=/var/log/apache2
-  #- APACHE_LOCK_DIR=/var/lock/apache2
-  #- APACHE_PID_FILE=/var/run/apache2.pid
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot

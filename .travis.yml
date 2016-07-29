@@ -25,19 +25,17 @@ install:
 before_script:
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo a2enmod actions
-  - sudo a2enmod php5
   - sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-  #- sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
-  #- sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo service apache2 restart
   # Manually set up the apache environment variables
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
@@ -48,17 +46,6 @@ before_script:
   - APACHE_LOG_DIR=/var/log/apache2
   - APACHE_LOCK_DIR=/var/lock/apache2
   - APACHE_PID_FILE=/var/run/apache2.pid
-  #- sudo touch apache-config.conf /etc/apache2/sites-enabled/000-default.conf
-  #- sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf
-  #- sudo echo "export DOLPHIN_PARAMS_SECTION="${DOLPHIN_PARAMS_SECTION} >> /etc/apache2/envvars
-  #- sudo mkdir -p /var/www/.java/.systemPrefs
-  #- sudo mkdir /var/www/.java/.userPrefs
-  #- sudo chmod -R 755 /var/www/.java
-  #- sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www
-  #- sudo echo "export JAVA_OPTS=\"-Djava.util.prefs.systemRoot=/var/www/.java Djava.util.prefs.userRoot=/var/www/.java/.userPrefs\"" >> /etc/apache2/envvars
-  #- sed -i 's/dolphin/dolphin\/public/g' /home/travis/build/dolphin_tools/default_params/config.ini 
-  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/dolphin
-  - sudo chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /home/travis/build/dolphin_tools
   # update database
   - gzip -d db/biocoredb.sql.gz
   - mysql -e "CREATE DATABASE biocore;" -uroot

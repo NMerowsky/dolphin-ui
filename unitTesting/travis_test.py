@@ -13,7 +13,7 @@ import time
 def main():
     url = "http://localhost/dolphin/public/api/service.php"
     print url
-    data = "wkey=&runparamsid=4&func=updateRunParams"
+    data = "wkey=&sample_id=7&func=getFastqFileId"
     print data
     opener = urllib2.build_opener(urllib2.HTTPHandler())
     print opener

@@ -29,16 +29,16 @@ before_script:
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
   #- sudo service apache2 restart
   # dolphin repos
-  #- git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
-  #- git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
-  #- git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
-  #- sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
+  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
+  - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
+  - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
+  - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo ln -s $(pwd) /var/www/dolphin
   # Manually set up the apache environment variables
   - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
-  #- PATH=$PATH:/home/travis/build/dolphin-bin
-  #- DOLPHIN_PARAMS_SECTION=Travis
+  - PATH=$PATH:/home/travis/build/dolphin-bin
+  - DOLPHIN_PARAMS_SECTION=Travis
   #- APACHE_RUN_USER=www-data
   #- APACHE_RUN_GROUP=www-data
   #- APACHE_LOG_DIR=/var/log/apache2

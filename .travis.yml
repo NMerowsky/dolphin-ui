@@ -70,6 +70,7 @@ before_script:
   - curl http://localhost/
   - curl http://localhost/dolphin/phpinfo.php
   - ps -ef
+  - sudo cat /etc/hosts
  
 script:
   #	ajax - initial mapping

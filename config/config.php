@@ -26,7 +26,7 @@ if (!empty($_SERVER["HTTP_HOST"])){
    ###########################################
 }
 
-if(strpos(getcwd(),'/home/travis/build/') > 0){
+if(strpos(getcwd(),'/home/travis/build/') >= 0){
    $param_section = "Travis";
 }
  

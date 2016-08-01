@@ -40,29 +40,29 @@ before_script:
   - sudo ln -s $(pwd) /var/www/dolphin
   - sudo chown -R www-data:www-data *
   # Manually set up the apache environment variables
-  - mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
-  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
+  - sudo mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
+  - sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
   - PATH=$PATH:/home/travis/build/dolphin-bin
   # update database
-  - gzip -d db/biocoredb.sql.gz
-  - mysql -e "CREATE DATABASE biocore;" -uroot
-  - mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/biocoredb.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_07_22_consolidated_1.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_08_31_wkeylist.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_16_ngs_createtables.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_16_newuser.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_02_08_email_update.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_07_delete_runs.sql
-  - mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
-  - mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot
-  - mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_09_aws.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
-  - mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
+  - sudo gzip -d db/biocoredb.sql.gz
+  - sudo mysql -e "CREATE DATABASE biocore;" -uroot
+  - sudo mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/biocoredb.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_07_22_consolidated_1.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_08_31_wkeylist.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_16_ngs_createtables.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_16_newuser.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_02_08_email_update.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_07_delete_runs.sql
+  - sudo mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
+  - sudo mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot
+  - sudo mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_09_aws.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - curl http://localhost/
   - curl http://localhost/dolphin/phpinfo.php
   - ps -ef

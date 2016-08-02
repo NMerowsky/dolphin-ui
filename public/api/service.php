@@ -35,7 +35,6 @@ class Pipeline{
          public function runFuncs($params)
          {
                 $myClass = new funcs();
-                return $myClass;
                 $func=$params['func'];
                 if ($func)
                 {
@@ -44,7 +43,7 @@ class Pipeline{
                 }
          }
 }
-
+/*
 error_reporting(E_ALL);
 ini_set('report_errors','on');
 $myClass = new Pipeline();
@@ -53,7 +52,9 @@ $data=json_encode($result);
 
 $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
+*/
 
+$data = new funcs();
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');

@@ -107,7 +107,6 @@ class funcs
     }
     function checkPermissions($params)
     {
-        echo 'begin';
         $this->username=$params['username'];
         $this->readINI();
         if (isset($params['outdir'])){

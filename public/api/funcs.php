@@ -1,5 +1,4 @@
 <?php
-echo 'begin';
 require_once("../../config/config.php");
 error_reporting(E_ALL);
 ini_set('report_errors','on');
@@ -108,6 +107,7 @@ class funcs
     }
     function checkPermissions($params)
     {
+        echo 'begin';
         $this->username=$params['username'];
         $this->readINI();
         if (isset($params['outdir'])){

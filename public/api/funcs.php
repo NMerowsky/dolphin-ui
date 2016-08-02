@@ -992,7 +992,7 @@ class funcs
       }
 
       //#######################################
-      public function test(){
+      function test(){
         return 'funcs test pass';
       }
 }

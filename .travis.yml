@@ -34,6 +34,7 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
+  - ls -lash /home/travis/build/dolphin-genome-data
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo chmod 777 /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs
   - sudo sed -i 's/dolphin\/api/dolphin\/public\/api/g' /home/travis/build/dolphin_tools/default_params/config.ini

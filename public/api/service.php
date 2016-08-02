@@ -43,7 +43,8 @@ class Pipeline{
                 }
          }
 }
-
+echo 'test';
+exit;
 error_reporting(E_ALL);
 ini_set('report_errors','on');
 $myClass = new Pipeline();

@@ -114,7 +114,6 @@ class funcs
         }else{
           $com = "ls";
         }
-        return "{\"Result\":\"Ok\"}";
         $retval = $this->syscall($this->getCMDs($com));
         if (preg_match('/Permission denied/', $retval)) {
              return "{\"ERROR\": \"Permission denied: ".$params['outdir']."\"}";

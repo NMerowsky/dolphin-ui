@@ -43,10 +43,7 @@ class Pipeline{
                 }
          }
 }
-
-echo 'test';
-exit;
-
+/*
 error_reporting(E_ALL);
 ini_set('report_errors','on');
 $myClass = new Pipeline();
@@ -55,11 +52,12 @@ $myClass = new Pipeline();
 
 $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
-
+*/
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');
-echo $data;
+//echo $data;
+echo 'test';
 exit;
 
 

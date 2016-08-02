@@ -1,6 +1,6 @@
 <?php
 //require_once("funcs.php");
-
+echo getcwd();
 class Pipeline{
          public $params = null;
          /**

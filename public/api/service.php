@@ -42,6 +42,9 @@ class Pipeline{
                     return json_encode($result);
                 }
          }
+         public function test(){
+                  return 'test passed';
+         }
 }
 /*
 error_reporting(E_ALL);
@@ -54,7 +57,8 @@ $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
 */
 
-$data = new funcs();
+$pipeline = new Pipeline();
+$data = $pipeline->test;
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');

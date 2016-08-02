@@ -1,11 +1,11 @@
 <?php
-require_once("funcs.php");
-/*
+//require_once("funcs.php");
+
 class Pipeline{
          public $params = null;
          /**
          * Use the query (often the requested URL) to define some settings.
-         
+         */
          public function parse_params( $params = null ) {
             // If a query has been passed to the function, turn it into an array.
             if ( is_string( $params) ) {
@@ -31,7 +31,7 @@ class Pipeline{
          /** runFuncs
          *
          * @return string Response
-         
+         */
          public function runFuncs($params)
          {
                 $myClass = new funcs();
@@ -58,7 +58,5 @@ header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');
 echo $data;
 */
-echo 'test';
+echo '<p>test</p>';
 exit;
-
-

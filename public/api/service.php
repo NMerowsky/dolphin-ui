@@ -1,5 +1,5 @@
 <?php
-require_once("funcs.php");
+//require_once("funcs.php");
 
 class Pipeline{
          public $params = null;

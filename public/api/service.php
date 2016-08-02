@@ -1,5 +1,5 @@
 <?php
-//require_once("funcs.php");
+require_once("funcs.php");
 
 class Pipeline{
          public $params = null;
@@ -57,7 +57,7 @@ $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
 */
 
-$pipeline = new Pipeline();
+$pipeline = new funcs();
 $data = $pipeline->test();
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

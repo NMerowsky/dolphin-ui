@@ -994,6 +994,8 @@ class funcs
       }
 
       //#######################################
-
+      public function test(){
+        return 'funcs test pass';
+      }
 }
 ?>

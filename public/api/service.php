@@ -46,19 +46,17 @@ class Pipeline{
                   return 'test passed';
          }
 }
-/*
+
 error_reporting(E_ALL);
 ini_set('report_errors','on');
 $myClass = new Pipeline();
 $result=$myClass->getINI();
 $data=json_encode($result);
-
+/*
 $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
 */
 
-$pipeline = new funcs();
-$data = $pipeline->test();
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');

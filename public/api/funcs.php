@@ -1,7 +1,8 @@
 <?php
+echo 'begin';
 require_once("../../config/config.php");
-//error_reporting(E_ALL);
-//ini_set('report_errors','on');
+error_reporting(E_ALL);
+ini_set('report_errors','on');
 
 class funcs
 {

@@ -52,6 +52,7 @@ ini_set('report_errors','on');
 */
 $myClass = new Pipeline();
 $result=$myClass->parse_params();
+var_dump(class_exists('Pipeline'));
 $data=class_exists('funcs');
 
 header('Cache-Control: no-cache, must-revalidate');

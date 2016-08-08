@@ -1,5 +1,5 @@
 <?php
-//require_once("/var/www/dolphin/public/api/funcs.php");
+require_once("/var/www/dolphin/public/api/funcs.php");
 
 class Pipeline{
          public $params = null;

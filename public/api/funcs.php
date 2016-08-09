@@ -995,5 +995,4 @@ class funcs
         return 'funcs test pass';
       }
 }
-echo 'after funcs';
 ?>

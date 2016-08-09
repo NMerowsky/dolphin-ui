@@ -2,7 +2,6 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once("/var/www/dolphin/public/api/funcs.php");
-echo 'after require';
 class Pipeline{
          public $params = null;
          /**
@@ -48,12 +47,12 @@ class Pipeline{
                   return 'test passed';
          }
 }
-/*
-error_reporting(E_ALL);
-ini_set('report_errors','on');
-*/
+
 $myClass = new Pipeline();
-$data=$myClass->test();
+#$result=$myClass->getINI();
+#$data=json_encode($result);
+$result=$myClass->parse_params();
+$data=$myClass->runFuncs($result['params']);
 
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

@@ -31,8 +31,7 @@ before_script:
   - sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/allow_url_include = Off/allow_url_include = On/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
-  - sudo cat /etc/php5/apache2/php.ini
-  #- sudo service apache2 restart
+  - sudo service apache2 restart
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin

@@ -82,7 +82,7 @@ script:
   - python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
-  - sudo python dolphin_wrapper.py -r 4 -c Travis
+  #- sudo python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

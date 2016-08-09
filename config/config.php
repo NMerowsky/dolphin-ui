@@ -62,7 +62,7 @@ define('VALIDATE_ENCODE', $ini_array['VALIDATE_ENCODE']);
 define('REQUESTS', $ini_array['REQUESTS']);
 
 if($param_section != 'Travis'){
-   $salt = parse_ini_file(".salt", true)['Dolphin'];
+   $salt = parse_ini_file(".salt", true);
    define('SALT', $salt['SALT']);
    define('PEPPER', $salt['PEPPER']);
    define('MASTER', $salt['MASTER']);

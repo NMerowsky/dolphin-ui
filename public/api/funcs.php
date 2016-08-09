@@ -997,4 +997,4 @@ class funcs
       }
 }
 echo 'after funcs';
-?>
+

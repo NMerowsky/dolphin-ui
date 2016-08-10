@@ -3,7 +3,7 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-$param_section = "Travis";
+$param_section = "Docker";
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
@@ -63,14 +63,13 @@ define('ENCODE_SECRET', $ini_array['ENCODE_SECRET']);
 define('VALIDATE_ENCODE', $ini_array['VALIDATE_ENCODE']);
 define('REQUESTS', $ini_array['REQUESTS']);
 
-if($param_section != "Travis"){
    $presalt = parse_ini_file(".salt", true);
    $salt = $presalt['Dolphin'];
    define('SALT', $salt['SALT']);
    define('PEPPER', $salt['PEPPER']);
    define('MASTER', $salt['MASTER']);
    define('AMAZON', $salt['AMAZON']);
-}
+
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 if (isset($_SESSION['user']))
 {

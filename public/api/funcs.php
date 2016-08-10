@@ -177,11 +177,6 @@ class funcs
     {
         sleep(1);
         $this->readINI();
-        if (!function_exists('mysqli_init') && !extension_loaded('mysqli')) {
-            echo 'no mysqli :(';
-        } else {
-            echo 'we gots it';
-        }
         $link = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->db);
         // check connection
         if (mysqli_connect_errno()) {

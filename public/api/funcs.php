@@ -177,7 +177,6 @@ class funcs
     {
         sleep(1);
         $this->readINI();
-        echo $this->db;
         $link = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->db);
         // check connection
         if (mysqli_connect_errno()) {

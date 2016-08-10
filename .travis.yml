@@ -15,7 +15,7 @@ services:
 before_script:
   # Manual Install
   - sudo apt-get --assume-yes update
-  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree php5-mysqlnd apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
+  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
   # pip
   - sudo pip install --upgrade pip pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson

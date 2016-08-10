@@ -3,7 +3,7 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-$param_section = "Docker";
+$param_section = "Travis";
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
@@ -29,6 +29,8 @@ if (!empty($_SERVER["HTTP_HOST"])){
 if(strpos(getcwd(),'/home/travis/build/') >= 0){
    $param_section = "Travis";
 }
+
+echo $param_section;
  
 $ini = parse_ini_file("config.ini", true);
 

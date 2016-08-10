@@ -34,7 +34,7 @@ before_script:
   - sudo cat /etc/php5/apache2/php.ini
   - sudo tree /etc/php5
   - sudo php --ini
-  #- sudo service apache2 restart
+  - sudo service apache2 restart
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin

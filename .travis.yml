@@ -15,7 +15,8 @@ services:
 before_script:
   # Manual Install
   - sudo apt-get --assume-yes update
-  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
+  - sudo apt-get --assume-yes install apache2
+  #libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
   # pip
   - sudo pip install --upgrade pip pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson
@@ -24,7 +25,6 @@ before_script:
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
   - sudo a2enmod actions
   - sudo a2enmod php5
-  - sudo a2enmod mysqli
   - sudo a2enmod rewrite
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null

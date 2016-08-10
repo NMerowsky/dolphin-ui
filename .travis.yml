@@ -33,8 +33,6 @@ before_script:
   - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/;   extension=msql.so/extension=msql.so/" /etc/php5/apache2/php.ini
   - sudo cat /etc/php5/apache2/php.ini
-  - sudo cat /etc/php5/cli/php.ini
-  - sudo cp /etc/php5/apache2/php.ini /etc/php5/cli/php.ini
   - sudo service apache2 restart
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
@@ -71,7 +69,7 @@ before_script:
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_02_travisuser.sql
-  - curl http://localhost/
+  - curl http://localhost/index.php
   - curl http://localhost/dolphin/phpinfo.php
   - curl http://localhost/dolphin/public/api/service.php
   - ps -ef

@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once("/var/www/dolphin/public/api/funcs.php");
+require_once("funcs.php");
 class Pipeline{
          public $params = null;
          /**

@@ -14,9 +14,7 @@ services:
 
 before_script:
   # Manual Install
-  - sudo apt-get --assume-yes install apache2
-  #libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur mysql-server libreadline-dev libsqlite3-dev libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
-  - sudo apt-get --assume-yes update
+  - sudo apt-get --assume-yes install apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree
   # pip
   - sudo pip install --upgrade pip pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson
@@ -29,12 +27,12 @@ before_script:
   - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/16d751c979fdeb5a14e3/raw/gistfile1.txt)" | sudo tee /etc/apache2/conf.d/phpconfig > /dev/null
   - echo "$(curl -fsSL https://gist.github.com/roderik/2eb301570ed4a1f4c33d/raw/gistfile1.txt)" | sed -e "s,PATH,`pwd`,g" | sudo tee /etc/apache2/sites-available/default > /dev/null
-  #- sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
-  #- sudo sed -i "s/allow_url_include = Off/allow_url_include = On/" /etc/php5/apache2/php.ini
-  #- sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
-  #- sudo sed -i "s/;   extension=msql.so/extension=msql.so/" /etc/php5/apache2/php.ini
-  #- sudo cat /etc/php5/apache2/php.ini
-  #- sudo tree /etc/php5
+  - sudo sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini
+  - sudo sed -i "s/allow_url_include = Off/allow_url_include = On/" /etc/php5/apache2/php.ini
+  - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
+  - sudo sed -i "s/;   extension=msql.so/extension=msql.so/" /etc/php5/apache2/php.ini
+  - sudo cat /etc/php5/apache2/php.ini
+  - sudo tree /etc/php5
   - sudo php --ini
   #- sudo service apache2 restart
   # dolphin repos

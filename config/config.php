@@ -24,11 +24,8 @@ if (!empty($_SERVER["HTTP_HOST"])){
    {
       $param_section="DolphinDev";
    }
-   else if  ( preg_match("/localhost/dolphin/public/", $http_host) )
-   {
-      $param_section = "Travis";
-   }
    ###########################################
+   # need travis param section
 }
 
 $ini = parse_ini_file("config.ini", true);

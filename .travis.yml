@@ -62,7 +62,6 @@ before_script:
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_02_travisuser.sql
  
 script:
-  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
   #	ajax - initial mapping
   - phpunit unitTesting/ngsimport_unittest.php
   - phpunit unitTesting/ajax/ngsalterdb_unittest.php
@@ -70,6 +69,7 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
+  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
   - sudo python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

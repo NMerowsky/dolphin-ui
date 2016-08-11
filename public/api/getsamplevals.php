@@ -52,8 +52,7 @@ $data=$query->getSampleQuery($samples);
 $dat=json_decode($data);
 $sample_array=array();
 $multi_run_array = array();
-for ($i=0; $i<sizeof($dat); $i++)
-{   
+for ($i=0; $i<sizeof($dat); $i++){
     $c[$dat[$i]->wkey] = $dat[$i]->id;
     $b[$dat[$i]->wkey].=$dat[$i]->samplename . "_run" . $dat[$i]->id.",";
     if(strpos($file,"RSeQC") > -1){

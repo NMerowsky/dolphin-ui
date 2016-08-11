@@ -3,7 +3,7 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-if (preg_match("/home/travis/build/", getcwd()) )
+if (strpos(getcwd(), "/home/travis/build") >= 0 )
 {
    $param_section = "Travis";
 }

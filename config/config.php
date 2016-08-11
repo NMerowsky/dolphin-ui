@@ -26,7 +26,6 @@ if (!empty($_SERVER["HTTP_HOST"])){
    else if (preg_match("/home/travis/build/", $http_host) )
    {
       $param_section = "Travis";
-      $_SESSION['user'] = 'kucukura';
    } 
    ###########################################
 }

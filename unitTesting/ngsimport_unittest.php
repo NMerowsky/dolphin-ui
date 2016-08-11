@@ -9,7 +9,7 @@ include 'library/vanillamodel.class.php';
 
 $_SESSION['uid'] = '1';
 $_SESSION['gids'] = '1';
-$_SESSION['user'] = 'kucukura:q';
+$_SESSION['user'] = 'kucukura';
 $_POST['group_id'] = '1';
 $_POST['security_id'] = '15';
 

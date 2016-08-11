@@ -23,12 +23,13 @@ if (!empty($_SERVER["HTTP_HOST"])){
    {
       $param_section="DolphinDev";
    }
+   else if (preg_match("/home/travis/build/", $http_host) )
+   {
+      $param_section = "Travis";
+      $_SESSION['user'] = 'kucukura';
+   } 
    ###########################################
 }
-
-if(strpos(getcwd(),'/home/travis/build/') >= 0){
-   $param_section = "Travis";
-} 
 
 $ini = parse_ini_file("config.ini", true);
 

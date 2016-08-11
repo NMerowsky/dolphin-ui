@@ -31,8 +31,8 @@ before_script:
   - sudo sed -i "s/allow_url_include = Off/allow_url_include = On/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
   - sudo sed -i "s/;   extension=msql.so/extension=mysql.so/" /etc/php5/apache2/php.ini
-  - sudo sed -i 's/;include_path = ".:/usr/share/php"/include_path = ".:/usr/share/php"' /etc/php5/apache2/php.ini
-  - sudo sed -i 's/; extension_dir = "./"/extension_dir = "./"' /etc/php5/apache2/php.ini
+  - sudo sed -i 's/;include_path = ".:\/usr\/share\/php"/include_path = ".:\/usr\/share\/php"/' /etc/php5/apache2/php.ini
+  - sudo sed -i 's/; extension_dir = ".\/"/extension_dir = ".\/"/' /etc/php5/apache2/php.ini
   - sudo cp /etc/php5/apache2/php.ini /etc/php5/cli/php.ini
   - sudo cat /etc/php5/apache2/php.ini
   - sudo tree /etc/php5

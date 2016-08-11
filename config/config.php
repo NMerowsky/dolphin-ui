@@ -3,7 +3,15 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-$param_section = "Docker";
+if (preg_match("/home/travis/build/", getcwd()) )
+{
+   $param_section = "Travis";
+}
+else
+{
+   $param_section = "Docker";
+}
+
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
@@ -23,10 +31,6 @@ if (!empty($_SERVER["HTTP_HOST"])){
    {
       $param_section="DolphinDev";
    }
-   else if (preg_match("/home/travis/build/", $http_host) )
-   {
-      $param_section = "Travis";
-   } 
    ###########################################
 }
 

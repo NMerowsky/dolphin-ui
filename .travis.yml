@@ -76,6 +76,7 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
+  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
   - sudo python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
@@ -115,6 +116,7 @@ after_script:
   - mysql -e "use biocore; SELECT * FROM ngs_wkeylist;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_organism;" -uroot
   - mysql -e "use biocore; SELECT * FROM ngs_fastq_files" -uroot
+  - mysql -e "use biocore; SELECT * FROM ngs_temp_sample_files" -uroot
   - mysql -e "use biocore; SELECT * FROM galaxy_runs" -uroot
   - mysql -e "use biocore; SELECT * FROM users" -uroot
   - mysql -e "use biocore; SELECT * FROM jobs" -uroot

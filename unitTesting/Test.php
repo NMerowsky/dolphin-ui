@@ -1,10 +1,6 @@
 <?php
 
-class Test extends PHPUnit_Framework_TestCase
-{
-	public function testOnePlusOne() {
-		$this->assertEquals(1+1,2);
-  	}
-}
+print_r(get_loaded_extensions());
+print_r(php_ini_loaded_file());
 
 ?>

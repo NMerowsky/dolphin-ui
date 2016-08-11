@@ -47,8 +47,7 @@ class Pipeline{
                   return 'test passed';
          }
 }
-print_r(get_loaded_extensions());
-print_r(php_ini_loaded_file());
+
 $myClass = new Pipeline();
 #$result=$myClass->getINI();
 #$data=json_encode($result);

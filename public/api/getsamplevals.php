@@ -56,14 +56,26 @@ for ($i=0; $i<sizeof($dat); $i++)
 {   
     $c[$dat[$i]->wkey] = $dat[$i]->id;
     $b[$dat[$i]->wkey].=$dat[$i]->samplename . "_run" . $dat[$i]->id.",";
-    $a[$dat[$i]->wkey].=$dat[$i]->samplename.",";
-    array_push($sample_array, $dat[$i]->samplename);
+    if(strpos($file,"RSeQC") > -1){
+        $a[$dat[$i]->wkey].=$dat[$i]->samplename.".bam,";
+        array_push($sample_array, $dat[$i]->samplename.".bam");
+    }else{
+        $a[$dat[$i]->wkey].=$dat[$i]->samplename.",";
+        array_push($sample_array, $dat[$i]->samplename);
+    }
 }
 $new_data=array();
 $title=array();
 foreach ($a as $i => $row){
     if ($type!="summary"){
-        $fields="&fields=$commonfields,$keepcols,".str_replace("-", "_", $row);
+        $fields="&fields=";
+        if($commonfields != ""){
+            $fields.="$commonfields,";
+        }
+        if($keepcols != ""){
+            $fields.="$keepcols,";
+        }
+        $fields.=str_replace("-", "_", $row);
     }
         $sample_breakdown = explode(",",$b[$i]);
     array_pop($sample_breakdown);

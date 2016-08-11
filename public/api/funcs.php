@@ -424,6 +424,7 @@ class funcs
     {
         $sql    = "select wr.username, wr.inputparam, wr.outdir, w.defaultparam from workflow_run wr, workflows w  where w.workflow_id=wr.workflow_id and wr.wkey='$wkey'";
         $result = $this->runSQL($sql);
+        echo $result;
         if (is_object($result) && $row = $result->fetch_row()) {
             return $row;
         }

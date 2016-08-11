@@ -1,6 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
 require_once("funcs.php");
 class Pipeline{
          public $params = null;
@@ -43,11 +42,9 @@ class Pipeline{
                     return json_encode($result);
                 }
          }
-         public function test(){
-                  return 'test passed';
-         }
 }
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 $myClass = new Pipeline();
 #$result=$myClass->getINI();
 #$data=json_encode($result);

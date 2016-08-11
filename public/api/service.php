@@ -43,8 +43,7 @@ class Pipeline{
                 }
          }
 }
-error_reporting(E_ALL);
-ini_set('report_errors','on');
+
 $myClass = new Pipeline();
 #$result=$myClass->getINI();
 #$data=json_encode($result);

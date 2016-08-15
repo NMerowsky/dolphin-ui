@@ -1,7 +1,7 @@
 <?php
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
-if(strpos(getcwd(), "travis") !== false)
+if (preg_match("/home/travis/build/", $http_host) )
 {
   $_SESSION['user'] = 'travis';
 }

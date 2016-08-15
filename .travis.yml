@@ -71,6 +71,7 @@ script:
   - mkdir -p ../tmp/logs/run4
   - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
   - mysql -e "use biocore; UPDATE ngs_runparams SET owner_id = 4 where id = 4" -uroot
+  - mysql -e "use biocore; UPDATE ngs_runlist SET owner_id = 4 where id IN (19,20)" -uroot
   - sudo python dolphin_wrapper.py -r 4 -c Travis
   #-w ../tmp/logs/run4
   #	ajax

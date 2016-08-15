@@ -22,7 +22,7 @@ if (!empty($_SERVER["HTTP_HOST"])){
          $param_section="Travis";
       }
       else{
-         $param_section="Localhost";  
+         $param_section="Travis";  
       }
    }
    else if  ( preg_match("/galaxyweb.umassmed.edu/", $http_host) )

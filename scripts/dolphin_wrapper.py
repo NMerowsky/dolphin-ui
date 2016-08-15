@@ -56,6 +56,7 @@ class Dolphin:
     def updatePID(self, rpid, pid):
       try:
         sql = "UPDATE ngs_runparams SET wrapper_pid='%s',runworkflow_pid='%s' WHERE id='%s'"%(os.getpid(), pid, rpid)
+        print sql
         return self.runSQL(sql)
       except Exception, ex:
         self.stop_err('Error (line:%s)running updatePID\n%s'%(format(sys.exc_info()[-1].tb_lineno), str(ex)))
@@ -768,7 +769,8 @@ def main():
            workflow = logdir+'/run'+str(rpid)+'/seqmapping_workflow.'+str(rpid)+'.'+str(os.getpid())+'.txt'
 
            dolphin.writeWorkflow(workflow, gettotalreads, amazonupload, backupS3, runparamsid, runparams)
-           dolphin_tools_dir=dolphin.config.get(dolphin.params_section, "dolphin_tools_src_path") 
+           dolphin_tools_dir=dolphin.config.get(dolphin.params_section, "dolphin_tools_src_path")
+           print dolphin_tools_dir
            dolphin_default_params=dolphin.config.get(dolphin.params_section, "dolphin_default_params_path")
            wkeystr=''
            if (WKEY):

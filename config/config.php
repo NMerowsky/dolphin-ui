@@ -4,7 +4,7 @@
 The configuration parameters will be read from that section**/
 
 $param_section = "Docker";
-
+echo getcwd();
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
@@ -18,7 +18,12 @@ if (!empty($_SERVER["HTTP_HOST"])){
    }
    else if  ( preg_match("/localhost/", $http_host) )
    {
-      $param_section="Localhost";
+      if(strpos(getcwd(), "/home/travis/build") !== false){
+         $param_section="Travis";
+      }
+      else{
+         $param_section="Localhost";  
+      }
    }
    else if  ( preg_match("/galaxyweb.umassmed.edu/", $http_host) )
    {

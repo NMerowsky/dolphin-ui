@@ -2,7 +2,7 @@
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
 $travis = strpos(getcwd(), "travis/build");
-if ($travis !== false){
+if ($travis == 6){
    $_SESSION['user'] = 'travis';
 }
 echo $_SESSION['user'];

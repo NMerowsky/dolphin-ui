@@ -3,6 +3,7 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
+$_SESSION['section'] = "Travis";
 $param_section = "Docker";
 echo getcwd();
 if (!empty($_SERVER["HTTP_HOST"])){
@@ -18,7 +19,7 @@ if (!empty($_SERVER["HTTP_HOST"])){
    }
    else if  ( preg_match("/localhost/", $http_host) )
    {
-      $param_section="Travis";
+      $param_section="Localhost";
    }
    else if  ( preg_match("/galaxyweb.umassmed.edu/", $http_host) )
    {

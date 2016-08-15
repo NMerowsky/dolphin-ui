@@ -1,7 +1,7 @@
 <?php
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
-if (preg_match("/home/travis/build/", $http_host) )
+if ($_SESSION['section'] == 'Travis' )
 {
   $_SESSION['user'] = 'travis';
 }

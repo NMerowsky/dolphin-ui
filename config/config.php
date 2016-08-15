@@ -28,7 +28,8 @@ if (!empty($_SERVER["HTTP_HOST"])){
    ###########################################
    # need travis param section
 }
-
+echo $param_section;
+$param_section="Travis";
 $ini = parse_ini_file("config.ini", true);
 
 $ini_array = $ini[$param_section];

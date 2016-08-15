@@ -766,7 +766,6 @@ def main():
            dolphin.writeInput(input_fn, inputdir, content, runparams, barcodes)
 
            workflow = logdir+'/run'+str(rpid)+'/seqmapping_workflow.'+str(rpid)+'.'+str(os.getpid())+'.txt'
-           print workflow
 
            dolphin.writeWorkflow(workflow, gettotalreads, amazonupload, backupS3, runparamsid, runparams)
            dolphin_tools_dir=dolphin.config.get(dolphin.params_section, "dolphin_tools_src_path") 

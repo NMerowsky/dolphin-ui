@@ -1,7 +1,8 @@
 <?php
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
-if (strpos(getcwd(), "/home/travis/build/") == 0){
+$travis = strpos(getcwd(), "travis/build");
+if ($travis !== false){
    $_SESSION['user'] = 'travis';
 }
 echo $_SESSION['user'];

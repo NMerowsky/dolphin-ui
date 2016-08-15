@@ -4,10 +4,11 @@
 The configuration parameters will be read from that section**/
 
 $param_section = "Docker";
+$travis = strpos(getcwd(), "travis/build");
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
-   if ((string) strpos(getcwd(), "/home/travis/build/") == "0"){
+   if ($travis !== false){
       $param_section="Travis";
    }
    else if ( preg_match("/biocore/", $http_host) )

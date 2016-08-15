@@ -18,7 +18,7 @@ if (!empty($_SERVER["HTTP_HOST"])){
    }
    else if  ( preg_match("/localhost/", $http_host) )
    {
-      if(strpos(getcwd(), "/home/travis/build") !== false){
+      if(strpos(getcwd(), "travis") !== false){
          $param_section="Travis";
       }
       else{

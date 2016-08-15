@@ -3,14 +3,11 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-$_SESSION['section'] = "Travis";
 $param_section = "Docker";
-$cwd = (string) getcwd();
-echo strpos($cwd, "/home/travis/build/");
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
-   if (strpos($cwd, "/home/travis/build/") !== false){
+   if (strpos(getcwd(), "/home/travis/build/") == 0){
       $param_section="Travis";
    }
    else if ( preg_match("/biocore/", $http_host) )

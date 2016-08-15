@@ -5,6 +5,7 @@ The configuration parameters will be read from that section**/
 
 $param_section = "Docker";
 $travis = strpos(getcwd(), "travis/build");
+var_dump($travis);
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT

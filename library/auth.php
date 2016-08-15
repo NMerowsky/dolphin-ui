@@ -3,7 +3,7 @@ if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
 if (preg_match("/home/travis/build/", $http_host) )
 {
-  $param_section = "Docker";
+  $param_section = "Travis";
   $_SESSION['user'] = 'travis';
 }
 

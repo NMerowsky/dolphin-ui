@@ -8,7 +8,7 @@ $param_section = "Docker";
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
-   if (strpos(getcwd(), "/home/travis/build/") == 0){
+   if ((string) strpos(getcwd(), "/home/travis/build/") == "0"){
       $param_section="Travis";
    }
    else if ( preg_match("/biocore/", $http_host) )

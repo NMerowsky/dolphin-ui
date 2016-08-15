@@ -56,7 +56,6 @@ class Dolphin:
     def updatePID(self, rpid, pid):
       try:
         sql = "UPDATE ngs_runparams SET wrapper_pid='%s',runworkflow_pid='%s' WHERE id='%s'"%(os.getpid(), pid, rpid)
-        print sql
         return self.runSQL(sql)
       except Exception, ex:
         self.stop_err('Error (line:%s)running updatePID\n%s'%(format(sys.exc_info()[-1].tb_lineno), str(ex)))

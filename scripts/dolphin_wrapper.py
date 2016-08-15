@@ -731,7 +731,6 @@ def main():
            logging.info(runparams_arr)
 
            amazon = dolphin.getAmazonCredentials(username)
-           print amazon
            backupS3="Yes"
            amazonupload="No"
            if (amazon != () and BACKUP):

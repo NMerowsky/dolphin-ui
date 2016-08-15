@@ -1,8 +1,7 @@
 <?php
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
-$travis = strpos(getcwd(), "travis/build");
-if ($travis == 6){
+if (strpos(getcwd(), "travis/build") == 6){
    $_SESSION['user'] = 'travis';
 }
 echo $_SESSION['user'];

@@ -1,9 +1,8 @@
 <?php
 if (!isset($_SESSION) || !is_array($_SESSION)) session_start();
 
-if ($_SESSION['section'] == 'Travis' )
-{
-  $_SESSION['user'] = 'travis';
+if (strpos($cwd, "/home/travis/build/") !== false){
+   $_SESSION['user'] = 'travis';
 }
 
 if ($_SESSION['user'] == "")

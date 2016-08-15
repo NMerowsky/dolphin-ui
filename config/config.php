@@ -5,11 +5,15 @@ The configuration parameters will be read from that section**/
 
 $_SESSION['section'] = "Travis";
 $param_section = "Docker";
-echo getcwd();
+$cwd = (string) getcwd();
+echo strpos($cwd, "/home/travis/build/");
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
-   if ( preg_match("/biocore/", $http_host) )
+   if (strpos($cwd, "/home/travis/build/") !== false){
+      $param_section="Travis";
+   }
+   else if ( preg_match("/biocore/", $http_host) )
    {
       $param_section="Biocore";
    }
@@ -28,8 +32,7 @@ if (!empty($_SERVER["HTTP_HOST"])){
    ###########################################
    # need travis param section
 }
-echo $param_section;
-$param_section="Travis";
+
 $ini = parse_ini_file("config.ini", true);
 
 $ini_array = $ini[$param_section];

@@ -69,11 +69,7 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
-  - mysql -e "use biocore; INSERT INTO user_group (`u_id`,`g_id`,`owner_id`,`group_id`,`perms`,`date_created`,`date_modified`,`last_modified_user`) VALUES (209,1,1,1,15,NOW(),NOW(),1)" -uroot
-  - mysql -e "use biocore; SELECT * FROM ngs_runparams;" -uroot
-  - mysql -e "use biocore; SELECT * FROM user_group" -uroot
-  - mysql -e "use biocore; UPDATE ngs_runparams SET owner_id = 209 where id = 4" -uroot
-  - mysql -e "use biocore; UPDATE ngs_runlist SET owner_id = 209 where id IN (19,20)" -uroot
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_16_travis.sql
   - python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

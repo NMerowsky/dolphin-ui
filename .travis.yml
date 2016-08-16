@@ -69,7 +69,7 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - mkdir -p ../tmp/logs/run4
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_16_travis.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
   - python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

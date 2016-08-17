@@ -47,7 +47,6 @@ before_script:
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/biocoredb.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_07_22_consolidated_1.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_08_31_wkeylist.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_09_21_tutorial.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_16_ngs_createtables.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql

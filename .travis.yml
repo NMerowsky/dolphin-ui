@@ -39,7 +39,6 @@ before_script:
   # Manually set up the apache environment variables
   - sudo mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
-  - PATH=$PATH:/home/travis/build/dolphin-bin
   # update database
   - sudo gzip -d db/biocoredb.sql.gz
   - sudo mysql -e "CREATE DATABASE biocore;" -uroot
@@ -49,6 +48,10 @@ before_script:
   - sudo mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
   - sudo mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot
   - sudo mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
+  - PATH=$PATH:/home/travis/build/dolphin-bin
+  - APACHE_RUN_USER www-data
+  - APACHE_RUN_GROUP www-data
+  - DOLPHIN_PARAMS_SECTION=Travis
 
 script:
   #	ajax - initial mapping

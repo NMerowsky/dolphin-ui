@@ -50,8 +50,6 @@ before_script:
   - sudo mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
   - PATH=$PATH:/home/travis/build/dolphin-bin
   - DOLPHIN_PARAMS_SECTION=Travis
-  - python --version
-  - python freeze
 
 script:
   #	ajax - initial mapping

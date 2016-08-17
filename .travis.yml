@@ -72,7 +72,9 @@ script:
   - cd scripts
   - mkdir -p ../tmp/logs/run4
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
-  - python dolphin_wrapper.py -r 4 -c Travis
+  - cd /home/travis/build/dolphin_tools/tests/pipeline
+  - python ../../src/runWorkflow.py -f Travis -d biocore -w w1.txt -u travis -o /home/travis/build/TEST3
+  #- python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

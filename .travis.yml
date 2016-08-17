@@ -26,7 +26,7 @@ before_script:
   - sudo a2enmod rewrite
   - sudo service apache2 restart
   # dolphin repos
-  - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
+  - git clone --branch=2016_08_17_travisupdate https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - ls -lash
@@ -61,8 +61,7 @@ script:
   - mkdir -p ../tmp/logs/run4
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
   - cd /home/travis/build/dolphin_tools/tests/pipeline
-  - cat ../../src/runWorkflow.py
-  - python ../../src/runWorkflow.py -f Travis -d biocore -w w1.txt -u travis -o /home/travis/build/TEST3
+  - python /home/travis/build/dolphin_tools/src/runWorkflow.py -f Travis -d biocore -w /home/travis/build/dolphin_tools/tests/pipeline/w1.txt -u travis -o /home/travis/build/TEST3
   #- python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

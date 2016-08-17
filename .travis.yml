@@ -17,7 +17,7 @@ before_script:
   - sudo apt-get --assume-yes install perl apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree samtools
   # pip
   - sudo pip install --upgrade pycrypto urllib3
-  - sudo pip install simple-crypt MySQL-python pjson
+  - sudo pip install simple-crypt MySQL-python pjson boto numpy
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
@@ -34,6 +34,7 @@ before_script:
   - sudo chmod -R 777 /home/travis/build/pub /home/travis/build/logs /home/travis/build/travisrun1 ./*
   - sudo sed -i 's/dolphin\/api/dolphin\/public\/api/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - sudo ln -s $(pwd) /var/www/dolphin
+  - sudo ln -s /home/travis/build/pub public/.
   - sudo chown -R www-data:www-data *
   # Manually set up the apache environment variables
   - sudo mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"

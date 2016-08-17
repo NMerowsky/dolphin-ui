@@ -45,27 +45,11 @@ before_script:
   - sudo mysql -e "CREATE DATABASE biocore;" -uroot
   - sudo mysql -e "CREATE USER 'bioinfo'@'localhost' IDENTIFIED BY 'bioinfo2013'; GRANT ALL ON *.* TO 'bioinfo'@'localhost';" -uroot
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/biocoredb.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_07_22_consolidated_1.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_08_31_wkeylist.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_16_ngs_createtables.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_16_newuser.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_12_02_encode.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_12_05_service_status.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_01_31_job_resources.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_02_08_email_update.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_07_delete_runs.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_08_datafields.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < 2016_08_15_sqlmerge.sql
   - sudo mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot
   - sudo mysql -e "use biocore; INSERT INTO amazon_credentials ( aws_access_key_id, aws_secret_access_key, bucket ) VALUES ( 'test_access', 'test_secret', 'test_bucket' );" -uroot
   - sudo mysql -e "use biocore; INSERT INTO ngs_organism (organism) VALUES ('human'); UPDATE ngs_samples SET organism_id = 1;" -uroot
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_09_aws.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_05_11_rechecksum.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_01_aws.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_07_07_salt.sql
-  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_02_travisuser.sql
- 
+
 script:
   #	ajax - initial mapping
   - phpunit unitTesting/ngsimport_unittest.php

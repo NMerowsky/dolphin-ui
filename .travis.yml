@@ -51,6 +51,7 @@ before_script:
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_10_27_tablegen_sidebar.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_05_user_group_requests.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2015_11_16_newuser.sql
+  - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_01_31_job_resources.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_02_08_email_update.sql
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_03_07_delete_runs.sql
   - sudo mysql -e "use biocore; UPDATE ngs_samples set samplename = name;" -uroot

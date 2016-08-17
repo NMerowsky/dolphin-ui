@@ -27,15 +27,12 @@ before_script:
   - sudo service apache2 restart
   # dolphin repos
   - git clone https://github.com/UMMS-Biocore/dolphin-tools.git /home/travis/build/dolphin_tools
-  - PWDTRAVIS=$(pwd)
-  - cd /home/travis/build/dolphin_tools
-  - cd $PWDTRAVIS
-  - git pull https://github.com/Rhaknam/dolphin_tools.git 2016_08_17_travisupdate
   - git clone https://github.com/UMMS-Biocore/dolphin-bin.git /home/travis/build/dolphin-bin
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - ls -lash
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs /home/travis/build/travisrun1
   - sudo chmod -R 777 /home/travis/build/pub /home/travis/build/logs /home/travis/build/travisrun1 ./*
+  - sudo sed -i 's/dolphin\/api/dolphin\/public\/api/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - sudo ln -s $(pwd) /var/www/dolphin
   - sudo ln -s /home/travis/build/pub public/.
   - sudo chown -R www-data:www-data *
@@ -64,6 +61,7 @@ script:
   - mkdir -p ../tmp/logs/run4
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
   - cd /home/travis/build/dolphin_tools/tests/pipeline
+  - echo $DOLPHIN_PARAMS_SECTION
   - python ../../src/runWorkflow.py -f Travis -d biocore -w w1.txt -u travis -o /home/travis/build/TEST3
   #- python dolphin_wrapper.py -r 4 -c Travis
   #	ajax

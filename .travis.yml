@@ -61,7 +61,8 @@ script:
   - mkdir -p ../tmp/logs/run4
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
   - cd /home/travis/build/dolphin_tools/tests/pipeline
-  - python /home/travis/build/dolphin_tools/src/runWorkflow.py -f Travis -d biocore -w /home/travis/build/dolphin_tools/tests/pipeline/w1.txt -u travis -o /home/travis/build/TEST3 &
+  - python /home/travis/build/dolphin_tools/src/runService.py -f Travis   -o /home/travis/build/TEST3 -u travis -k XVCp25Paq6P4daNUnfkYa7WrviEhzC -c "ls -l" -n step1 -s step1
+  - python /home/travis/build/dolphin_tools/src/runWorkflow.py -f Travis -d biocore -w /home/travis/build/dolphin_tools/tests/pipeline/w1.txt -u travis -o /home/travis/build/TEST3
   - sleep 30
   - ps -ef
   #- python dolphin_wrapper.py -r 4 -c Travis

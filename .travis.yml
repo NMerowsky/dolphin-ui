@@ -17,7 +17,7 @@ before_script:
   - sudo apt-get --assume-yes install perl apache2 libapache2-mod-php5 php5-mcrypt php5-mysqlnd php5-gd php-pear php-apc php5-curl curl lynx-cur libbz2-dev libssl-dev python python-dev libmysqlclient-dev python-pip expect default-jre libxml2-dev software-properties-common libcurl4-gnutls-dev gdebi-core wget tree samtools
   # pip
   - sudo pip install --upgrade pycrypto urllib3
-  - sudo pip install simple-crypt MySQL-python pjson boto numpy
+  - sudo pip install simple-crypt MySQL-python pjson boto numpy boto3
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
@@ -60,7 +60,6 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - travis_wait 30 python dolphin_wrapper.py -r 4 -c Travis
-  - cat ../tmp/logs/run4/*
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

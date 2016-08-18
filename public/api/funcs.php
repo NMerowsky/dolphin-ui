@@ -513,7 +513,7 @@ class funcs
         {
            return $ret;
         }
-        return $wkey;
+        return CONFIG;
     }
     
     function startService($params)

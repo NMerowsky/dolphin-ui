@@ -61,14 +61,7 @@ script:
   - mkdir -p ../tmp/logs/run4
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < ../db/2016_08_16_travis.sql
   - cd /home/travis/build/dolphin_tools/tests/pipeline
-  #- python /home/travis/build/dolphin_tools/src/runService.py -f Travis -o /home/travis/build/TEST3 -u travis -k XVCp25Paq6P4daNUnfkYa7WrviEhzC -c "ls -l" -n step1 -s step1
-  #- python /home/travis/build/dolphin_tools/src/runJobs.py -f Travis -u travis -k XVCp25Paq6P4daNUnfkYa7WrviEhzC -o /home/travis/build/TEST3 -c /home/travis/build/TEST3/scripts/step1.bash -n step1 -s step1
-  - ls -lash /home/travis/build/TEST3
-  - python /home/travis/build/dolphin_tools/src/runWorkflow.py -f Travis -d biocore -w /home/travis/build/dolphin_tools/tests/pipeline/w1.txt -u travis -o /home/travis/build/TEST3 &
-  - sleep 50
-  - cat /home/travis/build/TEST3/tmp/logs/*
-  - cat /var/www/dolphin/tmp/logs/run4/*
-  #- python dolphin_wrapper.py -r 4 -c Travis
+  - python dolphin_wrapper.py -r 4 -c Travis
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php
@@ -114,7 +107,6 @@ after_script:
   - mysql -e "use biocore; SELECT * FROM jobs" -uroot
   - mysql -e "use biocore; SELECT * FROM services" -uroot
   - mysql -e "use biocore; SELECT * FROM jobsout" -uroot
-  - mysql -e "use biocore; SELECT * FROM jobstats" -uroot
   - mysql -e "use biocore; SELECT * FROM workflows" -uroot
   - mysql -e "use biocore; SELECT * FROM service_run" -uroot
   - mysql -e "use biocore; SELECT * FROM jobstats" -uroot

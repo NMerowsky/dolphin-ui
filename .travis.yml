@@ -59,7 +59,7 @@ script:
   #	Run workflow
   #- python unitTesting/travis_test.py
   - cd scripts
-  - python dolphin_wrapper.py -r 4 -c Travis
+  - travis wait 30 python dolphin_wrapper.py -r 4 -c Travis
   - cat ../tmp/logs/run4/*
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

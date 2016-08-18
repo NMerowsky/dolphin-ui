@@ -4,9 +4,6 @@
 The configuration parameters will be read from that section**/
 
 $param_section = "Docker";
-if (strpos(getcwd(), "travis/build") == 6){
-   $param_section="Travis";
-}
 if (!empty($_SERVER["HTTP_HOST"])){
    $http_host=$_SERVER["HTTP_HOST"];
    # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
@@ -28,6 +25,9 @@ if (!empty($_SERVER["HTTP_HOST"])){
    }
    ###########################################
    # need travis param section
+}
+if (strpos(getcwd(), "travis/build") == 6){
+   $param_section="Travis";
 }
 
 $ini = parse_ini_file("config.ini", true);

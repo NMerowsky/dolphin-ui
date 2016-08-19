@@ -59,7 +59,9 @@ script:
   #	Run workflow
   #- python unitTesting/travis_test.py
   - cd scripts
-  - travis_wait python dolphin_wrapper.py -r 4 -c Travis
+  - echo $DOLPHIN_PARAMS_SECTION
+  - travis_wait 10 python dolphin_wrapper.py -r 4 -c Travis
+  - python /home/travis/build/dolphin_tools/src/runService.py -f Travis -i "@CONFIG=Travis;@GENOME=human;@VERSION=hg19;@INPUT=example_sample_1,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R2.fastq:example_sample_2,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R2.fastq;@DATADIR=/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest/;@OUTFILE=../tmp/logs/run4/input.4.9524.txt;@GENOMEBUILD=human,hg19;@SPAIRED=no;@BARCODES=NONE;@ADAPTER=NONE;@QUALITY=NONE;@TRIM=NONE;@SPLIT=NONE;@MAPNAMES=;@PREVIOUSPIPE=NONE" -p /home/travis/build/dolphin_tools/default_params/Dolphin_v1.3_Travis.txt -o /home/travis/build/testrun1 -u travis -k B92yk4OWAL2AXCAyJCQbmlBWOaNE72 -c "@RUNBACKUPS3 -c @CONFIG -a No -b @BARCODES -r 4 -p @SPAIRED -o @OUTDIR -u @USERNAME -j @JOB" -n stepBackupS3 -s stepBackupS3
   - sudo grep "." /home/travis/build/testrun1/tmp/logs/*
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

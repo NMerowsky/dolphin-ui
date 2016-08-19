@@ -81,7 +81,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
-	
+	/*
 	public function testAlterAccessKey(){
 		ob_start();
 		$_POST['p'] = 'alterAccessKey';
@@ -101,6 +101,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data),'1');
 		ob_end_clean();
 	}
+	*/
 }
 
 ?>

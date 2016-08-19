@@ -14,8 +14,8 @@ services:
 
 before_script:
   # Manual Install
-  - sudo apt-get -y install apache2-mpm-worker apache2-mpm-prefork apache2-mpm-event apache2-mpm-itk apache2.2-common
-  - sudo apt-get -y install perl apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl curl lynx-cur libbz2-dev libssl-dev python python-dev libmysqlclient-dev oracle-java7-installer libxml2-dev software-properties-common libcurl4-gnutls-dev wget
+  - sudo apt-get -y install apache2.2-bin apache2-mpm-worker apache2-mpm-prefork apache2-mpm-event apache2-mpm-itk apache2.2-common
+  - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common
   #- sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install php5-mcrypt php-apc python-pip expect gdebi-core tree samtools
   # pip
   - sudo pip install --upgrade pycrypto urllib3

@@ -14,6 +14,7 @@ services:
 
 before_install:
   - sudo apt-get update
+  - sudo apt-get upgrade -f
   - sudo apt-get -y install apache2.2-bin apache2-mpm-worker apache2-mpm-prefork apache2-mpm-event apache2-mpm-itk apache2.2-common libaprutil1-dbd-sqlite3 libaprutil1-dbd-mysql libaprutil1-dbd-odbc libaprutil1-dbd-pgsql libaprutil1-dbd-freetds libaprutil1-ldap
   - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common
   - sudo pip install --upgrade pycrypto urllib3

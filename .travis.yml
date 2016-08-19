@@ -15,11 +15,9 @@ services:
 before_install:
   - sudo apt-get update
   - sudo apt-get -y install aptitude
-  #- sudo apt-get -y install apache2 apache2.2-bin apache2-mpm-worker apache2-mpm-prefork apache2-mpm-event apache2-mpm-itk apache2.2-common libaprutil1-dbd-sqlite3 libaprutil1-dbd-mysql libaprutil1-dbd-odbc libaprutil1-dbd-pgsql libaprutil1-dbd-freetds libaprutil1-ldap
   - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common
   - sudo pip install --upgrade pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson boto numpy boto3
-  #- sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install php5-mcrypt php-apc python-pip expect gdebi-core tree samtools
   
 before_script:
   # other dependencies
@@ -64,9 +62,10 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - echo $DOLPHIN_PARAMS_SECTION
-  - travis_wait 10 python dolphin_wrapper.py -r 4 -c Travis
+  #- travis_wait
+  - python dolphin_wrapper.py -r 4 -c Travis
+  - sudo chmod -R 777 /home/travis/build/testrun1/tmp/logs/*
   - python /home/travis/build/dolphin_tools/src/runService.py -f Travis -i "@CONFIG=Travis;@GENOME=human;@VERSION=hg19;@INPUT=example_sample_1,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R2.fastq:example_sample_2,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R2.fastq;@DATADIR=/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest/;@OUTFILE=../tmp/logs/run4/input.4.9524.txt;@GENOMEBUILD=human,hg19;@SPAIRED=no;@BARCODES=NONE;@ADAPTER=NONE;@QUALITY=NONE;@TRIM=NONE;@SPLIT=NONE;@MAPNAMES=;@PREVIOUSPIPE=NONE" -p /home/travis/build/dolphin_tools/default_params/Dolphin_v1.3_Travis.txt -o /home/travis/build/testrun1 -u travis -k B92yk4OWAL2AXCAyJCQbmlBWOaNE72 -c "@RUNBACKUPS3 -c @CONFIG -a No -b @BARCODES -r 4 -p @SPAIRED -o @OUTDIR -u @USERNAME -j @JOB" -n stepBackupS3 -s stepBackupS3
-  - sudo grep "." /home/travis/build/testrun1/tmp/logs/*
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php
   #- phpunit unitTesting/ajax/statquerydb_unittest.php

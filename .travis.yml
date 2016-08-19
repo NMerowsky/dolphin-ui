@@ -58,6 +58,7 @@ script:
   - phpunit unitTesting/ngsimport_unittest.php
   - phpunit unitTesting/ajax/ngsalterdb_unittest.php
   - sudo mysql --user=bioinfo --password=bioinfo2013 biocore < db/2016_08_16_travis.sql
+  - sudo mysql -e "use biocore; DELETE FROM amazon_credentials WHERE id = 1" -uroot
   #	Run workflow
   #- python unitTesting/travis_test.py
   - cd scripts

@@ -12,14 +12,15 @@ env:
 services:
   - mysql
 
-before_script:
-  # Manual Install
+before_install:
+  - sudo apt-get update
   - sudo apt-get -y install apache2.2-bin apache2-mpm-worker apache2-mpm-prefork apache2-mpm-event apache2-mpm-itk apache2.2-common libaprutil1-dbd-sqlite3 libaprutil1-dbd-mysql libaprutil1-dbd-odbc libaprutil1-dbd-pgsql libaprutil1-dbd-freetds libaprutil1-ldap
   - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common
-  #- sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install php5-mcrypt php-apc python-pip expect gdebi-core tree samtools
-  # pip
   - sudo pip install --upgrade pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson boto numpy boto3
+  #- sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install php5-mcrypt php-apc python-pip expect gdebi-core tree samtools
+  
+before_script:
   # other dependencies
   - printf "[Dolphin]\nSALT=test123\nPEPPER=test456\nMASTER=travis\nAMAZON=travis\n" > config/.salt
   # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.

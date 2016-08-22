@@ -15,7 +15,7 @@ services:
 before_install:
   - sudo apt-get update
   - sudo apt-get -y install aptitude
-  - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common tree
+  - sudo apt-get -y install apache2 libapache2-mod-php5 php5-mysqlnd php5-gd php-pear php5-curl lynx-cur libxml2-dev software-properties-common tree perl samtools
   - sudo pip install --upgrade pycrypto urllib3
   - sudo pip install simple-crypt MySQL-python pjson boto numpy boto3
   
@@ -65,7 +65,6 @@ script:
   - cd scripts
   - echo $DOLPHIN_PARAMS_SECTION
   - travis_wait python dolphin_wrapper.py -r 4 -c Travis
-  - ls -lash /shared/testrun1
   - tree /home/travis/build/testrun1/
   - grep "." /shared/testrun1/tmp/logs/*
   - grep "." ../tmp/logs/run4/*

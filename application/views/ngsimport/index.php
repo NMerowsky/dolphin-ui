@@ -1,3 +1,28 @@
+				<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="myWarningLabel" aria-hidden="true">
+					<div class="modal-dialog">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						  <h4 class="modal-title" id="myModalLabel">Warning</h4>
+						</div>
+						<form name="editForm" role="form" method="post">
+							<div class="modal-body">
+								<fieldset>
+									<div class="form-group" style="overflow:scroll">
+										<label id="warningLabel"></label>
+										<br>
+										<p id="warningAreas"></p>
+									</div>
+								</fieldset>   
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" onclick="">Continue</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+							</div>
+						</form>
+					  </div>
+					</div>
+				</div><!-- End Error modal -->
 				<section class="content">
 					<div class="row">
 						<div class="col-md-6"><!-- left column -->

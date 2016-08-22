@@ -11,7 +11,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = '{"genomebuild":"human,hg19","spaired":"no","resume":"no","fastqc":"no","barcodes":"none","adapters":"none","quality":"none","trim":"none","split":"none","commonind":"none","submission":"0"}';
-		$_POST['outdir'] = '/home/travis/build/testrun1';
+		$_POST['outdir'] = '/shared/testrun1';
 		$_POST['name'] = 'Import Initial Run';
 		$_POST['desc'] = 'Import Initial Run within series: Travis';
 		$_POST['runGroupID'] = 'new';
@@ -25,11 +25,12 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
+	/*
 	public function testSubmitPipelineUpdate(){
 		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = 'test_json_update';
-		$_POST['outdir'] = '/test/outdir';
+		$_POST['outdir'] = '/shared/testrun1';
 		$_POST['name'] = 'test insertPipeline update';
 		$_POST['desc'] = 'unittesting insertPipeline update';
 		$_POST['runGroupID'] = '3';
@@ -42,6 +43,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data), 0);
 		ob_end_clean();
 	}
+	*/
 	
 	public function testInsertRunlist(){
 		ob_start();

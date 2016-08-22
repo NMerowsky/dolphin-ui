@@ -64,7 +64,7 @@ script:
   #- python unitTesting/travis_test.py
   - cd scripts
   - echo $DOLPHIN_PARAMS_SECTION
-  - travis_wait sudo python dolphin_wrapper.py -r 4 -c Travis
+  - travis_wait python dolphin_wrapper.py -r 4 -c Travis
   - ls -lash /shared/testrun1
   - tree /home/travis/build/testrun1/
   - grep "." /shared/testrun1/tmp/logs/*

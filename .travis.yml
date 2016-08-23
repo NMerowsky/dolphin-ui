@@ -60,11 +60,10 @@ script:
   - sudo mysql -e "use biocore; DELETE FROM amazon_credentials WHERE id = 1" -uroot
   #	Run workflow
   - cd scripts
-  #- travis_wait 5 python dolphin_wrapper.py -r 4 -c Travis
-  - perl /home/travis/build/dolphin_tools/tools/Dolphinv1.3/stepCheck.pl -c Travis -i example_sample_1,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R2.fastq:example_sample_2,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R2.fastq -u travis -b NONE -w i88uXY5JBep9GxU3c7VIp6wTbJ2Lap -p 4 -d "python /home/travis/build/dolphin_tools/tools/Dolphinv1.3/dbcomm.py" -a NONE -t NONE -o /home/travis/build/testrun1 -r no -s stepCheck -j "python /home/travis/build/dolphin_tools/src/runJobs.py -u travis -s stepCheck -f Travis -k i88uXY5JBep9GxU3c7VIp6wTbJ2Lap -o /home/travis/build/testrun1"
+  - travis_wait 5 python dolphin_wrapper.py -r 4 -c Travis
   - tree /home/travis/build/testrun1/
-  - python dolphin_wrapper.py -r 4 -c Travis
-  - tree /home/travis/build/testrun1/
+  #- perl /home/travis/build/dolphin_tools/tools/Dolphinv1.3/stepCheck.pl -c Travis -i example_sample_1,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//control_rep1_R2.fastq:example_sample_2,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R1.fastq,/home/travis/build/dolphin-genome-data/mousetest/mm10/fastqtest//exper_rep1_R2.fastq -u travis -b NONE -w i88uXY5JBep9GxU3c7VIp6wTbJ2Lap -p 4 -d "python /home/travis/build/dolphin_tools/tools/Dolphinv1.3/dbcomm.py" -a NONE -t NONE -o /home/travis/build/testrun1 -r no -s stepCheck -j "python /home/travis/build/dolphin_tools/src/runJobs.py -u travis -s stepCheck -f Travis -k i88uXY5JBep9GxU3c7VIp6wTbJ2Lap -o /home/travis/build/testrun1"
+  #- tree /home/travis/build/testrun1/
   - grep "." /home/travis/build/testrun1/tmp/logs/*
   - grep "." ../tmp/logs/run4/*
   - cat /home/travis/build/testrun1/scripts/stepCheck.bash

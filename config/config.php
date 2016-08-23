@@ -3,7 +3,32 @@
 /** If DOLPHIN_PARAMS_SECTION environment variable set into any parameter section in config.ini file 
 The configuration parameters will be read from that section**/
 
-$param_section="Travis";
+$param_section = "Docker";
+if (!empty($_SERVER["HTTP_HOST"])){
+   $http_host=$_SERVER["HTTP_HOST"];
+   # CHANGE HERE ACCORDING TO YOUR ENVIRONMENT
+   if ( preg_match("/biocore/", $http_host) )
+   {
+      $param_section="Biocore";
+   }
+   else if  ( preg_match("/dolphin.umassmed.edu/", $http_host) )
+   {
+      $param_section="Dolphin";
+   }
+   else if  ( preg_match("/localhost/", $http_host) )
+   {
+      $param_section="Localhost";
+   }
+   else if  ( preg_match("/galaxyweb.umassmed.edu/", $http_host) )
+   {
+      $param_section="DolphinDev";
+   }
+   ###########################################
+   # need travis param section
+}
+if (strpos(getcwd(), "travis/build") == 6){
+   $param_section="Travis";
+}
 
 $ini = parse_ini_file("config.ini", true);
 

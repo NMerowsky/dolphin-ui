@@ -11,7 +11,7 @@ class ngsalterdb_unittest extends PHPUnit_Framework_TestCase
 		ob_start();
 		$_POST['p'] = 'submitPipeline';
 		$_POST['json'] = '{"genomebuild":"human,hg19","spaired":"no","resume":"no","fastqc":"no","barcodes":"none","adapters":"none","quality":"none","trim":"none","split":"none","commonind":"none","submission":"0"}';
-		$_POST['outdir'] = '/shared/testrun1';
+		$_POST['outdir'] = '/home/travis/build/testrun1';
 		$_POST['name'] = 'Import Initial Run';
 		$_POST['desc'] = 'Import Initial Run within series: Travis';
 		$_POST['runGroupID'] = 'new';

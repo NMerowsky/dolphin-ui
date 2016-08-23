@@ -33,12 +33,10 @@ before_script:
   - git clone https://github.com/UMMS-Biocore/dolphin-genome-data.git /home/travis/build/dolphin-genome-data
   - ls -lash
   - sudo mkdir -p /home/travis/build/pub /home/travis/build/logs tmp/files tmp/logs tmp/logs/run4 /home/travis/build/testrun1
-  #- sudo sed -i 's/dolphin\/api/dolphin\/public\/api/g' /home/travis/build/dolphin_tools/default_params/config.ini
   - sudo ln -s $(pwd) /var/www/dolphin
   - sudo ln -s /home/travis/build/pub public/pub
   - sudo chmod -R 777 /home
   - sudo ls -lash /home/travis
-  #- sudo chown -R www-data:www-data *
   # Manually set up the apache environment variables
   - sudo mysql -u root -e "CREATE USER 'myproject'@'localhost' IDENTIFIED BY 'mypass'"
   - sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'myproject'@'localhost' WITH GRANT OPTION;"
@@ -64,7 +62,7 @@ script:
   - cd scripts
   - travis_wait 5 python dolphin_wrapper.py -r 4 -c Travis
   - tree /home/travis/build/testrun1/
-  - grep "." /shared/testrun1/tmp/logs/*
+  - grep "." /home/travis/build/testrun1/tmp/logs/*
   - grep "." ../tmp/logs/run4/*
   #	ajax
   #- phpunit unitTesting/ajax/tablegenerator_unittest.php

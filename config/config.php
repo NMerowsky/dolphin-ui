@@ -61,7 +61,8 @@ define('ENCODE_SECRET', $ini_array['ENCODE_SECRET']);
 define('VALIDATE_ENCODE', $ini_array['VALIDATE_ENCODE']);
 define('REQUESTS', $ini_array['REQUESTS']);
 
-$salt = parse_ini_file(".salt", true)['Dolphin'];
+$presalt = parse_ini_file(".salt", true);
+$salt = $presalt['Dolphin'];
 
 define('SALT', $salt['SALT']);
 define('PEPPER', $salt['PEPPER']);

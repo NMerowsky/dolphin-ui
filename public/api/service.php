@@ -1,5 +1,14 @@
 <?php
+if (!headers_sent()) {
+         header('Cache-Control: no-cache, must-revalidate');
+         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+         header('Content-type: application/json');
+}
+error_reporting(E_ALL);
+ini_set('report_errors','on');
 require_once("funcs.php");
+
+
 
 class Pipeline{
          public $params = null;
@@ -44,8 +53,6 @@ class Pipeline{
          }
 }
 
-error_reporting(E_ALL);
-ini_set('report_errors','on');
 $myClass = new Pipeline();
 #$result=$myClass->getINI();
 #$data=json_encode($result);
@@ -53,9 +60,6 @@ $myClass = new Pipeline();
 $result=$myClass->parse_params();
 $data=$myClass->runFuncs($result['params']);
 
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
 echo $data;
 exit;
 

@@ -26,8 +26,8 @@ if (!empty($_SERVER["HTTP_HOST"])){
    ###########################################
 }
 
-if(strpos(getcwd(),'/home/travis/build/') > 0){
-   $param_section = "Travis";
+if (strpos(getcwd(), "travis/build") == 6){
+      $param_section="Travis";
 }
  
 $ini = parse_ini_file("config.ini", true);

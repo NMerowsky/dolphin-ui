@@ -7,9 +7,9 @@ include 'library/inflection.class.php';
 include 'library/sqlquery.class.php';
 include 'library/vanillamodel.class.php';
 
-$_SESSION['uid'] = '209';
+$_SESSION['uid'] = '1';
 $_SESSION['gids'] = '1';
-$_SESSION['user'] = 'travis';
+$_SESSION['user'] = 'kucukura';
 $_POST['group_id'] = '1';
 $_POST['security_id'] = '15';
 
@@ -172,7 +172,7 @@ class ngsimport_unittest extends PHPUnit_Framework_TestCase
 		$worksheetPathSet = 'true';
 		
 		$inputFileType = 'Excel5';
-		$inputFileName = 'public/downloads/example_template_multi_dirs.xls';
+		$inputFileName = 'public/downloads/example_template_multi_travis.xls';
 		$objReader = PHPExcel_IOFactory::createReader($inputFileType);
 		$worksheetData = $objReader->listWorksheetInfo($inputFileName);
 		

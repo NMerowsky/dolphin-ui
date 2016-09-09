@@ -785,10 +785,10 @@ def main():
               p.stdout.flush()
               if (re.search('failed\n', line) or re.search('Err\n', line) ):
                  logging.info("failed")
-                 dolphin.send_email(runparamsids[0][1], runparamsids[0][0], dolphin.params_section);
+                 dolphin.send_email(runparamsids[0][1], runparamsids[0][0], dolphin.params_section, dolphin.config.get(dolphin.params_section, "base_path"));
                  dolphin.stop_err("failed")
         #Send email when finished
-        dolphin.send_email(runparamsids[0][1], runparamsids[0][0], dolphin.params_section, dolphin.config.get(dolphin.params_section, "base_path") );
+        dolphin.send_email(self, runparamsids[0][1], runparamsids[0][0], dolphin.params_section, dolphin.config.get(dolphin.params_section, "base_path") );
    except Exception, ex:
         dolphin.stop_err('Error (line:%s)running dolphin_wrapper.py\n%s'%(format(sys.exc_info()[-1].tb_lineno), str(ex)))
 

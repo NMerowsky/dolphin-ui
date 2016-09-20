@@ -21,7 +21,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTopUsers';
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
-		$this->assertEquals(json_decode($data),array());
+		$this->assertNotEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -30,7 +30,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getTopUsersTime';
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
-		$this->assertEquals(json_decode($data),array());
+		$this->assertNotEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -39,7 +39,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getUsersTime';
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
-		$this->assertEquals(json_decode($data),array());
+		$this->assertNotEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -48,7 +48,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
 		$_GET['p'] = 'getLabsTime';
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
-		$this->assertEquals(json_decode($data),array());
+		$this->assertNotEquals(json_decode($data),array());
 		ob_end_clean();
     }
     
@@ -67,7 +67,7 @@ class adminstatquerydb_unittest extends PHPUnit_Framework_TestCase
         $_GET['type'] = 'Dolphin';
 		include("adminstatquerydb.php");
 		$this->assertEquals(json_decode($data)[0]->servicename,'stepSeqMappingrRNA');
-		$this->assertEquals(json_decode($data)[0]->count,'30');
+		$this->assertEquals(json_decode($data)[0]->count,'32');
 		ob_end_clean();
     }
 }

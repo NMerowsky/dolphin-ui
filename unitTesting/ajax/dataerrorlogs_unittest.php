@@ -23,7 +23,7 @@ class dataerrorlogs_unittest extends PHPUnit_Framework_TestCase
 		include("dataerrorlogs.php");
 		$this->assertEquals(json_decode($data)[0],'0');
 		$this->assertEquals(json_decode($data)[1],'0');
-		$this->assertEquals(json_decode($data)[2],'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
+		$this->assertEquals(json_decode($data)[2],'3pl8cmzYJ4ezgX2a9RevZxHmihpOA');
 		ob_end_clean();
     }
     

@@ -89,7 +89,7 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 	public function testDetailsGetSamples(){
 		ob_start();
 		$_GET['p'] = 'getSamples';
-		$_GET['q'] = '7';
+		$_GET['q'] = '2';
 		$_GET['r'] = '';
 		$_GET['seg'] = 'details';
 		$_GET['search'] = 'organism=human';

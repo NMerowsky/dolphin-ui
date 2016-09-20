@@ -31,14 +31,13 @@ class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 	
 	//find wkey example
 	public function testGetTableReportsList() {
-		//ob_start();
+		ob_start();
 		$_GET['p'] = 'getTableReportsList';
 		$_GET['wkey'] = '3pl8cmzYJ4ezgX2a9RevZxHmihpOA';
 		include('tablegenerator.php');
-		echo $data;
 		$this->assertEquals(json_decode($data)[0]->file,'rsem/genes_expression_tpm.tsv');
 		$this->assertEquals(json_decode($data)[0]->json_parameters,'{"genomebuild":"mousetest,mm10","spaired":"paired","resume":"no","fastqc":"yes","barcodes":"distance,1:format,5 end read 1","adapter":"none","quality":"none","trim":"none","split":"none","commonind":"rRNA,miRNA,tRNA","pipeline":["RNASeqRSEM:--bowtie-e 70 --bowtie-chunkmbs 100:no:no","DESeq:control_rep1,control_rep2,control_rep3,exper_rep1,exper_rep2,exper_rep3:Cond1,Cond1,Cond1,Cond2,Cond2,Cond2:parametric:Yes:0.01:2"]}');
-		//ob_end_clean();
+		ob_end_clean();
 	}
 	
 	public function testSamplesWithRuns() {

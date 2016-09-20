@@ -8,13 +8,14 @@ chdir('public/ajax/');
 class tablegenerator_unittest extends PHPUnit_Framework_TestCase
 {
 	public function testGetTableSamples() {
-		ob_start();
+		//ob_start();
 		$_GET['p'] = 'getTableSamples';
 		$_GET['search'] = 7;
 		include('tablegenerator.php');
+		var_dump($data);
 		$this->assertEquals(json_decode($data)[0]->id,'7');
 		$this->assertEquals(json_decode($data)[0]->samplename,'example_sample_1');
-		ob_end_clean();
+		//ob_end_clean();
 	}
 	
 	public function testGetTableRuns() {

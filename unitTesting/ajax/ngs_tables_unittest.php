@@ -21,7 +21,7 @@ class ngs_tables_unittest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(json_decode($data)[0]->id,'1');
 		$this->assertEquals(json_decode($data)[0]->run_group_id,'1');
 		$this->assertEquals(json_decode($data)[0]->run_name,'barcode test');
-		$this->assertEquals(json_decode($data)[0]->wkey,'J98Oe0bSZ18fBx9pPuDnsD8ITRVPGV');
+		$this->assertEquals(json_decode($data)[0]->wkey,'3pl8cmzYJ4ezgX2a9RevZxHmihpOA');
 		$this->assertEquals(json_decode($data)[0]->outdir,'/export/barcodetest');
 		$this->assertEquals(json_decode($data)[0]->run_description,'barcode test');
 		$this->assertEquals(json_decode($data)[0]->run_status,'0');

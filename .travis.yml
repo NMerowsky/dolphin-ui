@@ -62,6 +62,7 @@ before_script:
   - DOLPHIN_PARAMS_SECTION=Travis
  
 script:
+  - curl "http://localhost/dolphin/public/api/service.php?func=checkPermissions&username=ak97w"
   - phpunit unitTesting/ngsimport_unittest.php
   #	ajax
   - phpunit unitTesting/ajax/tablegenerator_unittest.php

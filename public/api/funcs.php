@@ -1035,8 +1035,8 @@ class funcs
       
       function runMD5SumUpdate($params)
       {
-        $this->username=$params['clusteruser'];
         $this->readINI();
+        $this->username=$params['clusteruser'];
         $backup_dir   = $params['backup_dir'];
         $file_name    = $params['file_name'];
         $command      = $this->python . " " . $this->tool_path."/checkMD5Sum.py -o $backup_dir -f $file_name -u " . $this->username ." -c ".$this->config;
@@ -1054,8 +1054,7 @@ class funcs
         return "RUNNING: $retval : $com";
       }
       
-      function dbMd5sumUpdate($params)
-      {
+      function dbMd5sumUpdate($params){
         $this->readINI();
         $backup_dir   = $params['backup_dir'];
         $file_name    = $params['file_name'];

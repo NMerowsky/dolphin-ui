@@ -7,6 +7,7 @@ chdir('public/ajax/');
 
 class admindashboardquerydb_unittest extends PHPUnit_Framework_TestCase
 {
+	
     public function testGetMonthlyRuns(){
         ob_start();
 		$_GET['p'] = 'getMonthlyRuns';

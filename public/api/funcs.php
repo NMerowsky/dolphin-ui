@@ -1033,6 +1033,7 @@ class funcs
         return $this->queryTable($sql);
       }
       
+      /*
       function runMD5SumUpdate($params)
       {
         $this->readINI();
@@ -1053,6 +1054,7 @@ class funcs
         }
         return "RUNNING: $retval : $com";
       }
+      */
       
       function dbMd5sumUpdate($params){
         $this->readINI();

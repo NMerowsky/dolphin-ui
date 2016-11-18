@@ -1032,10 +1032,10 @@ class funcs
         return $this->queryTable($sql);
       }
       
-      /*
       function runMD5SumUpdate($params){
         $this->username=$params['clusteruser'];
         $this->readINI();
+        return $this->tool_path;
         $backup_dir   = $params['backup_dir'];
         $file_name    = $params['file_name'];
         $command      = $this->python . " " . $this->tool_path."/checkMD5Sum.py -o $backup_dir -f $file_name -u " . $this->username ." -c ".$this->config;
@@ -1044,7 +1044,8 @@ class funcs
         {
            $command=str_replace("\\\"", "\\\\\"", $command);
         }
-        $com = $this->python . " " . $this->tool_path . "/runService.py -f ".$this->config." -u " . $this->username . " -o $backup_dir -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"$command\" -n stepMD5Sum_".explode(",",$file_name)[0]." -s stepMD5Sum_".explode(",",$file_name)[0];
+        $com = $this->python . " " . $this->tool_path . "/runService.py -f ".$this->config." -u " . $this->username .
+                " -o $backup_dir -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"$command\" -n stepMD5Sum_".explode(",",$file_name)[0]." -s stepMD5Sum_".explode(",",$file_name)[0];
         $com = $this->getCMDs($com);
         $retval = $this->sysback($com);
         if (preg_match('/Error/', $retval)) {
@@ -1052,7 +1053,6 @@ class funcs
         }
         return "RUNNING: $retval : $com";
       }
-      */
       
       function dbMd5sumUpdate($params){
         $this->readINI();

@@ -25,6 +25,5 @@
         <script src="<?php echo BASE_PATH?>/js/AdminLTE/app.js" type="text/javascript"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="<?php echo BASE_PATH?>/js/dolphin/admindashboard.js" type="text/javascript"></script>
-		<script src="http://dolphindev.umassmed.edu:8080/dolphin/public/js/dolphin/testing_js.js" type="text/javascript"></script>
    </body>
 </html>

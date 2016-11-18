@@ -1039,8 +1039,9 @@ class funcs
         $file_name    = $params['file_name'];
         $command      = $this->python . " " . $this->tool_path."/checkMD5Sum.py -o $backup_dir -f $file_name -u " . $this->username ." -c ".$this->config;
         $command=str_replace("\"", "\\\"", $command);
-        if($this->schedular == "LSF" || $this->schedular == "SGE")
-        {
+        if($this->schedular == "N"){
+            return "ERROR: cannot run on Docker/Travis";
+        }else{
             $command=str_replace("\\\"", "\\\\\"", $command);
             $com = $this->python . " " . $this->tool_path . "/runService.py -f ".$this->config." -u " . $this->username .
                     " -o $backup_dir -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"$command\" -n stepMD5Sum_".explode(",",$file_name)[0]." -s stepMD5Sum_".explode(",",$file_name)[0];
@@ -1050,8 +1051,6 @@ class funcs
                 return "ERROR: $retval : $com";
             }
             return "RUNNING: $retval : $com";
-        }else{
-            return "ERROR: cannot run on Docker/Travis";
         }
       }
       

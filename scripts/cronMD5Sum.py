@@ -19,7 +19,25 @@ class cronMD5Sum:
         if (ret):
             ret=json.loads(ret)
         return ret
-    def runMD5SumUpdate(self, clusteruser, backup_dir, file_name):
+    def runMD5SumUpdate(self, config, clusteruser, backup_dir, file_name):
+        """
+        $this->username=$params['clusteruser'];
+        $this->readINI();
+        $backup_dir   = $params['backup_dir'];
+        $file_name    = $params['file_name'];
+        $command      = $this->python . " " . $this->tool_path."/checkMD5Sum.py -o $backup_dir -f $file_name -u " . $this->username ." -c ".$this->config;
+        $command=str_replace("\"", "\\\"", $command);
+        $command=str_replace("\\\"", "\\\\\"", $command);
+        $com = $this->python . " " . $this->tool_path . "/runService.py -f ".$this->config." -u " . $this->username .
+                " -o $backup_dir -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"$command\" -n stepMD5Sum_".explode(",",$file_name)[0]." -s stepMD5Sum_".explode(",",$file_name)[0];
+        $com = $this->getCMDs($com);
+        $retval = $this->sysback($com);
+        """
+        command = config['python'] + " " + config['tool_path'] + "/checkMD%Sum.py -o " + backup_dir + " -f " + file_name + " -u " + clusteruser + " -c " + config['config']
+        
+        com = config['python'] + " " + config['tool_path'] + "/runService.py -f " + config['config'] + " -u " + config['username'] + " -o " + backup_dir + " -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"" + command + "\" -n stepMD%Sum_ " + file.split(',')[0] + " -s stepMD%Sum_" + file.split(',')[0] 
+        com = urllib.urlencode({'func':'getCMDs', 'com':str(com)})
+        
         data = urllib.urlencode({'func':'runMD5SumUpdate', 'clusteruser':str(clusteruser), 'backup_dir':str(backup_dir), 'file_name':str(file_name)})
         ret = self.f.queryAPI(self.url, data)
     
@@ -40,12 +58,12 @@ def main():
     
     filelist = md5sum.getAllFastqInfo()
     print "\n"
-    for f in filelist:
-        clusteruser=f['clusteruser']
-        backup_dir=f['backup_dir']
-        file_name=f['file_name']
+    for file in filelist:
+        clusteruser=file['clusteruser']
+        backup_dir=file['backup_dir']
+        file_name=file['file_name']
         print file_name
-        md5sum.runMD5SumUpdate(clusteruser, backup_dir, file_name)
+        md5sum.runMD5SumUpdate(config, clusteruser, backup_dir, file_name)
         print "\n"
     
 main()

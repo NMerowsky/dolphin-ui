@@ -104,7 +104,7 @@ class funcs
         }else if (preg_match('/password:/', $retval)){
             return "{\"ERROR\": \"Dolphin cannot access your cluster account.  Please log into the GHPCC cluster and run this script: /project/umw_biocore/bin/addKey.bash\"}";
         }
-        if(CONFIG == "Docker"){
+        if(CONFIG == "Docker" || CONFIG == "Travis"){
             $com2 = "ls -lshd $files | awk '{print \$2}' | grep d";
         }else{
             $com2 = "ls -lshd $files | awk '{print \\\$2}' | grep d";   
@@ -1031,7 +1031,6 @@ class funcs
         
         return $this->queryTable($sql);
       }
-      
       function runMD5SumUpdate($params){
         $this->username=$params['clusteruser'];
         $this->readINI();
@@ -1053,7 +1052,6 @@ class funcs
         }
         return "RUNNING: $retval : $com";
       }
-      
       function dbMd5sumUpdate($params){
         $this->readINI();
         $backup_dir   = $params['backup_dir'];

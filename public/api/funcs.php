@@ -1031,7 +1031,10 @@ class funcs
         
         return $this->queryTable($sql);
       }
+      
       function runMD5SumUpdate($params){
+        return "{\"Result\":\"Ok\"}";
+        /*
         $this->username=$params['clusteruser'];
         $this->readINI();
         return $this->tool_path;
@@ -1051,7 +1054,9 @@ class funcs
             return "ERROR: $retval : $com";
         }
         return "RUNNING: $retval : $com";
+        */
       }
+      
       function dbMd5sumUpdate($params){
         $this->readINI();
         $backup_dir   = $params['backup_dir'];

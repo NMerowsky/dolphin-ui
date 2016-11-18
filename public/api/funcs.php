@@ -1035,7 +1035,6 @@ class funcs
       function runMD5SumUpdate($params){
         $this->username=$params['clusteruser'];
         $this->readINI();
-        return $this->tool_path;
         $backup_dir   = $params['backup_dir'];
         $file_name    = $params['file_name'];
         $command      = $this->python . " " . $this->tool_path."/checkMD5Sum.py -o $backup_dir -f $file_name -u " . $this->username ." -c ".$this->config;
@@ -1044,11 +1043,11 @@ class funcs
         {
            $command=str_replace("\\\"", "\\\\\"", $command);
         }
-        return "{\"Result\":\"Ok\"}";
-    /*
         $com = $this->python . " " . $this->tool_path . "/runService.py -f ".$this->config." -u " . $this->username .
                 " -o $backup_dir -k ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ -c \"$command\" -n stepMD5Sum_".explode(",",$file_name)[0]." -s stepMD5Sum_".explode(",",$file_name)[0];
         $com = $this->getCMDs($com);
+        return "{\"Result\":\"Ok\"}";
+        /*
         $retval = $this->sysback($com);
         if (preg_match('/Error/', $retval)) {
             return "ERROR: $retval : $com";

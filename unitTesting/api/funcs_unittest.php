@@ -58,6 +58,13 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 	}
 	
+	public function testSendLog(){
+		#ob_start();
+		$funcs = new funcs();
+		$this->assertEquals($funcs->sendLog(1, 'test description', 'returnval'), 'pass');
+		#ob_end_clean();
+	}
+	
 	public function testCheckFile(){
 		ob_start();
 		$funcs  = new funcs();

@@ -62,6 +62,7 @@ class funcs_unittest extends PHPUnit_Framework_TestCase
 		#ob_start();
 		$funcs = new funcs();
 		$this->assertEquals($funcs->sendLog(1, 'test description', 'returnval'), 'pass');
+		$this->assertEquals($funcs->sendLog(1000, 'This should fail', 'returnval'), 'ERROR 104: Cannot Log Error');
 		#ob_end_clean();
 	}
 	

@@ -5,7 +5,6 @@
  */
 
 var wkey = '';
-var summary_check = false;
 var lib_checklist = [];
 var libraries = [];
 var dash_library = [];
@@ -16,20 +15,6 @@ var table_data = {};
 var headers = [];
 var type_dictionary = ['rRNA', 'miRNA', 'piRNA', 'tRNA', 'snRNA', 'rmsk', 'ercc'];
 var summary_RNA = [];
-var summary_dictionary = ['Sample','Total Reads', 'Total align',
-						  'Duplicated Reads rsem','Multimapped Reads Aligned rsem','Unique Reads Aligned rsem','Reads Aligned rsem',
-						  'Duplicated Reads tophat','Multimapped Reads Aligned tophat','Unique Reads Aligned tophat','Reads Aligned tophat',
-						  'Duplicated Reads chip','Multimapped Reads Aligned chip','Unique Reads Aligned chip','Reads Aligned chip',
-						  'Duplicated Reads atac','Multimapped Reads Aligned atac','Unique Reads Aligned atac','Reads Aligned atac',
-						  'Duplicated Reads star','Multimapped Reads Aligned star','Unique Reads Aligned star','Reads Aligned star',
-						  'Duplicated Reads hisat2','Multimapped Reads Aligned hisat2','Unique Reads Aligned hisat2','Reads Aligned hisat2'];
-var html_summary_dictionary = ['File','total_reads','unmapped',
-							   'rsem_dedup','rsem_multimap','rsem_unique','rsem',
-							   'tophat_dedup','tophat_multimap','tophat_unique','tophat',
-							   'chip_dedup','chip_multimap','chip_unique','chip',
-							   'atac_dedup','atac_multimap','atac_unique','atac',
-							   'star_dedup','star_multimap','star_unique','star',
-							   'hisat2_dedup','hisat2_multimap','hisat2_unique','hisat2'];
 var initial_mapping_table = [];
 
 function parseSummary(url_path){
@@ -638,7 +623,7 @@ function addPercentageArray(array){
 	return array
 }
 
-function populateTable(summary_files, samplenames, libraries, read_counts) {
+function populateSummaryTable(summary_files) {
 	var summary_bool = false;
 	var summary_index = 0;
 	for(var x = 0; x < summary_files.length; x++){
@@ -650,25 +635,27 @@ function populateTable(summary_files, samplenames, libraries, read_counts) {
 	if (summary_bool) {
 		var table_array = parseSummary(summary_files[summary_index]['file']);
 		console.log(table_array);
+		var reports_table = $('#jsontable_initial_mapping').dataTable();
+		reports_table.fnClearTable();
+		document.getElementById('jsontable_initial_mapping').setAttribute('style','overflow-x:scroll');
 		var parsed = [];
+		var headers = [];
 		for( var j = 0; j < table_array.length; j++){
-			var rsem_combo = 0;
-			for( var i = 0; i < summary_dictionary.length; i++){
-				if (table_array[j][summary_dictionary[i]] != undefined) {
+			if (j == 0){
+				headers = Object.keys(table_array[j]);
+				for(var x = 0; x < headers.length; x++){
+					document.getElementById('tablerow').appendChild(createElement('th', ['id'], [headers[x]]));
+					document.getElementById(headers[x]).innerHTML = headers[x];
+				}
+			}
+			for( var i = 0; i < headers.length; i++){
+				if (table_array[j][headers[i]] != undefined) {
 					if (table_data[table_array[j]['Sample']] == undefined) {
 						table_data[table_array[j]['Sample']] = {};
-						parsed.push(table_array[j][summary_dictionary[i]]);
+						parsed.push(table_array[j][headers[i]]);
 					}else{
-						if (summary_dictionary[i] == 'Multimapped Reads Aligned rsem') {
-							rsem_combo = parseInt(table_array[j][summary_dictionary[i]]);
-						}else if (summary_dictionary[i] == 'Unique Reads Aligned rsem') {
-							rsem_combo += parseInt(table_array[j][summary_dictionary[i]]);
-							table_data[table_array[j]['Sample']]['rsem'] = rsem_combo.toString();
-							parsed.push(rsem_combo.toString());
-						}else if (summary_dictionary[i] != 'Sample') {
-							table_data[table_array[j]['Sample']][html_summary_dictionary[i]] = table_array[j][summary_dictionary[i]];
-							parsed.push(table_array[j][summary_dictionary[i]]);
-						}
+						table_data[table_array[j]['Sample']][headers[i]] = table_array[j][headers[i]];
+						parsed.push(table_array[j][headers[i]]);
 					}
 				}
 			}
@@ -678,13 +665,6 @@ function populateTable(summary_files, samplenames, libraries, read_counts) {
 		}
 		console.log(table_data)
 		console.log(initial_mapping_table);
-		if (table_array.length > 0) {
-			tableElementRemoveTableArray(table_array[0].Sample, 'tophat', 'Tophat')
-			tableElementRemoveTableArray(table_array[0].Sample, 'chip', 'Chip')
-			tableElementRemoveTableArray(table_array[0].Sample, 'atac', 'Atac')
-			tableElementRemoveTableArray(table_array[0].Sample, 'star', 'Star')
-			tableElementRemoveTableArray(table_array[0].Sample, 'hisat2', 'Hisat2')
-		}
 		var reports_table = $('#jsontable_initial_mapping').dataTable();
 		reports_table.fnClearTable();
 		document.getElementById('jsontable_initial_mapping').setAttribute('style','overflow-x:scroll');
@@ -693,167 +673,10 @@ function populateTable(summary_files, samplenames, libraries, read_counts) {
 			reports_table.fnAddData(addPercentageArray(row_array));
 		}
 	}else{
-		headers.push('Sample');
-		headers.push('Total Reads');
-		for (var z = 0; z < summary_RNA.length; z++) {
-			headers.push(summary_RNA[z]);
-		}
-		if (summary_RNA.length > 0) {
-			headers.push('Total align')
-		}
-		if (summary_files.length > 0) {
-			for (var z = 0; z < samplenames.length; z++) {
-				table_data[samplenames[z]] = {};
-				table_data[samplenames[z]]['total_reads'] = read_counts[z];
-			}
-			
-			for (var z = 0; z < summary_files.length; z++) {
-				var sum_file = summary_files[z];
-				if (!/pcrdups/.test(summary_files[z]['file']) && !/flagstat/.test(summary_files[z]['file'])) {
-					var RNA_name = '';
-					for (var k = 0; k < summary_RNA.length; k++) {
-						if (summary_RNA[k] == summary_files[z]['file'].split("/")[1].split(".")[0]) {
-							RNA_name = summary_RNA[k];
-						}
-					}
-					console.log(summary_RNA)
-					var table_array_raw = (parseMoreTSV(['File','Total Reads','Reads 1','Reads >1','Unmapped Reads'], summary_files[z]['file']));
-					for(var x = 0; x < table_array_raw.length; x++){
-						table_data[table_array_raw[x][0]][RNA_name] = parseInt(table_array_raw[x][2].split(" ")[0]) + parseInt(table_array_raw[x][3].split(" ")[0]);
-						table_data[table_array_raw[x][0]]['unmapped'] = parseInt(table_array_raw[x][4].split(" ")[0]);
-					}
-				}else if (/pcrdups/.test(summary_files[z]['file'])){
-					dedup = parseDedup(summary_files[z]['file']);
-					for (var k = 0; k < samplenames.length; k++) {
-						var samp_name = samplenames[k];
-						if (/rsem/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads rsem', "rsem_dedup", 'dedup')
-						}else if (/tophat/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads tophat', "tophat_dedup", 'dedup')
-						}else if (/chip/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads chip', "chip_dedup", 'dedup')
-						}else if (/atac/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads atac', "atac_dedup", 'dedup')
-						}else if (/star/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads star', "star_dedup", 'dedup')
-						}else if (/hisat2/.test(summary_files[z]['file'])){
-							populateTableData(dedup, samp_name, 'Duplicated Reads hisat2', "hisat2_dedup", 'dedup')
-						}
-					}
-				}else if (/flagstat/.test(summary_files[z]['file'])){
-					var dedup = ""
-					if (/rsem/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned rsem', "rsem", 'summary')
-					}else if (/tophat/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned tophat', "tophat", 'summary')
-					}else if (/chip/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned chip', "chip", 'summary')
-					}else if (/atac/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned atac', "atac", 'summary')
-					}else if (/star/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned star', "star", 'summary')
-					}else if (/hisat2/.test(summary_files[z]['file'])){
-						populateTableData(dedup, sum_file, 'Reads Aligned hisat2', "hisat2", 'summary')
-					}
-				}
-			}
-			console.log(table_data);
-			tableElementRemoveTableArray(samplenames[0], 'tophat', 'Tophat')
-			tableElementRemoveTableArray(samplenames[0], 'chip', 'Chip')
-			tableElementRemoveTableArray(samplenames[0], 'atac', 'Atac')
-			tableElementRemoveTableArray(samplenames[0], 'star', 'Star')
-			tableElementRemoveTableArray(samplenames[0], 'hisat2', 'Hisat2')
-			//Initial Mapping Results
-			var reports_table = $('#jsontable_initial_mapping').dataTable();
-			reports_table.fnClearTable();
-			document.getElementById('jsontable_initial_mapping').setAttribute('style','overflow-x:scroll');
-
-			for (key in table_data) {
-				sample_data = table_data[key];
-				row_array = [key];
-				if (sample_data['total_reads'] != undefined) { row_array.push(sample_data['total_reads']) }
-				for (var k = 0; k < summary_RNA.length; k++) {
-					if (sample_data[summary_RNA[k]] != undefined) { row_array.push(sample_data[summary_RNA[k]]) }
-				}
-				if (sample_data['unmapped'] != undefined) { row_array.push(sample_data['unmapped']) }
-				row_array = checkTableOutput(sample_data['rsem_dedup'], 'Duplicated Reads (RSEM)', row_array);
-				row_array = checkTableOutput(sample_data['rsem'], 'Reads Aligned (RSEM)', row_array);
-				row_array = checkTableOutput(sample_data['tophat_dedup'], 'Duplicated Reads (Tophat)', row_array);
-				row_array = checkTableOutput(sample_data['tophat_multimap'], 'Tophat (>1)', row_array);
-				row_array = checkTableOutput(sample_data['tophat_unique'], 'Tophat (=1)', row_array);
-				row_array = checkTableOutput(sample_data['tophat'], 'Reads Aligned (Tophat)', row_array);
-				row_array = checkTableOutput(sample_data['chip_dedup'], 'Duplicated Reads (Chip)', row_array);
-				row_array = checkTableOutput(sample_data['chip_multimap'], 'Chip (>1)', row_array);
-				row_array = checkTableOutput(sample_data['chip_unique'], 'Chip (=1)', row_array);
-				row_array = checkTableOutput(sample_data['chip'], 'Reads Aligned (Chip)', row_array);
-				row_array = checkTableOutput(sample_data['atac_dedup'], 'Duplicated Reads (Atac)', row_array);
-				row_array = checkTableOutput(sample_data['atac_multimap'], 'Atac (>1)', row_array);
-				row_array = checkTableOutput(sample_data['atac_unique'], 'Atac (=1)', row_array);
-				row_array = checkTableOutput(sample_data['atac'], 'Reads Aligned (Atac)', row_array);
-				row_array = checkTableOutput(sample_data['star_dedup'], 'Duplicated Reads (Star)', row_array);
-				row_array = checkTableOutput(sample_data['star_multimap'], 'Star (>1)', row_array);
-				row_array = checkTableOutput(sample_data['star_unique'], 'Star (=1)', row_array);
-				row_array = checkTableOutput(sample_data['star'], 'Reads Aligned (Star)', row_array);
-				row_array = checkTableOutput(sample_data['hisat2_dedup'], 'Duplicated Reads (Hisat2)', row_array);
-				row_array = checkTableOutput(sample_data['hisat2_multimap'], 'Hisat2 (>1)', row_array);
-				row_array = checkTableOutput(sample_data['hisat2_unique'], 'Hisat2 (=1)', row_array);
-				row_array = checkTableOutput(sample_data['hisat2'], 'Reads Aligned (Hisat2)', row_array);
-				
-				var reads_total = row_array[1];
-				console.log(row_array)
-				initial_mapping_table.push(row_array);
-				reports_table.fnAddData(addPercentageArray(row_array));
-			}
-			console.log(initial_mapping_table)
-			console.log(wkey)
-			$.ajax({ type: "GET",
-				url: BASE_PATH +"/ajax/tablegenerator.php",
-				data: { p: 'createSummaryTSV', headers: headers, data_array: initial_mapping_table, wkey: wkey },
-				async: false,
-				success : function(s)
-				{
-					console.log(s);
-				}
-			});
-			
-		}else if (read_counts.length > 0) {
-			var reports_table = $('#jsontable_initial_mapping').dataTable();
-			reports_table.fnClearTable();
-			for(var y = 0; y < read_counts.length; y++){
-				if (samplenames[y] == '' || samplenames[y] == null || samplenames[y] == undefined) {
-					reports_table.fnAddData([libraries[y], numberWithCommas(read_counts[y])]);
-					initial_mapping_table.push([libraries[y], numberWithCommas(read_counts[y])]);
-				}else{
-					reports_table.fnAddData([samplenames[y], numberWithCommas(read_counts[y])]);
-					initial_mapping_table.push([samplenames[y], numberWithCommas(read_counts[y])]);
-				}
-			}
-		}else{
-			document.getElementById('empty_div').innerHTML = '<h3 class="text-center">Your results have not been generated yet.  If your run has errored out, please contact your Dolphin Admin.' +
-					'  If your run is currently running or queued, please be patient as the data is being generated.</h3>';
-			document.getElementById('send_to_plots').disabled = true;
-			document.getElementById('initial_mapping_exp').remove();
-		}
-	}
-}
-
-function tableElementRemoveTableArray(table_array, lower_type, upper_type){
-	if (table_data[table_array].hasOwnProperty(lower_type)) {
-		document.getElementById(upper_type+' (>1)').remove();
-		document.getElementById(upper_type+' (=1)').remove();
-	}else if(table_data[table_array].hasOwnProperty(lower_type+'_unique')){
-		document.getElementById('Reads Aligned ('+upper_type+')').remove();
-	}
-}
-
-function populateTableData(dedup, name, header_string, type_string, table_type) {
-	if (table_type == 'dedup') {
-		table_data[name][type_string] = Math.floor(dedup[name] * table_data[name]['total_reads']);
-	}else if (table_type == 'summary') {
-		table_data[name['file'].split("/")[1].split(".flagstat")[0]][type_string] = parseFlagstat(name['file']);
-	}
-	if (headers.indexOf(header_string) == -1) {
-		headers.push(header_string);
+		document.getElementById('empty_div').innerHTML = '<h3 class="text-center">Your results have not been generated yet.  If your run has errored out, please contact your Dolphin Admin.' +
+				'  If your run is currently running or queued, please be patient as the data is being generated.</h3>';
+		document.getElementById('send_to_plots').disabled = true;
+		document.getElementById('initial_mapping_exp').remove();
 	}
 }
 
@@ -1025,41 +848,34 @@ function downloadInitialMapping() {
     link.click()
 }
 
-function nonRNAObjectCheck(summary_check, non_rna_object, type) {
-	if (summary_check) {
-		non_rna_object[type+'_multimap'] = true;
-		non_rna_object[type+'_unique'] = true;
-	}else{
-		non_rna_object[type] = true;
-	}
-	return non_rna_object
-}
-
-function createTableElements(non_rna_object, lower_type, upper_type){
-	if (non_rna_object[lower_type+'_dedup']){
-		document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['Duplicated Reads ('+upper_type+')']));
-		document.getElementById('Duplicated Reads ('+upper_type+')').innerHTML = 'Duplicated Reads ('+upper_type+')';
-	}
-	if (non_rna_object[lower_type+'_unique'] || non_rna_object[lower_type+'_multimap'] || non_rna_object[lower_type]){
-		document.getElementById('tablerow').appendChild(createElement('th', ['id'], [upper_type+' (>1)']));
-		document.getElementById(upper_type+' (>1)').innerHTML = '<span title="Reads mapped to more than one location for '+upper_type+'">'+upper_type+' (>1)</span>';
-		document.getElementById('tablerow').appendChild(createElement('th', ['id'], [upper_type+' (=1)']));
-		document.getElementById(upper_type+' (=1)').innerHTML = '<span title="Uniquely mapped reads for '+upper_type+'">'+upper_type+' (=1)</span>';
-		document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['Reads Aligned ('+upper_type+')']));
-		document.getElementById('Reads Aligned ('+upper_type+')').innerHTML = 'Reads Aligned ('+upper_type+')';
-	}
-}
-
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	showHighchart('plots');
 });
 
+/*
+ *	Page load in function
+ */
+
 $(function() {
 	"use strict";
 	
+	/*
+	 *	If current page is the reports section
+	 */
 	if (phpGrab.theSegment == 'report') {
+		//	Initialize Variables
 		var run_id = '0';
 		var samples = [];
+		var summary_files = [];
+		var count_files = [];
+		var RSEM_files = [];
+		var DESEQ_files = [];
+		var picard_files = [];
+		var rseqc_files = [];
+		var jsonparams;
+		var run_status = 0;
+		
+		//	Gather Run ID and Samples within that run
 		$.ajax({ type: "GET",
 			url: BASE_PATH +"/ajax/sessionrequests.php",
 			data: { p: 'getReportsRunID' },
@@ -1076,15 +892,23 @@ $(function() {
 				}
 			}
 		});
-		wkey = getReportWKey(run_id);
-		var summary_files = [];
-		var count_files = [];
-		var RSEM_files = [];
-		var DESEQ_files = [];
-		var picard_files = [];
-		var rseqc_files = [];
 		
-		//	Gather File Data
+		wkey = getReportWKey(run_id);
+		
+		//	Gather Report list Data and push to specific arrays
+		$.ajax({ type: "GET",
+				url: BASE_PATH+"/public/ajax/ngsquerydb.php",
+				data: { p: 'getJSONParams', wkey: wkey },
+				async: false,
+				success : function(s)
+				{
+					jsonparams = JSON.parse(s[0].json_parameters);
+					console.log(jsonparams);
+					run_status = s[0].run_status;
+				}
+		});
+		
+		//	Gather Report list Data and push to specific arrays
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/ngsquerydb.php",
 				data: { p: 'getReportList', wkey: wkey },
@@ -1109,181 +933,106 @@ $(function() {
 				}
 		});
 		
-		//	Set up summary table headers
-		var non_rna_object = {}
-		for (var z = 0; z < summary_files.length; z++) {
-			if (summary_files[z]['file'] == "summary/summary.tsv") {
-				summary_check = true;
-			}
-			if (!/summary.summary/.test(summary_files[z]['file'])) {
-				if (!/flagstat/.test(summary_files[z]['file']) && !/pcrdups/.test(summary_files[z]['file'])) {
-					var RNA = summary_files[z]['file'].split("/")[summary_files[z]['file'].split("/").length - 1].split(".")[0];
-					summary_RNA.push(RNA);
-					document.getElementById('tablerow').appendChild(createElement('th', ['id'], [RNA]));
-					document.getElementById(RNA).innerHTML = RNA;
-					if (document.getElementById('unused') != undefined) {
-						document.getElementById('unused').remove();
-						document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['unused']));
-						document.getElementById('unused').innerHTML = 'Reads After Filtering';
-					}else{
-						document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['unused']));
-						document.getElementById('unused').innerHTML = 'Reads After Filtering';
-					}
-				}else if (/flagstat/.test(summary_files[z]['file'])){
-					if (/rsem/.test(summary_files[z]['file'])){
-						non_rna_object['rsem'] = true;
-					}else if (/tophat/.test(summary_files[z]['file'])){
-						non_rna_object = nonRNAObjectCheck(summary_check, non_rna_object, 'tophat')
-					}else if (/chip/.test(summary_files[z]['file'])){
-						non_rna_object = nonRNAObjectCheck(summary_check, non_rna_object, 'chip')
-					}else if (/atac/.test(summary_files[z]['file'])){
-						non_rna_object = nonRNAObjectCheck(summary_check, non_rna_object, 'atac')
-					}else if (/star/.test(summary_files[z]['file'])){
-						non_rna_object = nonRNAObjectCheck(summary_check, non_rna_object, 'star')
-					}else if (/hisat2/.test(summary_files[z]['file'])){
-						non_rna_object = nonRNAObjectCheck(summary_check, non_rna_object, 'hisat2')
-					}
-				}else if (/pcrdups/.test(summary_files[z]['file'])){
-					if (/rsem/.test(summary_files[z]['file'])){
-						non_rna_object['rsem_dedup'] = true;
-					}else if (/tophat/.test(summary_files[z]['file'])){
-						non_rna_object['tophat_dedup'] = true;
-					}else if (/chip/.test(summary_files[z]['file'])){
-						non_rna_object['chip_dedup'] = true;
-					}else if (/atac/.test(summary_files[z]['file'])){
-						non_rna_object['atac_dedup'] = true;
-					}else if (/star/.test(summary_files[z]['file'])){
-						non_rna_object['star_dedup'] = true;
-					}else if (/hisat2/.test(summary_files[z]['file'])){
-						non_rna_object['hisat2_dedup'] = true;
-					}
-				}
-			}
-		}
-		console.log(non_rna_object)
-		console.log(summary_check)
-		if (non_rna_object['rsem_dedup']){
-			document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['Duplicated Reads (RSEM)']));
-			document.getElementById('Duplicated Reads (RSEM)').innerHTML = 'Duplicated Reads (RSEM)';
-		}
-		if (non_rna_object['rsem']){
-			document.getElementById('tablerow').appendChild(createElement('th', ['id'], ['Reads Aligned (RSEM)']));
-			document.getElementById('Reads Aligned (RSEM)').innerHTML = 'Reads Aligned (RSEM)';
-		}
-		createTableElements(non_rna_object, 'tophat', 'Tophat')
-		createTableElements(non_rna_object, 'chip', 'Chip')
-		createTableElements(non_rna_object, 'atac', 'Atac')
-		createTableElements(non_rna_object, 'star', 'Star')
-		createTableElements(non_rna_object, 'hisat2', 'Hisat2')
-		
-		//	Gather sample names
-		var samplenames = [];
-		$.ajax({ type: "GET",
-				url: BASE_PATH+"/public/ajax/ngsquerydb.php",
-				data: { p: 'getSampleNames', samples: samples.toString() },
-				async: false,
-				success : function(s)
-				{
-					for(var x  = 0; x < s.length; x++){
-						if (s[x].samplename == null) {
-							libraries.push(s[x].name);
-							dash_library.push(s[x].name.replace(/-/g,"_"));
-						}else{
-							libraries.push(s[x].samplename);
-							dash_library.push(s[x].samplename.replace(/-/g,"_"));
+		if (run_status == "1") {
+			$.ajax({ type: "GET",
+					url: BASE_PATH+"/public/ajax/ngsquerydb.php",
+					data: { p: 'getSampleNames', samples: samples.toString() },
+					async: false,
+					success : function(s)
+					{
+						for(var x  = 0; x < s.length; x++){
+							if (s[x].samplename == null) {
+								libraries.push(s[x].name);
+								dash_library.push(s[x].name.replace(/-/g,"_"));
+							}else{
+								libraries.push(s[x].samplename);
+								dash_library.push(s[x].samplename.replace(/-/g,"_"));
+							}
 						}
 					}
-					for(var x  = 0; x < s.length; x++){
-						samplenames.push(s[x].samplename);
+			});
+			
+			//	Gather read counts
+			var read_counts = [];
+			$.ajax({ type: "GET",
+					url: BASE_PATH+"/public/ajax/initialmappingdb.php",
+					data: { p: 'getCounts', samples: samples.toString() },
+					async: false,
+					success : function(s)
+					{
+						for(var x  = 0; x < s.length; x++){
+							read_counts.push(s[x].total_reads);
+						}
 					}
+			});
+			
+			//	Gather/organize sample data
+			populateSummaryTable(summary_files);
+	
+			//	set up UI
+			document.getElementById('jsontable_initial_mapping').appendChild(createElement('button', ['id', 'class', 'onclick'], ['initial_download_button', 'btn btn-primary margin', 'downloadInitialMapping()']))
+			document.getElementById('initial_download_button').innerHTML = 'Download Initial Table';
+			document.getElementById('jsontable_initial_mapping').appendChild(createElement('a', ['id', 'download', 'style'], ['download_link', 'initial_mapping.tsv', 'display:none']))
+			if (summary_RNA.length > 0) {
+				createDropdown(summary_RNA, 'initial_mapping');
+			}
+			
+			//	Set up plot data
+			summaryPlotSetup(table_data);
+			createSummaryHighchart();
+			
+			console.log(initial_mapping_table)
+			console.log(table_data)
+			
+			//Create a check for FASTQC output????
+			if (getFastQCBool(run_id)) {
+				createSummary(true);
+				createDetails(libraries);
+			}else{
+				document.getElementById('summary_exp').remove();
+				document.getElementById('details_exp').remove();
+			}
+			
+			if (DESEQ_files.length > 0) {
+				var deseq_file_paths = [];
+				for (var z = 0; z < DESEQ_files.length; z++){
+					deseq_file_paths.push(DESEQ_files[z].file);
 				}
-		});
-		
-		//	Gather read counts
-		var read_counts = [];
-		$.ajax({ type: "GET",
-				url: BASE_PATH+"/public/ajax/initialmappingdb.php",
-				data: { p: 'getCounts', samples: samples.toString() },
-				async: false,
-				success : function(s)
-				{
-					for(var x  = 0; x < s.length; x++){
-						read_counts.push(s[x].total_reads);
-					}
+				createDropdown(deseq_file_paths, 'DESEQ');
+			}else{
+				document.getElementById('DESEQ_exp').remove();
+			}
+			
+			if (RSEM_files.length > 0) {
+				var rsem_file_paths = [];
+				for (var z = 0; z < RSEM_files.length; z++){
+					rsem_file_paths.push(RSEM_files[z].file);
 				}
-		});
-		
-		//	Merge RNA summary
-		summary_dictionary.splice.apply(summary_dictionary, [2, 0].concat(summary_RNA));
-		html_summary_dictionary.splice.apply(html_summary_dictionary, [2, 0].concat(summary_RNA));
-		//	Gather/organize sample data
-		populateTable(summary_files, samplenames, libraries, read_counts);
-
-		//	set up UI
-		document.getElementById('jsontable_initial_mapping').appendChild(createElement('button', ['id', 'class', 'onclick'], ['initial_download_button', 'btn btn-primary margin', 'downloadInitialMapping()']))
-		document.getElementById('initial_download_button').innerHTML = 'Download Initial Table';
-		document.getElementById('jsontable_initial_mapping').appendChild(createElement('a', ['id', 'download', 'style'], ['download_link', 'initial_mapping.tsv', 'display:none']))
-		if (summary_RNA.length > 0) {
-			createDropdown(summary_RNA, 'initial_mapping');
-		}
-		
-		//	Set up plot data
-		summaryPlotSetup(table_data);
-		createSummaryHighchart();
-		
-		console.log(headers)
-		console.log(initial_mapping_table)
-		console.log(table_data)
-		
-		//Create a check for FASTQC output????
-		if (getFastQCBool(run_id)) {
-			createSummary(true);
-			createDetails(libraries);
-		}else{
-			document.getElementById('summary_exp').remove();
-			document.getElementById('details_exp').remove();
-		}
-		
-		if (DESEQ_files.length > 0) {
-			var deseq_file_paths = [];
-			for (var z = 0; z < DESEQ_files.length; z++){
-				deseq_file_paths.push(DESEQ_files[z].file);
+				createDropdown(rsem_file_paths, 'RSEM');
+			}else{
+				document.getElementById('RSEM_exp').remove();
 			}
-			createDropdown(deseq_file_paths, 'DESEQ');
-		}else{
-			document.getElementById('DESEQ_exp').remove();
-		}
-		
-		if (RSEM_files.length > 0) {
-			var rsem_file_paths = [];
-			for (var z = 0; z < RSEM_files.length; z++){
-				rsem_file_paths.push(RSEM_files[z].file);
+			
+			if (picard_files.length > 0) {
+				var picard_file_paths = [];
+				for (var z = 0; z < picard_files.length; z++){
+					picard_file_paths.push(picard_files[z].file);
+				}
+				createDropdown(picard_file_paths, 'picard');
+			}else{
+				document.getElementById('picard_exp').remove();
 			}
-			createDropdown(rsem_file_paths, 'RSEM');
-		}else{
-			document.getElementById('RSEM_exp').remove();
-		}
-		
-		if (picard_files.length > 0) {
-			var picard_file_paths = [];
-			for (var z = 0; z < picard_files.length; z++){
-				picard_file_paths.push(picard_files[z].file);
+			
+			if (rseqc_files.length > 0) {
+				var rseqc_file_paths = [];
+				for (var z = 0; z < rseqc_files.length; z++){
+					rseqc_file_paths.push(rseqc_files[z].file);
+				}
+				createDropdown(rseqc_file_paths, 'rseqc');
+			}else{
+				document.getElementById('rseqc_exp').remove();
 			}
-			createDropdown(picard_file_paths, 'picard');
-		}else{
-			document.getElementById('picard_exp').remove();
 		}
-		
-		if (rseqc_files.length > 0) {
-			var rseqc_file_paths = [];
-			for (var z = 0; z < rseqc_files.length; z++){
-				rseqc_file_paths.push(rseqc_files[z].file);
-			}
-			createDropdown(rseqc_file_paths, 'rseqc');
-		}else{
-			document.getElementById('rseqc_exp').remove();
-		}
-		
 		var directory = "";
 		$.ajax({ type: "GET",
 				url: BASE_PATH+"/public/ajax/initialmappingdb.php",

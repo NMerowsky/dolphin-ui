@@ -537,6 +537,15 @@ else if ($p == 'checkFileLocation')
 		where backup_dir = '$outdir'
 	");
 }
+else if ($p == 'getJSONParams')
+{
+	if (isset($_GET['wkey'])){$wkey = $_GET['wkey'];}
+	$data=$query->queryTable("
+		SELECT json_parameters, run_status
+		FROM ngs_runparams
+		where wkey = '$wkey'
+	");
+}
 
 if (!headers_sent()) {
 	header('Cache-Control: no-cache, must-revalidate');

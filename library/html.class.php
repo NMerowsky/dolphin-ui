@@ -1083,8 +1083,6 @@ e range"><i class="fa fa-calendar"></i></button>
 	$html.= '<table id="jsontable_initial_mapping" class="table table-hover compact">
 			<thead>
 			<tr id="tablerow">
-				<th>Libname</th>
-				<th>Total Reads</th>
 			</tr>
 			</thead>
 		</table>';

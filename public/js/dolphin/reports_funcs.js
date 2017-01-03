@@ -635,9 +635,6 @@ function populateSummaryTable(summary_files) {
 	if (summary_bool) {
 		var table_array = parseSummary(summary_files[summary_index]['file']);
 		console.log(table_array);
-		var reports_table = $('#jsontable_initial_mapping').dataTable();
-		reports_table.fnClearTable();
-		document.getElementById('jsontable_initial_mapping').setAttribute('style','overflow-x:scroll');
 		var parsed = [];
 		var headers = [];
 		for( var j = 0; j < table_array.length; j++){
